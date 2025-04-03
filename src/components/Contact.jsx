@@ -9,7 +9,7 @@ const Contact = () => {
         </h1>
       </div>
 
-      <div className="container mx-auto px-6 py-10">
+      <div className="container mx-auto px-4 py-10">
         <div className="lg:-mx-6 lg:flex lg:items-center">
           <div className="lg:mx-0 lg:mt-0 lg:flex lg:w-1/2 lg:flex-col lg:items-center">
             <div className="mt-6 space-y-8 md:mt-8">

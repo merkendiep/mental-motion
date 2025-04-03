@@ -6,7 +6,7 @@ import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 
 const NewsletterPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white pt-32">
+        <div className="flex flex-col min-h-screen bg-white pt-32 px-2 mg:px-0">
             <WorkInProgressWarning/>
 
             <br/>

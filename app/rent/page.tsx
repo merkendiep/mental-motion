@@ -2,10 +2,11 @@
 
 import React from 'react';
 import Contact from '@/src/components/Contact';
+import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 
 const RentLocationPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white md:pt-32">
+        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
                 <img
                     src="/images/girl-entering-door-2.jpeg"
@@ -13,7 +14,7 @@ const RentLocationPage = () => {
                     className="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
                 />
 
-                <div className="text-center lg:text-start">
+                <div className="text-center mt-8 md:mt-0 lg:text-start">
                     <h1 className="text-3xl font-black text-gray-700 uppercase md:text-7xl">
                         <span>Huur &#39;De Peer&#39;</span>
                     </h1>
@@ -34,9 +35,11 @@ const RentLocationPage = () => {
                 </div>
             </div>
 
-            <div className={'my-16'}>
+            <div className={'mt-16'}>
                 <Contact/>
             </div>
+
+            <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
         </div>
     );
 };

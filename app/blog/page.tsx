@@ -30,10 +30,10 @@ const posts = [
 
 const BlogPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white pt-24 md:pt-36 lg:pt-44">
+        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
             <WorkInProgressWarning/>
 
-            <div className={'max-w-7xl mb-16 mx-auto'}>
+            <div className={'max-w-7xl mb-16 mx-auto px-2 lg:px-0'}>
                 <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
                     <div className="text-center lg:text-center">
                         <h1 className="text-3xl font-black text-gray-700 mb-8 uppercase md:text-6xl">
@@ -49,7 +49,7 @@ const BlogPage = () => {
                 <div className={'flex justify-center flex-row flex-wrap gap-8'}>
                     {
                         posts.map((post, index) => {
-                            return <div key={index} className="card bg-white w-96 shadow-sm">
+                            return <div key={index} className="card bg-white w-88 shadow-sm lg:w-96">
                                 <figure>
                                     <img
                                         src={post.banner}
