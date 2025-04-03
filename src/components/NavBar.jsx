@@ -26,7 +26,7 @@ const navigation = [
   { name: "Hulpvraag", href: "/help" },
 ]
 const NavBar = () => {
-  const [active, setActive] = useState(window.location.pathname)
+  const [active, setActive] = useState('/')
 
   return (
     <div className="fixed w-full top-0 z-50 flex justify-center py-4 px-4">
