@@ -67,9 +67,9 @@ const NavBar = () => {
                     item.href === false && item.children && <li key={index}>
                         <span className={'select-none text-gray-500 pointer-events-none'}>{item.name}</span>
                         {
-                            item.children.map((child, index) => (<a
+                            item.children.map((child, key) => (<a
                               href={child.href}
-                              key={index}
+                              key={key}
                               className={'ml-4'}
                             >
                                 {child.name}

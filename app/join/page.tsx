@@ -5,7 +5,7 @@ import TransitionWithBorder from '@/src/components/TransitionWithBorder';
 
 const JoinUs = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white md:pt-36 lg:pt-44">
+        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
             <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
                 <img
                     className="mask mask-square rounded-xl max-w-xs md:max-w-2xl"
