@@ -3,7 +3,7 @@ import React from "react"
 const Footer = () => {
   return (
       <footer className="footer bg-gray-800 text-base-100 px-8 py-16">
-        <div className={'w-6xl mx-auto md:footer-horizontal'}>
+        <div className={'lg:w-6xl mx-auto md:footer-horizontal'}>
           <nav className={'flex flex-col gap-2'}>
             <h6 className="footer-title">Services</h6>
             <a className="link link-hover">Peer support</a>
@@ -68,7 +68,7 @@ const Footer = () => {
             </div>
 
             <form>
-              <h6 className="footer-title mt-8">Nieuwsbrief</h6>
+              <h6 className="footer-title mt-8 order-1">Nieuwsbrief</h6>
               <fieldset className="w-80">
                 <div className="join text-gray-700">
                   <input
