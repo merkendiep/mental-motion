@@ -6,12 +6,6 @@ const Hero = () => {
     <div
       className="hero py-10 flex max-w-7xl mx-auto">
       <div className="hero-content flex-col lg:flex-row-reverse">
-        <img
-          src="/images/portrait-people-with-plants.jpeg"
-          alt=""
-          className="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md md:hidden"
-        />
-
         <div className="text-center lg:text-start">
           <span className="badge badge-lg">Students peer support center</span>
 

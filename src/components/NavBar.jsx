@@ -31,9 +31,10 @@ const NavBar = () => {
   const [active, setActive] = useState('/')
 
   return (
-    <div className="fixed w-full top-0 z-50 flex justify-center py-4 px-4">
-      <div
-          className="navbar rounded-full bg-base-100/90 py-2 px-4 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-7xl">
+    <div className="fixed w-full top-0 z-50 flex justify-center p-2 lg:p-4">
+      <div className="navbar rounded-full bg-base-100/90 py-2 px-4 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-7xl">
+
+        {/* Navbar mobile / tablet */}
         <div className="navbar-start w-full">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-circle btn-ghost lg:hidden ">
@@ -66,9 +67,11 @@ const NavBar = () => {
           </div>
 
           <a href="/">
-            <img src={'/images/MentalMotion-horizontaal-doorzichtig-logo.png'} className={'h-14'}/>
+            <img src={'/images/MentalMotion-horizontaal-doorzichtig-logo.png'} className={'h-8 lg:h-14'}/>
           </a>
         </div>
+
+        {/* Navbar for large screens */}
         <div className="navbar-center ml-10 hidden lg:flex">
           {navigation.map((item, index) => (
               <nav key={index} className="menu menu-horizontal px-1">
