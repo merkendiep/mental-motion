@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react';
-import NavBar from "@/src/components/NavBar";
-import Footer from '@/src/components/Footer.jsx';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder.jsx';
 
 const frequentlyAskedQuestions = [
@@ -51,9 +49,6 @@ const frequentlyAskedQuestions = [
 const AboutUsPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white">
-            <NavBar/>
-
-
             <section className={'pt-32 max-w-6xl mx-auto'}>
                 <div className="hero-content flex-col lg:flex-row-reverse mx-auto">
                     <div className="text-center lg:text-center">
@@ -90,8 +85,6 @@ const AboutUsPage = () => {
             </section>
 
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
-
-            <Footer/>
         </div>
     );
 };

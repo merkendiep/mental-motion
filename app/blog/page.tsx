@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react';
-import NavBar from "@/src/components/NavBar";
-import Footer from '@/src/components/Footer.jsx';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder.jsx';
 import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 
@@ -33,8 +31,6 @@ const posts = [
 const BlogPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white pt-24 md:pt-36 lg:pt-44">
-            <NavBar/>
-
             <WorkInProgressWarning/>
 
             <div className={'max-w-7xl mb-16 mx-auto'}>
@@ -79,8 +75,6 @@ const BlogPage = () => {
             </div>
 
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
-
-            <Footer/>
         </div>
     );
 };

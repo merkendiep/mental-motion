@@ -1,9 +1,7 @@
 'use client'
 
 import React from 'react';
-import NavBar from '@/src/components/NavBar';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder';
-import Footer from '@/src/components/Footer';
 
 const partners = [
     {
@@ -83,8 +81,6 @@ const partners = [
 const PartnersPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white md:pt-36 lg:pt-44">
-            <NavBar/>
-
             <div className={'max-w-7xl mb-16 mx-auto'}>
                 <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
                     <div className="text-center lg:text-center">
@@ -115,8 +111,6 @@ const PartnersPage = () => {
             </div>
 
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
-
-            <Footer/>
         </div>
     );
 };

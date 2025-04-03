@@ -1,16 +1,12 @@
 'use client'
 
 import React from 'react';
-import NavBar from '@/src/components/NavBar';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder';
-import Footer from '@/src/components/Footer';
 import Team from "@/src/components/Team";
 
 const AboutUsPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white md:pt-36 lg:pt-44">
-            <NavBar/>
-
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
                 <img
                     src="/images/portrait-people-with-plants.jpeg"
@@ -73,8 +69,6 @@ const AboutUsPage = () => {
             </div>
 
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
-
-            <Footer/>
         </div>
     );
 };

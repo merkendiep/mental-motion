@@ -1,15 +1,11 @@
 'use client'
 
 import React from 'react';
-import NavBar from '@/src/components/NavBar';
 import Contact from '@/src/components/Contact';
-import Footer from '@/src/components/Footer';
 
 const RentLocationPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white md:pt-32">
-            <NavBar/>
-
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
                 <img
                     src="/images/girl-entering-door-2.jpeg"
@@ -41,8 +37,6 @@ const RentLocationPage = () => {
             <div className={'my-16'}>
                 <Contact/>
             </div>
-
-            <Footer/>
         </div>
     );
 };

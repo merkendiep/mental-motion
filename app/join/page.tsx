@@ -1,15 +1,11 @@
 'use client'
 
 import React from 'react';
-import NavBar from '@/src/components/NavBar';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder';
-import Footer from '@/src/components/Footer';
 
 const JoinUs = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white md:pt-36 lg:pt-44">
-            <NavBar/>
-
             <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
                 <img
                     className="mask mask-square rounded-xl max-w-xs md:max-w-2xl"
@@ -100,8 +96,6 @@ const JoinUs = () => {
             </div>
 
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
-
-            <Footer/>
         </div>
     );
 };

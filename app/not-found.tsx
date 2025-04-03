@@ -4,8 +4,6 @@ import NavBar from "@/src/components/NavBar";
 
 export default function NotFound() {
     return <div>
-        <NavBar/>
-
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
             <div
                 className={'text-center'}>
