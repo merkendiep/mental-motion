@@ -2,6 +2,9 @@
 
 import React, {useState} from "react"
 import {ChevronDownIcon} from '@heroicons/react/24/solid/index.js';
+import Link from "next/link";
+import Image from "next/image";
+import mentalMotionLogo from '@/public/images/MentalMotion-horizontaal-doorzichtig-logo.png'
 
 const navigation = [
   {name: "Home", href: "/"},
@@ -32,8 +35,7 @@ const NavBar = () => {
 
   return (
     <div className="fixed w-full top-0 z-50 flex justify-center p-2 lg:p-4">
-      <div
-        className="navbar rounded-full bg-base-100/90 py-2 px-4 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-7xl">
+      <div className="navbar rounded-full bg-base-100/90 py-2 px-4 shadow-2xl outline outline-base-content/5 backdrop-blur md:max-w-7xl">
 
         {/* Navbar mobile / tablet */}
         <div className="navbar-start w-full">
@@ -83,7 +85,7 @@ const NavBar = () => {
           </div>
 
           <a href="/">
-            <img src={'/images/MentalMotion-horizontaal-doorzichtig-logo.png'} className={'h-8 lg:h-14'}/>
+            <Image src={mentalMotionLogo} alt={'MentalMotion Logo'} className={'h-8 lg:h-14'}/>
           </a>
         </div>
 
@@ -113,7 +115,9 @@ const NavBar = () => {
                   <ul className="absolute top-[100%] bg-base-100 rounded-t-none p-2">
                     {
                       item.children.map((child, index) =>
-                        <li key={index}><a href={child.href}>{child.name}</a></li>,
+                        <li key={index}>
+                          <a href={child.href}>{child.name}</a>
+                        </li>,
                       )
                     }
                   </ul>
@@ -123,9 +127,9 @@ const NavBar = () => {
           ))}
         </div>
 
-        <a href="/contact" className="btn btn-primary ml-4">
+        <Link href="/contact" className="btn btn-primary ml-4">
           Contact
-        </a>
+        </Link>
       </div>
     </div>
   )

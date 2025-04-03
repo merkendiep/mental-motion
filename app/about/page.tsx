@@ -3,13 +3,16 @@
 import React from 'react';
 import TransitionWithBorder from '@/src/components/TransitionWithBorder';
 import Team from "@/src/components/Team";
+import Image from "next/image";
+import portraitWithPlantsImage from '@/public/images/portrait-people-with-plants.jpeg'
+import businessSeminarGroupImage from '@/public/images/business-seminar-group.jpeg'
 
 const AboutUsPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
-                <img
-                    src="/images/portrait-people-with-plants.jpeg"
+                <Image
+                    src={portraitWithPlantsImage}
                     alt=""
                     className="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
                 />
@@ -38,9 +41,11 @@ const AboutUsPage = () => {
 
             <div className={'bg-[#58B095] text-white'}>
                 <div className="hero-content flex-col mx-auto lg:gap-16 lg:flex-row">
-                    <img
+                    <Image
                         className="mask mask-squircle max-w-xs md:max-w-lg"
-                        src="/images/business-seminar-group.jpeg"/>
+                        src={businessSeminarGroupImage}
+                        alt={'a group of people discussing a topic in a room'}
+                    />
 
                     <div className="text-center lg:text-start">
                         <h1 className="text-3xl font-black uppercase md:text-7xl">
