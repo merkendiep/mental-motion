@@ -103,7 +103,7 @@ const NavBar = () => {
         </div>
 
         <a href="/contact" className="btn btn-primary ml-4">
-          Contact!
+          Contact
         </a>
       </div>
     </div>
