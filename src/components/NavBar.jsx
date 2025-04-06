@@ -85,7 +85,7 @@ const NavBar = () => {
           </div>
 
           <a href="/">
-            <Image src={mentalMotionLogo} alt={'MentalMotion Logo'} className={'w-44 lg:w-60 max-w-[260px]'}/>
+            <Image src={mentalMotionLogo} alt={'MentalMotion Logo'} className={'w-24 md:w-44 lg:w-60 max-w-[260px]'}/>
           </a>
         </div>
 

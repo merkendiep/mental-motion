@@ -69,7 +69,7 @@ const Footer = () => {
 
             <form>
               <h6 className="footer-title mt-8 order-1">Nieuwsbrief</h6>
-              <fieldset className="w-80">
+              <fieldset className="md:w-80">
                 <div className="join text-gray-700">
                   <input
                       type="text"
