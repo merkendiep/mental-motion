@@ -3,7 +3,6 @@
 import Hero from "@/src/components/Hero";
 import Services from "@/src/components/Services";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
-import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 
 export default function Home() {
     return (
@@ -13,8 +12,6 @@ export default function Home() {
             </div>
 
             <br/>
-
-            <WorkInProgressWarning/>
 
             <Services/>
 

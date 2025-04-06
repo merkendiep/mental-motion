@@ -85,14 +85,14 @@ const NavBar = () => {
           </div>
 
           <a href="/">
-            <Image src={mentalMotionLogo} alt={'MentalMotion Logo'} className={'h-8 lg:h-14'}/>
+            <Image src={mentalMotionLogo} alt={'MentalMotion Logo'} className={'w-44 lg:w-60 max-w-[260px]'}/>
           </a>
         </div>
 
         {/* Navbar for large screens */}
         <div className="navbar-center ml-10 hidden lg:flex">
           {navigation.map((item, index) => (
-            <nav key={index} className="menu menu-horizontal px-1">
+            <nav key={index} className="menu menu-horizontal px-[0] xl:px-1">
               {
                 item.href && <a
                   key={item.name}
