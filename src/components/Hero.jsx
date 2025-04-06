@@ -3,8 +3,7 @@ import { AcademicCapIcon, HeartIcon, HomeIcon, UserGroupIcon } from '@heroicons/
 
 const Hero = () => {
   return (
-    <div
-      className="hero py-10 flex max-w-7xl mx-auto">
+    <div className="hero py-10 flex justify-center max-w-7xl mx-auto lg:px-10 2xl:px-0 lg:justify-start">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-start">
           <span className="badge badge-lg">Students peer support center</span>
