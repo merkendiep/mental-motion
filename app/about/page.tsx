@@ -9,7 +9,7 @@ import businessSeminarGroupImage from '@/public/images/business-seminar-group.jp
 
 const AboutUsPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
+        <div className="flex flex-col bg-white pt-24 lg:pt-44">
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
                 <Image
                     src={portraitWithPlantsImage}

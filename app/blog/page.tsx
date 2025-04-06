@@ -30,7 +30,7 @@ const posts = [
 
 const BlogPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
+        <div className="flex flex-col bg-white pt-24 lg:pt-44">
             <WorkInProgressWarning/>
 
             <div className={'max-w-7xl mb-16 mx-auto px-2 lg:px-0'}>

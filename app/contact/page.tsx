@@ -6,7 +6,7 @@ import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 
 const ContactPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white">
+        <div className="flex flex-col bg-white">
             <div className={'pt-32 lg:pt-44'}>
                 <Contact/>
             </div>

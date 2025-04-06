@@ -80,7 +80,7 @@ const partners = [
 
 const PartnersPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white pt-24 lg:pt-44">
+        <div className="flex flex-col bg-white pt-24 lg:pt-44">
             <div className={'max-w-7xl mb-16 mx-auto px-2 md:px-0'}>
                 <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
                     <div className="text-center lg:text-center">

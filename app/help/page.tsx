@@ -48,7 +48,7 @@ const frequentlyAskedQuestions = [
 
 const AboutUsPage = () => {
     return (
-        <div className="flex flex-col min-h-screen bg-white">
+        <div className="flex flex-col bg-white">
             <section className={'pt-32 max-w-6xl mx-auto px-2 md:px-0'}>
                 <div className="hero-content flex-col lg:flex-row-reverse mx-auto">
                     <div className="text-center lg:text-center">
