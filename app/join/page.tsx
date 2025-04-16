@@ -28,35 +28,41 @@ const JoinUs = () => {
                 </div>
             </div>
 
-            <div className="hero-content flex-col mx-auto lg:gap-16 lg:flex-row-reverse">
-                <img
-                    className="mask mask-heart max-w-xs md:max-w-lg"
-                    src="/images/peer-support-example-conversation.jpeg"
-                />
+            <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-[#58B095]'}/>
 
-                <div className="text-center lg:text-start">
-                    <h1 className="text-3xl font-black text-gray-700 uppercase md:text-7xl">
-                        <span>Wordt peersupporter!</span>
-                    </h1>
+            <div className={' max-w-full w-full bg-[#58B095]'}>
+                <div className="hero-content flex-col mx-auto text-white lg:gap-16 lg:flex-row-reverse">
+                    <img
+                        className="mask mask-heart max-w-xs md:max-w-lg"
+                        src="/images/peer-support-example-conversation.jpeg"
+                    />
 
-                    <p className="py-6 lg:max-w-lg">
-                        Als peersupporter ben je op onze locatie aanwezig en sta je klaar voor laagdrempelige
-                        gesprekken met medestudenten.
-                        Je ondersteunt hen vanuit je eigen ervaringen als student en draagt bij aan hun welzijn.
-                    </p>
+                    <div className="text-center lg:text-start">
+                        <h1 className="text-3xl font-black text-white uppercase md:text-7xl">
+                            <span>Wordt peersupporter!</span>
+                        </h1>
 
-                    <p className={'mb-6'}>
-                        Wij bieden trainingen en cursussen aan,
-                        zodat je precies weet hoe je een goed gesprek voert en
-                        waar je studenten naartoe kunt verwijzen. Je krijgt alle tools om zelfverzekerd peersupport
-                        te bieden! Je krijgt begeleiding en een vrijwilligersvergoeding!
-                    </p>
+                        <p className="py-6 lg:max-w-lg">
+                            Als peersupporter ben je op onze locatie aanwezig en sta je klaar voor laagdrempelige
+                            gesprekken met medestudenten.
+                            Je ondersteunt hen vanuit je eigen ervaringen als student en draagt bij aan hun welzijn.
+                        </p>
 
-                    <p className={'mb-6'}>Help mee aan het welzijn van de Utrechtse student!</p>
+                        <p className={'mb-6'}>
+                            Wij bieden trainingen en cursussen aan,
+                            zodat je precies weet hoe je een goed gesprek voert en
+                            waar je studenten naartoe kunt verwijzen. Je krijgt alle tools om zelfverzekerd peersupport
+                            te bieden! Je krijgt begeleiding en een vrijwilligersvergoeding!
+                        </p>
+
+                        <p className={'mb-6'}>Help mee aan het welzijn van de Utrechtse student!</p>
+                    </div>
                 </div>
             </div>
 
-            <div className="hero-content flex-col mx-auto lg:mb-16 lg:gap-16 lg:flex-row">
+            <TransitionWithBorder colorFrom={'bg-[#58B095]'} colorTo={'bg-white'}/>
+
+            <div className="hero-content flex-col mx-auto lg:mt-16 lg:gap-16 lg:flex-row">
                 <img
                     className="mask mask-square rounded-xl max-w-xs md:max-w-2xl"
                     src="/images/mental-motion-outside-logo.jpeg"/>

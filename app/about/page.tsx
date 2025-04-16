@@ -13,6 +13,7 @@ const AboutUsPage = () => {
             <div className="hero-content flex-col mx-auto lg:min-h-[650px] lg:gap-16 lg:flex-row-reverse">
                 <Image
                     src={portraitWithPlantsImage}
+                    priority={true}
                     alt=""
                     className="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
                 />
