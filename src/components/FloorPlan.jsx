@@ -2,7 +2,9 @@ import React from "react";
 import FloorPlanRoom from "@/src/components/FloorPlanRoom";
 
 const FloorPlan = () => {
-  return <div className={'relative flex justify-center bg-gray-50 border border-gray-100 w-[1000px] h-[271px] mx-auto'}>
+  return <div className={'relative flex bg-gray-50 border border-gray-100 w-[1000px] h-[271px] mx-auto'}>
+    <span className={'text-lg ml-28 mt-28'}>De steel</span>
+
     <FloorPlanRoom width={214} height={160} className={'right-0 top-0'}>
       Ruimte 1
     </FloorPlanRoom>
@@ -29,7 +31,7 @@ const FloorPlan = () => {
     </div>
 
     {/*Kitchen*/}
-    <div className={'absolute right-[718px] bottom-0 transform-3d group w-[29px] h-[134px]'}>
+    <div className={'absolute right-[718px] bottom-0 transform-3d w-[29px] h-[134px]'}>
       <div className={'w-[29px] h-[134px] group-hover:-translate-y-4 animate-blueprint-hover bg-gray-300'}></div>
     </div>
 
