@@ -3,22 +3,22 @@ import FloorPlanRoom from "@/src/components/FloorPlanRoom";
 
 const FloorPlan = () => {
   return <div className={'relative flex bg-gray-50 border border-gray-100 w-[1000px] h-[271px] mx-auto'}>
-    <span className={'text-lg ml-28 mt-28'}>De steel</span>
+    <span className={'text-lg ml-28 mt-28'}>De Boomgaard</span>
 
     <FloorPlanRoom width={214} height={160} className={'right-0 top-0'}>
-      Ruimte 1
+      De Pit
     </FloorPlanRoom>
 
     <FloorPlanRoom width={214} height={160} className={'right-[214px] top-0'}>
-      Ruimte 2
+      De Tak
     </FloorPlanRoom>
 
     <FloorPlanRoom width={190} height={111} className={'right-[428] top-0'}>
-      Ruimte 3
+      De Schil
     </FloorPlanRoom>
 
     <FloorPlanRoom width={137} height={112} className={'right-[486px] bottom-0'}>
-      Ruimte 4
+      Het Zaadje
     </FloorPlanRoom>
 
     <FloorPlanRoom width={71} height={112} className={'right-[623px] bottom-0'}>
