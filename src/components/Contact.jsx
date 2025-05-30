@@ -11,7 +11,7 @@ const Contact = () => {
     setResult("Versturen....");
     const formData = new FormData(event.target);
 
-    formData.append('access_key', 'c3e122d2-cf45-4583-a78c-4b362fa45846');
+    formData.append('access_key', 'd89495b8-eebc-480b-8cd4-e4e39e82ce92');
     formData.append('name', name);
     formData.append('email', email);
     formData.append('message', message);
