@@ -1,6 +1,38 @@
-import React from "react"
+import React, {useState} from "react"
 
 const Contact = () => {
+  const [result, setResult] = useState('');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Versturen....");
+    const formData = new FormData(event.target);
+
+    formData.append('access_key', 'c3e122d2-cf45-4583-a78c-4b362fa45846');
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('message', message);
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Email verstuurd");
+      event.target.reset();
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
+    }
+  };
+
+
   return (
     <section>
       <div className="flex w-full flex-col justify-center">
@@ -156,7 +188,7 @@ const Contact = () => {
             <div className="card-body mx-auto w-full overflow-hidden rounded-lg px-8 py-10 shadow-xl outline outline-base-content/5 lg:max-w-xl">
               <h1 className="card-title">Wat is je vraag</h1>
 
-              <form className="mt-6">
+              <form className="mt-6" onSubmit={onSubmit}>
                 <div className="flex-1">
                   <label htmlFor="name" className="mb-2 block text-sm">
                     Naam
@@ -165,8 +197,10 @@ const Contact = () => {
                     id="name"
                     autoComplete="name"
                     type="text"
+                    required
                     placeholder="Uw naam"
                     className="input input-bordered w-full"
+                    onChange={event => setName(event.target.value)}
                   />
                 </div>
 
@@ -178,8 +212,10 @@ const Contact = () => {
                     id="email"
                     autoComplete="email"
                     type="email"
+                    required
                     placeholder="abcd@example.com"
                     className="input input-bordered w-full"
+                    onChange={event => setEmail(event.target.value)}
                   />
                 </div>
 
@@ -190,9 +226,14 @@ const Contact = () => {
                   <textarea
                     id="message"
                     autoComplete="message"
+                    required
                     className="textarea textarea-bordered w-full"
-                    placeholder="Bericht"></textarea>
+                    placeholder="Bericht"
+                    onChange={event => setMessage(event.target.value)}
+                  />
                 </div>
+
+                <span>{result}</span>
 
                 <button className="btn btn-primary mt-6 w-full transform px-6 py-3 text-sm font-medium capitalize duration-300  ">
                   Verstuur
