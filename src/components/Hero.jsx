@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="hero py-10 flex justify-center max-w-7xl mx-auto lg:px-10 2xl:px-0 lg:justify-start">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-start">
-          <span className="badge badge-lg">Students peer support center</span>
+          <span className="badge badge-lg mb-4">Students peer support center</span>
 
           <h1 className="text-3xl font-black text-base-100 uppercase md:text-7xl">
             <span>Door studenten</span>

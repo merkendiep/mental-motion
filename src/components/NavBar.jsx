@@ -62,8 +62,8 @@ const NavBar = () => {
             <ul className="menu dropdown-content menu-md z-[1] mt-3 w-52 gap-2 rounded-box bg-base-100 p-2 shadow">
               {
                 navigation.map((item, index) => item.children
-                  ? <NavItemNested mobile item={item}/>
-                  : <NavItem mobile item={item}/>)
+                  ? <NavItemNested mobile item={item} key={index}/>
+                  : <NavItem mobile item={item} key={index}/>)
               }
             </ul>
           </div>
