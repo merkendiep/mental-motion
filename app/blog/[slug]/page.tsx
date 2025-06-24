@@ -20,11 +20,7 @@ const posts = {
 
 type PostKey = keyof typeof posts;
 
-type BlogPostPageProps = {
-    params: { slug: string }
-};
-
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
     const post = posts[params.slug as PostKey];
 
     if (!post) {
