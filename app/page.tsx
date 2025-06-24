@@ -7,6 +7,8 @@ import {ArrowRightIcon} from "@heroicons/react/24/solid";
 export default function Home() {
     return (
         <div className="flex flex-col bg-white">
+            <a href={'/contact'} className={'fixed btn btn-accent rounded-sm btn-xl right-28 bottom-16 z-50'}>Plan een afspraak</a>
+
             <div className={'bg-[url(/images/hero-home.png)] bg-no-repeat bg-cover pt-24 pb-12 rounded-bl-[5rem]'}>
                 <Hero/>
             </div>
