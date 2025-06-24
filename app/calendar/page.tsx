@@ -9,18 +9,12 @@ import Calendar from "@/src/components/Calendar";
 
 const BlogPage = () => {
     return (
-        <div className="flex flex-col bg-white pt-24 lg:pt-44">
-            <div className={'max-w-7xl mb-16 mx-auto px-2 lg:px-0'}>
-                <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
-                    <div className="text-center lg:text-center">
-                        <h1 className="text-3xl font-black text-gray-700 mb-8 uppercase md:text-6xl">
-                            <span>Onze events</span>
-                        </h1>
-
-                        <p className={'text-xl font-black text-gray-700 mb-8 md:text-2xl'}>
-                            Zie hier onze aankomende events en meld je aan!
-                        </p>
-                    </div>
+        <div className="flex flex-col bg-white pt-24 lg:pt-36">
+            <div className={'max-w-7xl mb-8 mx-auto px-2 lg:px-0'}>
+                <div className="text-center lg:text-center">
+                    <h1 className="text-2xl font-black text-gray-700 my-0 uppercase md:text-6xl">
+                        <span>Onze events</span>
+                    </h1>
                 </div>
             </div>
 
