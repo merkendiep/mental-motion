@@ -7,6 +7,7 @@ import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 const posts = [
     {
         title: 'De tegelwijsheden hangen!',
+        slug: 'de-tegelwijsheden-hangen',
         banner: '/images/praat-erover-dat-helpt-echt.jpeg',
         authors: [
             'Marik',
@@ -17,6 +18,7 @@ const posts = [
     },
     {
         title: 'MentalMotion op de UITweek',
+        slug: 'mental-motion-op-de-uitweek',
         banner: '/images/Uitweek2024.jpeg',
         authors: [
             'Marik',
@@ -44,48 +46,25 @@ const BlogPage = () => {
                     </div>
                 </div>
 
-                {/*<div className={'flex justify-center flex-row flex-wrap gap-8'}>*/}
-                {/*    {*/}
-                {/*        posts.map((post, index) => {*/}
-                {/*            return <div key={index} className="card bg-white w-88 shadow-sm lg:w-96">*/}
-                {/*                <figure>*/}
-                {/*                    <img*/}
-                {/*                        src={post.banner}*/}
-                {/*                    />*/}
-                {/*                </figure>*/}
-
-                {/*                <div className="card-body">*/}
-                {/*                    <h2 className="card-title">*/}
-                {/*                        {post.title}*/}
-                {/*                    </h2>*/}
-                {/*                    {post.date}*/}
-
-                {/*                    <p>{post.description}</p>*/}
-
-                {/*                    <div className="card-actions justify-end">*/}
-                {/*                        <a className={'btn btn-ghost'}>Lees verder</a>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        })*/}
-                {/*    }*/}
-                {/*</div>*/}
-
                 <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
                     {
                         posts.map((post, index) => {
-                            return <li key={index} className={'my-4'}>
-                                <div className={index % 2 ? "timeline-end" : "timeline-start"}>
-
-                                </div>
-                                <div className={`${index % 2 ? "timeline-end" : "timeline-start md:text-end"} mb-10`}>
-                                    <time className="font-mono italic">{post.date}</time>
-                                    <div className="text-lg font-black">{post.title}</div>
-                                    {post.description}
-                                </div>
-                                <img src={post.banner} className={`max-h-48 ml-16 ${index % 2 ? "timeline-start mr-16" : "timeline-end ml-16"}`}/>
-                                <hr />
-                            </li>
+                            return (
+                                <li key={index} className={'my-4'}>
+                                    <div className={index % 2 ? "timeline-end" : "timeline-start"}>
+                                    </div>
+                                    <div className={`${index % 2 ? "timeline-end" : "timeline-start md:text-end"} mb-10`}>
+                                        <time className="font-mono italic">{post.date}</time>
+                                        <div className="text-lg font-black">{post.title}</div>
+                                        {post.description}
+                                        <div className="card-actions justify-end">
+                                            <a href={`/blog/${post.slug}`} className={'btn btn-ghost'}>Lees verder</a>
+                                        </div>
+                                    </div>
+                                    <img src={post.banner} className={`max-h-48 ml-16 ${index % 2 ? "timeline-start mr-16" : "timeline-end ml-16"}`}/>
+                                    <hr />
+                                </li>
+                            );
                         })
                     }
                 </ul>
