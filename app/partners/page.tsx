@@ -88,9 +88,10 @@ const PartnersPage = () => {
                             <span>Onze Partners</span>
                         </h1>
 
-                        <p className={'text-xl font-black text-gray-700 mb-8 md:text-2xl'}>
-                            We zijn heel blij met onze partners die ons steunen en met ons Utrecht nog mooier maken.
-                            Wil je je ook aansluiten bij onze beweging? We horen graag van je!
+                        <p className="text-lg font-medium text-gray-600 mb-8 md:text-xl max-w-2xl mx-auto">
+                            Samen met onze partners maken we Utrecht creatiever, gezonder en gelukkiger. 
+                            Hun energie, ideeën en betrokkenheid zorgen ervoor dat we écht impact maken in de stad.<br /><br />
+                            Of je nu een organisatie, ondernemer of enthousiasteling bent: sluit je aan en bouw mee aan een Utrecht vol beweging, verbinding en inspiratie!
                         </p>
                     </div>
                 </div>
