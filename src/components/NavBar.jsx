@@ -28,7 +28,6 @@ const navigation = [
     children: [
       {name: "Partnerschap", href: "/partners"},
       {name: "Sluit je aan", href: "/join"},
-      {name: "Huur de peer", href: "/de-peer"},
     ],
   },
   {name: "Hulpvraag", href: "/help"},
