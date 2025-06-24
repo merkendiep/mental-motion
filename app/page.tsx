@@ -56,26 +56,27 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="hero lg:mt-32">
+            <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-[#58B095]'} />
+
+            <div className="hero lg:pt-24 bg-[#58B095]">
                 <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row lg:gap-16">
                     <img src="/images/business-seminar-group.jpeg" className="max-w-sm rounded-lg shadow-2xl"/>
-
-                    <div className={'bg-[#F2FBF8] p-4 sm:p-16 rounded-3xl'}>
+                    <div className="p-4 sm:p-16 rounded-3xl text-white">
                         <h1 className="text-5xl font-bold">Brainstormen</h1>
-
                         <p className="py-6">
                             Wat denk jij dat er moet gebeuren? Bij ons is er de ruimte om samen met andere
                             studenten te onderzoeken wat er moet gebeuren, zowel lokaal als landelijk aan
                             studentenwelzijn. Gericht op preventiezorg, eigenaarschap, participatie en zingeving.
                         </p>
-
-                        <button className="btn btn-primary mt-6">
+                        <button className="btn btn-accent mt-6">
                             Lees verder
                             <ArrowRightIcon className={'size-4'}/>
                         </button>
                     </div>
                 </div>
             </div>
+
+            <TransitionWithBorder colorFrom={'bg-[#58B095]'} colorTo={'bg-white'}/>
 
             <div className="hero lg:mt-32">
                 <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16">

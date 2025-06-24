@@ -34,7 +34,7 @@ export default function RootLayout({
 
         {children}
 
-        <a href={'/contact'} className={'fixed btn btn-primary rounded-sm btn-xl right-28 bottom-16'}>Plan een afspraak</a>
+        <a href={'/contact'} className={'fixed btn btn-accent rounded-sm btn-xl right-28 bottom-16'}>Plan een afspraak</a>
 
         <Footer/>
       </body>
