@@ -16,7 +16,7 @@ const NewsletterPage = () => {
                     <h1 className="text-center text-4xl md:text-5xl font-extrabold text-primary drop-shadow-sm">
                         Meld je aan voor de nieuwsbrief!
                     </h1>
-                    <span className="badge badge-accent badge-lg mt-2 mb-1 shadow">
+                    <span className="badge badge-secondary badge-lg mt-2 mb-1 shadow">
                         Altijd als eerste op de hoogte!
                     </span>
                     <p className="mt-2 text-center text-lg text-base-content max-w-xl">

@@ -98,7 +98,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-800'}/>
+            <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-900'}/>
         </div>
     );
 }
