@@ -85,8 +85,10 @@ const BlogPage = () => {
             <NextEvents />
 
             {/* Calendar Section */}
-            <div className='hidden sm:block md:px-8 lg:px-12 xl:px-20 2xl:px-64'>
-                <Calendar/>
+            <div className='hidden sm:block md:px-8 lg:px-12 xl:px-20 2xl:px-64 p-4'>
+                <div className="rounded-3xl shadow-md border border-primary/20 p-8">
+                    <Calendar/>
+                </div>
             </div>
             
             <TransitionWithBorder colorFrom={'bg-white'} colorTo={'bg-gray-900'}/>

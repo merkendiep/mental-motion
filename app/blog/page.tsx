@@ -31,7 +31,7 @@ const posts = [
 
 const BlogPage = () => {
     return (
-        <div className="flex flex-col bg-base-100 min-h-screen pt-24 lg:pt-44">
+        <div className="flex flex-col bg-base-100 pt-24 lg:pt-44">
             <div className="max-w-5xl mx-auto px-4 w-full">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-6xl font-extrabold text-base-content mb-4 uppercase tracking-tight">
@@ -72,7 +72,7 @@ const BlogPage = () => {
                                         {post.authors.map((author, i) => (
                                             <span
                                                 key={i}
-                                                className="badge badge-accent badge-outline font-bold"
+                                                className="badge badge-secondary badge-outline"
                                             >
                                                 {author}
                                             </span>
@@ -90,6 +90,7 @@ const BlogPage = () => {
                     ))}
                 </div>
             </div>
+
             <TransitionWithBorder colorFrom={'bg-base-100'} colorTo={'bg-gray-900'} />
         </div>
     );
