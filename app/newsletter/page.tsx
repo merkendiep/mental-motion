@@ -6,7 +6,7 @@ import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 
 const NewsletterPage = () => {
     return (
-        <div className="min-h-screen flex flex-col bg-gradient-to-b from-base-100 via-base-200 to-base-300 pt-32 lg:pt-44">
+        <div className="min-h-screen flex flex-col bg-base-100 pt-32 lg:pt-44">
             {/* Hero Section */}
             <div className="flex flex-col items-center px-4">
                 <div className="flex flex-col items-center gap-2">
@@ -74,7 +74,7 @@ const NewsletterPage = () => {
             </div>
 
             {/* Decorative Transition */}
-            <TransitionWithBorder colorFrom={'bg-base-300'} colorTo={'bg-gray-900'} />
+            <TransitionWithBorder colorFrom={'bg-base-100'} colorTo={'bg-gray-900'} />
         </div>
     );
 };
