@@ -74,7 +74,7 @@ const NewsletterPage = () => {
             </div>
 
             {/* Decorative Transition */}
-            <TransitionWithBorder colorFrom={'bg-base-300'} colorTo={'bg-neutral'} />
+            <TransitionWithBorder colorFrom={'bg-base-300'} colorTo={'bg-gray-900'} />
         </div>
     );
 };
