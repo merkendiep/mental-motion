@@ -20,7 +20,7 @@ export interface User {
   updated: string;
 }
 
-export interface Newsletter {
+export interface NewsletterSubscription {
   id: string;
   email: string;
   newsletters: string[]; // Array of newsletter types the user subscribed to
@@ -32,11 +32,47 @@ export interface Newsletter {
 export const newsletterService = {
   // Subscribe to newsletter
   async subscribe(email: string, newsletters: string[]) {
-    const data = {
-      email,
-      newsletters,
-    };
-    return await pb.collection("newsletter_subscriptions").create(data);
+    try {
+      const data = {
+        email: email.toLowerCase().trim(),
+        newsletters,
+      };
+      return await pb.collection("newsletter_subscriptions").create(data);
+    } catch (error: any) {
+      // Re-throw with more context
+      throw error;
+    }
+  },
+
+  // Check if email already exists
+  async checkExistingEmail(email: string) {
+    try {
+      const records = await pb
+        .collection("newsletter_subscriptions")
+        .getList(1, 1, {
+          filter: `email = "${email.toLowerCase().trim()}"`,
+        });
+      return records.items.length > 0 ? records.items[0] : null;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  // Update existing subscription
+  async updateSubscription(email: string, newsletters: string[]) {
+    try {
+      const existing = await this.checkExistingEmail(email);
+      if (existing) {
+        return await pb
+          .collection("newsletter_subscriptions")
+          .update(existing.id, {
+            newsletters,
+          });
+      }
+      return null;
+    } catch (error) {
+      throw error;
+    }
   },
 
   // Get all subscriptions
@@ -44,13 +80,35 @@ export const newsletterService = {
     return await pb.collection("newsletter_subscriptions").getFullList();
   },
 
-  // Update subscription
-  async update(id: string, data: Partial<Newsletter>) {
+  // Update subscription by ID
+  async update(id: string, data: Partial<NewsletterSubscription>) {
     return await pb.collection("newsletter_subscriptions").update(id, data);
   },
 
   // Delete subscription
   async delete(id: string) {
     return await pb.collection("newsletter_subscriptions").delete(id);
+  },
+
+  // Get subscription statistics
+  async getStats() {
+    try {
+      const records = await this.getAll();
+      const stats = {
+        totalSubscribers: records.length,
+        newsletterCounts: {} as Record<string, number>,
+      };
+
+      records.forEach((record: any) => {
+        record.newsletters.forEach((newsletter: string) => {
+          stats.newsletterCounts[newsletter] =
+            (stats.newsletterCounts[newsletter] || 0) + 1;
+        });
+      });
+
+      return stats;
+    } catch (error) {
+      throw error;
+    }
   },
 };
