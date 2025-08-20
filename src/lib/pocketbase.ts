@@ -28,6 +28,17 @@ export interface NewsletterSubscription {
   updated: string;
 }
 
+export interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+  created: string;
+  updated: string;
+}
+
 // Helper functions for common operations
 export const newsletterService = {
   // Subscribe to newsletter
@@ -108,6 +119,102 @@ export const newsletterService = {
 
       return stats;
     } catch (error) {
+      throw error;
+    }
+  },
+};
+
+// Events service
+export const eventsService = {
+  // Get all events
+  async getAll() {
+    try {
+      return await pb.collection("events").getFullList<Event>();
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      return [];
+    }
+  },
+
+  // Get events with pagination
+  async getList(page: number = 1, perPage: number = 50) {
+    try {
+      return await pb.collection("events").getList<Event>(page, perPage);
+    } catch (error) {
+      console.error("Error fetching events list:", error);
+      return {
+        page: 1,
+        perPage: 50,
+        totalItems: 0,
+        totalPages: 0,
+        items: [] as Event[],
+      };
+    }
+  },
+
+  // Get events sorted by date
+  async getAllSorted() {
+    try {
+      return await pb.collection("events").getFullList<Event>({
+        sort: "date",
+      });
+    } catch (error) {
+      console.error("Error fetching sorted events:", error);
+      return [];
+    }
+  },
+
+  // Get upcoming events
+  async getUpcoming(limit: number = 10) {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      return await pb.collection("events").getFullList<Event>({
+        filter: `date >= "${today}"`,
+        sort: "date",
+        perPage: limit,
+      });
+    } catch (error) {
+      console.error("Error fetching upcoming events:", error);
+      return [];
+    }
+  },
+
+  // Get single event by ID
+  async getById(id: string) {
+    try {
+      return await pb.collection("events").getOne<Event>(id);
+    } catch (error) {
+      console.error("Error fetching event:", error);
+      return null;
+    }
+  },
+
+  // Create new event
+  async create(data: Omit<Event, "id" | "created" | "updated">) {
+    try {
+      return await pb.collection("events").create<Event>(data);
+    } catch (error) {
+      console.error("Error creating event:", error);
+      throw error;
+    }
+  },
+
+  // Update event
+  async update(id: string, data: Partial<Event>) {
+    try {
+      return await pb.collection("events").update<Event>(id, data);
+    } catch (error) {
+      console.error("Error updating event:", error);
+      throw error;
+    }
+  },
+
+  // Delete event
+  async delete(id: string) {
+    try {
+      return await pb.collection("events").delete(id);
+    } catch (error) {
+      console.error("Error deleting event:", error);
       throw error;
     }
   },
