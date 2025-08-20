@@ -7,7 +7,20 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
 
-const Calendar = ({ events = [] }) => {
+interface Event {
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+}
+
+interface CalendarProps {
+  events?: Event[];
+}
+
+const Calendar = ({ events = [] }: CalendarProps) => {
   // Transform events from the page format to react-big-calendar format
   const calendarEvents = events.map((event) => {
     const eventDate = moment(event.date);
