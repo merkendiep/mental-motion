@@ -1,41 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder.jsx";
 import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 import Calendar from "@/src/components/Calendar";
 import Link from "next/link";
+import { eventsService, Event } from "@/src/lib/pocketbase";
 
-// Mock events data
-const events = [
-  {
-    id: 1,
-    title: "Mindful Movement Workshop",
-    date: "2025-07-01",
-    time: "18:00",
-    location: "Studio A",
-    description: "A relaxing evening of mindful movement and meditation.",
-  },
-  {
-    id: 2,
-    title: "Outdoor Yoga Session",
-    date: "2025-07-05",
-    time: "10:00",
-    location: "City Park",
-    description: "Join us for a refreshing yoga session in the park.",
-  },
-  {
-    id: 3,
-    title: "Breathwork & Sound Bath",
-    date: "2025-07-10",
-    time: "19:30",
-    location: "Wellness Center",
-    description:
-      "Experience deep relaxation with breathwork and sound healing.",
-  },
-];
-
-const NextEvents = () => (
+const NextEvents = ({ events }: { events: Event[] }) => (
   <section className="max-w-5xl mx-auto mb-16 px-4 relative z-10">
     <div className="bg-gradient-to-br from-primary/20 via-white to-white rounded-3xl shadow-md border border-primary/20 p-8">
       <div className="grid gap-8 md:grid-cols-3">
@@ -77,6 +49,44 @@ const NextEvents = () => (
 );
 
 const BlogPage = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const fetchedEvents = await eventsService.getAllSorted();
+        setEvents(fetchedEvents);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        // Set empty array if PocketBase fails
+        setEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col bg-white pt-24 lg:pt-36">
+        <div className="max-w-7xl mb-8 mx-auto px-2 lg:px-0">
+          <div className="text-center lg:text-center">
+            <h1 className="text-2xl font-black text-gray-700 my-0 uppercase md:text-6xl">
+              <span>Aankomende events</span>
+            </h1>
+          </div>
+        </div>
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col bg-white pt-24 lg:pt-36">
       <div className={"max-w-7xl mb-8 mx-auto px-2 lg:px-0"}>
@@ -88,7 +98,7 @@ const BlogPage = () => {
       </div>
 
       {/* Next 3 Events Section */}
-      <NextEvents />
+      <NextEvents events={events} />
 
       {/* Calendar Section */}
       <div className="hidden sm:block md:px-8 lg:px-12 xl:px-20 2xl:px-64 p-4">
