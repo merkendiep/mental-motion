@@ -53,7 +53,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="hero lg:mt-32">
+      <div id="studieruimtes-section" className="hero lg:mt-32">
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16">
           <img
             src="/images/2-students-studying.jpeg"
@@ -81,7 +81,10 @@ export default function Home() {
 
       <TransitionWithBorder colorFrom={"bg-white"} colorTo={"bg-[#58B095]"} />
 
-      <div className="hero lg:py-24 bg-gradient-to-br from-[#58B095] to-[#3a7c5a]">
+      <div
+        id="brainstormen-section"
+        className="hero lg:py-24 bg-gradient-to-br from-[#58B095] to-[#3a7c5a]"
+      >
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row lg:gap-16">
           <img
             src="/images/business-seminar-group.jpeg"
@@ -105,7 +108,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="hero lg:mt-32">
+      <div id="nieuwe-initiatieven-section" className="hero lg:mt-32">
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16">
           <img
             src="/images/Hard-laugh-group.jpeg"

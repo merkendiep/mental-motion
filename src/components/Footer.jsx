@@ -39,11 +39,21 @@ const Footer = () => {
         {/* Services */}
         <nav className="flex flex-col gap-2">
           <h6 className="footer-title text-lg font-semibold mb-2">Services</h6>
-          <a className="link link-hover">Peer support</a>
-          <a className="link link-hover">Studieruimtes</a>
-          <a className="link link-hover">Brainstormen</a>
-          <a className="link link-hover">Nieuwe initiatieven</a>
-          <a className="link link-hover">Evenementen</a>
+          <a href="/#peer-support-section" className="link link-hover">
+            Peer support
+          </a>
+          <a href="/#studieruimtes-section" className="link link-hover">
+            Studieruimtes
+          </a>
+          <a href="/#brainstormen-section" className="link link-hover">
+            Brainstormen
+          </a>
+          <a href="/#nieuwe-initiatieven-section" className="link link-hover">
+            Nieuwe initiatieven
+          </a>
+          <a href="/calendar" className="link link-hover">
+            Evenementen
+          </a>
         </nav>
 
         {/* Company */}
