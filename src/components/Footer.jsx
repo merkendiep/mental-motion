@@ -59,10 +59,18 @@ const Footer = () => {
         {/* Company */}
         <nav className="flex flex-col gap-2">
           <h6 className="footer-title text-lg font-semibold mb-2">Bedrijf</h6>
-          <a className="link link-hover">Over ons</a>
-          <a className="link link-hover">De Peer</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Samenwerking</a>
+          <a href="/about" className="link link-hover">
+            Over ons
+          </a>
+          <a href="/de-peer" className="link link-hover">
+            De Peer
+          </a>
+          <a href="/contact" className="link link-hover">
+            Contact
+          </a>
+          <a href="/partners" className="link link-hover">
+            Samenwerking
+          </a>
         </nav>
 
         {/* Social Media */}
