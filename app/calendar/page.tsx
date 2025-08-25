@@ -101,8 +101,8 @@ const BlogPage = () => {
       <NextEvents events={events} />
 
       {/* Calendar Section */}
-      <div className="hidden sm:block md:px-8 lg:px-12 xl:px-20 2xl:px-64 p-4">
-        <div className="rounded-3xl shadow-md border border-primary/20 p-8">
+      <div className="md:px-8 lg:px-12 xl:px-20 2xl:px-64 p-4">
+        <div className="rounded-3xl shadow-md border border-primary/20 p-4 sm:p-8">
           <Calendar events={events} />
         </div>
       </div>
