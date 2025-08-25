@@ -1,59 +1,50 @@
 "use client";
 
-import React, { useState, use } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { eventsService, Event } from "@/src/lib/pocketbase";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 
-// Mock event data (in a real application, this would be fetched from an API)
-const events = [
-  {
-    id: 1,
-    title: "Mindful Movement Workshop",
-    date: "2025-07-01",
-    time: "18:00",
-    location: "Studio A",
-    description: "A relaxing evening of mindful movement and meditation.",
-  },
-  {
-    id: 2,
-    title: "Outdoor Yoga Session",
-    date: "2025-07-05",
-    time: "10:00",
-    location: "City Park",
-    description: "Join us for a refreshing yoga session in the park.",
-  },
-  {
-    id: 3,
-    title: "Breathwork & Sound Bath",
-    date: "2025-07-10",
-    time: "19:30",
-    location: "Wellness Center",
-    description:
-      "Experience deep relaxation with breathwork and sound healing.",
-  },
-];
-
-type tParams = Promise<{ id: Number | string }>;
+type tParams = Promise<{ id: string }>;
 
 export default function EventPage({ params }: { params: tParams }) {
   const router = useRouter();
   const { id } = use(params);
-  const event = events.find((event) =>
-    id ? event.id === parseInt(String(id), 10) : false
-  );
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchEvent() {
+      if (!id) {
+        setError("Event ID is required");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const eventData = await eventsService.getById(String(id));
+        if (eventData) {
+          setEvent(eventData);
+        } else {
+          setError("Event not found");
+        }
+      } catch (error) {
+        console.error("Error fetching event:", error);
+        setError("Failed to load event");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchEvent();
+  }, [id]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
-  interface Event {
-    id: number;
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    description: string;
-  }
 
   interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
@@ -62,10 +53,133 @@ export default function EventPage({ params }: { params: tParams }) {
     alert(`Bedankt voor je aanmelding, ${name}!`);
   };
 
-  if (!event) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-lg font-semibold text-primary">
         Laden...
+      </div>
+    );
+  }
+
+  if (error || !event) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary/5 flex items-center justify-center px-4">
+        <div className="max-w-lg w-full">
+          {/* Error Card */}
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 text-center relative overflow-hidden">
+            {/* Decorative background pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-primary rounded-full -translate-x-16 -translate-y-16"></div>
+              <div className="absolute bottom-0 right-0 w-24 h-24 bg-primary rounded-full translate-x-12 translate-y-12"></div>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10">
+              {/* Icon */}
+              <div className="mx-auto w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+                <svg
+                  className="w-10 h-10 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
+                </svg>
+              </div>
+
+              {/* Error Title */}
+              <h1 className="text-2xl font-bold text-gray-900 mb-3">
+                Event niet gevonden
+              </h1>
+
+              {/* Error Message */}
+              <p className="text-gray-600 mb-2 leading-relaxed">
+                Het lijkt erop dat dit event niet bestaat of niet meer
+                beschikbaar is.
+              </p>
+              <p className="text-gray-500 text-sm mb-8">
+                Neem contact met ons op als je denkt dat dit een fout is.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={() => router.back()}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg"
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                  Terug
+                </button>
+
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg"
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                  Contact opnemen
+                </Link>
+              </div>
+
+              {/* Additional Help */}
+              <div className="mt-8 pt-6 border-t border-gray-100">
+                <p className="text-xs text-gray-400 mb-3">
+                  Misschien vind je dit wel interessant:
+                </p>
+                <div className="flex justify-center gap-4 text-sm">
+                  <Link
+                    href="/calendar"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Alle events
+                  </Link>
+                  <span className="text-gray-300">•</span>
+                  <Link
+                    href="/"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Homepage
+                  </Link>
+                  <span className="text-gray-300">•</span>
+                  <Link
+                    href="/about"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Over ons
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
