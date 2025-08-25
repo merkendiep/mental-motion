@@ -120,6 +120,8 @@ const Contact = () => {
                 <a
                   className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
                   href="https://www.youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="youtube"
                 >
                   <svg
@@ -138,6 +140,8 @@ const Contact = () => {
                 <a
                   className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
                   href="https://www.instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="instagram"
                 >
                   <svg
@@ -156,6 +160,8 @@ const Contact = () => {
                 <a
                   className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
                   href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="linkedin"
                 >
                   <svg
