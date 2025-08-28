@@ -31,6 +31,13 @@ const Footer = () => {
               className="max-h-16 max-w-40 object-contain filter brightness-90 hover:brightness-100 transition-all duration-200"
             />
           </div>
+          <div className="h-16 w-40 flex items-center justify-center">
+            <img
+              src="/images/partners/GemeenteUtrecht.png"
+              alt="Gemeente Utrecht"
+              className="max-h-16 max-w-40 object-contain filter brightness-90 hover:brightness-100 transition-all duration-200"
+            />
+          </div>
         </div>
       </div>
 
