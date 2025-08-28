@@ -23,6 +23,7 @@ export interface User {
 export interface NewsletterSubscription {
   id: string;
   email: string;
+  organization?: string; // Optional organization field
   newsletters: string[]; // Array of newsletter types the user subscribed to
   created: string;
   updated: string;
@@ -42,11 +43,13 @@ export interface Event {
 // Helper functions for common operations
 export const newsletterService = {
   // Subscribe to newsletter
-  async subscribe(email: string, newsletters: string[]) {
+  async subscribe(email: string, newsletters: string[], organization?: string) {
     try {
       const data = {
         email: email.toLowerCase().trim(),
         newsletters,
+        ...(organization &&
+          organization.trim() && { organization: organization.trim() }),
       };
       return await pb.collection("newsletter_subscriptions").create(data);
     } catch (error: any) {

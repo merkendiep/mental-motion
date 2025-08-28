@@ -13,6 +13,7 @@ type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
 const NewsletterPage = () => {
   const [email, setEmail] = useState("");
+  const [organization, setOrganization] = useState("");
   const [selectedNewsletters, setSelectedNewsletters] = useState<string[]>([
     "algemeen",
   ]);
@@ -68,10 +69,15 @@ const NewsletterPage = () => {
     setErrorMessage("");
 
     try {
-      await newsletterService.subscribe(email, selectedNewsletters);
+      await newsletterService.subscribe(
+        email,
+        selectedNewsletters,
+        organization
+      );
       setStatus("success");
       // Reset form
       setEmail("");
+      setOrganization("");
       setSelectedNewsletters(["algemeen"]);
     } catch (error: any) {
       setStatus("error");
@@ -154,6 +160,27 @@ const NewsletterPage = () => {
                       status === "error" && !email ? "input-error" : ""
                     }`}
                     required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="organization"
+                    className="block text-base font-semibold text-primary mb-1"
+                  >
+                    Organisatie{" "}
+                    <span className="text-base-content/60 font-normal">
+                      (optioneel)
+                    </span>
+                  </label>
+                  <input
+                    id="organization"
+                    autoComplete="organization"
+                    type="text"
+                    placeholder="Naam van je organisatie"
+                    value={organization}
+                    onChange={(e) => setOrganization(e.target.value)}
+                    className="input input-bordered w-full bg-base-200 focus:bg-base-100 focus:border-primary transition"
                   />
                 </div>
 
