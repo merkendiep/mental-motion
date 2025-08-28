@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import {
+  EnvelopeIcon,
+  ClockIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const Contact = () => {
   const [result, setResult] = useState("");
@@ -26,106 +31,77 @@ const Contact = () => {
     if (data.success) {
       setResult("Email verstuurd");
       event.target.reset();
+      setName("");
+      setEmail("");
+      setMessage("");
     } else {
       console.log("Error", data);
       setResult(data.message);
     }
   };
 
+  const openingHours = [
+    { day: "Maandag", hours: "09:00 - 17:00" },
+    { day: "Dinsdag", hours: "09:00 - 17:00" },
+    { day: "Woensdag", hours: "09:00 - 17:00" },
+    { day: "Donderdag", hours: "09:00 - 17:00" },
+    { day: "Vrijdag", hours: "09:00 - 17:00" },
+    { day: "Weekend", hours: "Gesloten" },
+  ];
+
   return (
-    <section>
-      <div className="flex w-full flex-col justify-center">
-        <h1 className="text-center text-3xl font-semibold md:text-5xl">
-          Neem contact op
-        </h1>
-      </div>
-
-      <div className="container mx-auto px-4 py-10">
-        <div className="lg:-mx-6 lg:flex lg:items-center">
-          <div className="lg:mx-0 lg:mt-0 lg:flex lg:w-1/2 lg:flex-col lg:items-center">
-            <div className="mt-6 space-y-8 md:mt-8">
-              <p className="-mx-2 flex items-start">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-base-400 mx-2 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-
-                <span className="mx-2 w-72 text-base-content">
-                  Wolff en Dekenplein 5, 3532 XH Utrecht
-                </span>
-              </p>
-
-              <p className="-mx-2 flex items-start">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-base-400 mx-2 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
-
-                <span className="mx-2 w-72 truncate text-base-content">
-                  +31 (06) 0000 0000
-                </span>
-              </p>
-
-              <p className="-mx-2 flex items-start">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-base-400 mx-2 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-
-                <span className="mx-2 w-72 truncate text-base-content">
-                  info@mentalmotion.nl
-                </span>
-              </p>
+    <section className="relative">
+      {/* Main Content with Form and Info */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="lg:flex lg:gap-12 lg:items-start">
+          {/* Contact Info and Hours */}
+          <div className="lg:w-1/2 mb-10 lg:mb-0">
+            {/* Opening Hours */}
+            <div className="mb-8">
+              <h2 className="flex items-center text-xl mb-6 text-base-content/80">
+                <ClockIcon className="h-5 w-5 text-primary mr-2" />
+                Openingstijden
+              </h2>
+              <div className="space-y-2 max-w-xs">
+                {openingHours.map((item, index) => (
+                  <div key={index} className="flex items-center py-2 text-sm">
+                    <span className="text-base-content/70 w-20">
+                      {item.day}
+                    </span>
+                    <span className="mx-3 text-base-content/30">–</span>
+                    <span
+                      className={`${
+                        item.day === "Weekend"
+                          ? "text-base-content/50"
+                          : "text-base-content font-medium"
+                      }`}
+                    >
+                      {item.hours}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-6 w-80 md:mt-8">
-              <h3 className="text-base-400 ">Volg ons</h3>
-
-              <div className="-mx-1.5 mt-4 flex ">
+            {/* Social Media */}
+            <div>
+              <h3 className="text-lg mb-4 text-base-content/80">
+                Volg ons op social media
+              </h3>
+              <p className="text-base-content/60 mb-6 text-sm">
+                Blijf op de hoogte van onze activiteiten, tips en verhalen van
+                andere studenten.
+              </p>
+              <div className="flex gap-3">
                 <a
-                  className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
+                  className="btn btn-circle bg-base-100 hover:bg-base-200 group border border-base-300"
                   href="https://www.youtube.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="youtube"
                 >
                   <svg
-                    className="h-8 w-8 fill-current group-hover:text-red-500 transition-colors"
+                    className="h-6 w-6 fill-current group-hover:text-red-500 transition-colors"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -138,14 +114,14 @@ const Contact = () => {
                 </a>
 
                 <a
-                  className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
+                  className="btn btn-circle bg-base-100 hover:bg-base-200 group border border-base-300"
                   href="https://www.instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="instagram"
                 >
                   <svg
-                    className="h-8 w-8 fill-current group-hover:text-pink-500 transition-colors"
+                    className="h-6 w-6 fill-current group-hover:text-pink-500 transition-colors"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -158,14 +134,14 @@ const Contact = () => {
                 </a>
 
                 <a
-                  className="btn mx-1.5 rounded-full bg-base-100 hover:bg-base-200 group"
+                  className="btn btn-circle bg-base-100 hover:bg-base-200 group border border-base-300"
                   href="https://www.linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="linkedin"
                 >
                   <svg
-                    className="h-8 w-8 fill-current group-hover:text-blue-500 transition-colors"
+                    className="h-6 w-6 fill-current group-hover:text-blue-500 transition-colors"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -188,61 +164,109 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="card mt-8 lg:mx-6 lg:w-1/2">
-            <div className="card-body mx-auto w-full overflow-hidden rounded-lg px-8 py-10 shadow-xl outline outline-base-content/5 lg:max-w-xl">
-              <h1 className="card-title">Wat is je vraag</h1>
-
-              <form className="mt-6" onSubmit={onSubmit}>
-                <div className="flex-1">
-                  <label htmlFor="name" className="mb-2 block text-sm">
-                    Naam
-                  </label>
-                  <input
-                    id="name"
-                    autoComplete="name"
-                    type="text"
-                    required
-                    placeholder="Uw naam"
-                    className="input input-bordered w-full"
-                    onChange={(event) => setName(event.target.value)}
-                  />
+          {/* Contact Form */}
+          <div className="lg:w-1/2">
+            <div className="card bg-gradient-to-br from-base-100 to-base-200/50 shadow-xl">
+              <div className="card-body p-8">
+                <div className="text-center mb-6">
+                  <h2 className="card-title text-3xl justify-center mb-2">
+                    Stuur ons een bericht
+                  </h2>
+                  <p className="text-base-content/70">
+                    We reageren binnen 24 uur op je bericht
+                  </p>
                 </div>
 
-                <div className="mt-6 flex-1">
-                  <label htmlFor="email" className="mb-2 block text-sm">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    autoComplete="email"
-                    type="email"
-                    required
-                    placeholder="abcd@example.com"
-                    className="input input-bordered w-full"
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                </div>
+                <form
+                  id="contact-form"
+                  className="space-y-6"
+                  onSubmit={onSubmit}
+                >
+                  <div className="form-control">
+                    <label htmlFor="name" className="label">
+                      <span className="label-text font-semibold">Naam *</span>
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      autoComplete="name"
+                      type="text"
+                      required
+                      placeholder="Je volledige naam"
+                      className="input input-bordered w-full focus:input-primary transition-colors"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                    />
+                  </div>
 
-                <div className="mt-6 w-full">
-                  <label htmlFor="message" className="mb-2 block text-sm">
-                    Bericht
-                  </label>
-                  <textarea
-                    id="message"
-                    autoComplete="message"
-                    required
-                    className="textarea textarea-bordered w-full"
-                    placeholder="Bericht"
-                    onChange={(event) => setMessage(event.target.value)}
-                  />
-                </div>
+                  <div className="form-control">
+                    <label htmlFor="email" className="label">
+                      <span className="label-text font-semibold">Email *</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      autoComplete="email"
+                      type="email"
+                      required
+                      placeholder="je.naam@example.com"
+                      className="input input-bordered w-full focus:input-primary transition-colors"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                    />
+                  </div>
 
-                <span>{result}</span>
+                  <div className="form-control">
+                    <label htmlFor="message" className="label">
+                      <span className="label-text font-semibold">
+                        Bericht *
+                      </span>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      autoComplete="message"
+                      required
+                      rows="5"
+                      className="textarea textarea-bordered w-full focus:textarea-primary transition-colors resize-none"
+                      placeholder="Vertel ons waar je mee bezig bent, wat je vraag is, of hoe we je kunnen helpen..."
+                      value={message}
+                      onChange={(event) => setMessage(event.target.value)}
+                    />
+                  </div>
 
-                <button className="btn btn-primary mt-6 w-full transform px-6 py-3 text-sm font-medium capitalize duration-300  ">
-                  Verstuur
-                </button>
-              </form>
+                  {result && (
+                    <div
+                      className={`alert ${
+                        result.includes("verstuurd")
+                          ? "alert-success"
+                          : "alert-info"
+                      } mb-4`}
+                    >
+                      <CheckCircleIcon className="h-6 w-6" />
+                      <span>{result}</span>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-full btn-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    disabled={result === "Versturen...."}
+                  >
+                    {result === "Versturen...." ? (
+                      <>
+                        <span className="loading loading-spinner loading-sm"></span>
+                        Versturen...
+                      </>
+                    ) : (
+                      <>
+                        <EnvelopeIcon className="h-5 w-5" />
+                        Verstuur bericht
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
