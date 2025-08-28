@@ -27,20 +27,22 @@ export default function Home() {
       <br />
 
       <div id="peer-support-section" className="hero lg:mt-32">
-        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:gap-16 lg:flex-row">
-          <img
-            src="/images/prestatiedruk.jpeg"
-            className="max-w-sm rounded-lg shadow-2xl animate-fade-in"
-          />
-          <div className={"bg-[#F2FBF8] p-4 sm:p-16 rounded-3xl"}>
-            <h1 className="text-5xl font-bold flex items-center gap-2">
-              {/* Example icon */}
+        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:gap-16 lg:flex-row items-center">
+          <div className="flex-1 max-w-md">
+            <img
+              src="/images/prestatiedruk.jpeg"
+              className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
+              alt="Student peer support"
+            />
+          </div>
+          <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
+            <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
               <span role="img" aria-label="support">
                 🤝
-              </span>{" "}
+              </span>
               Peer Support
             </h1>
-            <p className="py-6 text-lg">
+            <p className="text-lg leading-relaxed">
               Heb je behoefte aan een luisterend oor of wil je gewoon even je
               verhaal kwijt? Bij ons kun je gratis terecht voor vertrouwelijke
               gesprekken met opgeleide peer guides – studenten die weten wat jij
@@ -54,19 +56,22 @@ export default function Home() {
       </div>
 
       <div id="studieruimtes-section" className="hero lg:mt-32">
-        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16">
-          <img
-            src="/images/2-students-studying.jpeg"
-            className="md:max-w-lg rounded-lg shadow-2xl animate-fade-in"
-          />
-          <div className={"bg-[#F2FBF8] p-4 sm:p-16 rounded-3xl"}>
-            <h1 className="text-5xl font-bold flex items-center gap-2">
+        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16 items-center">
+          <div className="flex-1 max-w-md">
+            <img
+              src="/images/2-students-studying.jpeg"
+              className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
+              alt="Studenten aan het studeren"
+            />
+          </div>
+          <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
+            <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
               <span role="img" aria-label="study">
                 📚
-              </span>{" "}
+              </span>
               Studieruimtes
             </h1>
-            <p className="py-6 text-lg">
+            <p className="text-lg leading-relaxed">
               Zoek je een fijne plek om te studeren, samen te werken of gewoon
               even te ontspannen? Onze studieruimtes zijn speciaal ingericht
               voor studenten: rustig, gezellig en altijd voorzien van gratis
@@ -85,19 +90,22 @@ export default function Home() {
         id="brainstormen-section"
         className="hero lg:py-24 bg-gradient-to-br from-[#58B095] to-[#3a7c5a]"
       >
-        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row lg:gap-16">
-          <img
-            src="/images/business-seminar-group.jpeg"
-            className="max-w-sm rounded-lg shadow-2xl animate-fade-in"
-          />
-          <div className="p-4 sm:p-16 rounded-3xl text-white">
-            <h1 className="text-5xl font-bold flex items-center gap-2">
+        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row lg:gap-16 items-center">
+          <div className="flex-1 max-w-md">
+            <img
+              src="/images/business-seminar-group.jpeg"
+              className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
+              alt="Brainstorm sessie"
+            />
+          </div>
+          <div className="flex-1 p-6 sm:p-12 lg:p-16 rounded-3xl text-white max-w-2xl">
+            <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
               <span role="img" aria-label="brainstorm">
                 💡
-              </span>{" "}
+              </span>
               Brainstormen
             </h1>
-            <p className="py-6 text-lg">
+            <p className="text-lg leading-relaxed">
               Heb jij ideeën over hoe studentenwelzijn beter kan? Bij ons krijg
               je de ruimte om samen met andere studenten te brainstormen over
               lokale en landelijke initiatieven. Werk mee aan projecten rondom
@@ -109,19 +117,22 @@ export default function Home() {
       </div>
 
       <div id="nieuwe-initiatieven-section" className="hero lg:mt-32">
-        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16">
-          <img
-            src="/images/Hard-laugh-group.jpeg"
-            className="md:max-w-lg rounded-lg shadow-2xl animate-fade-in"
-          />
-          <div className={"bg-[#F2FBF8] p-4 sm:p-16 rounded-3xl"}>
-            <h1 className="text-5xl font-bold flex items-center gap-2">
+        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16 items-center">
+          <div className="flex-1 max-w-md">
+            <img
+              src="/images/Hard-laugh-group.jpeg"
+              className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
+              alt="Groep studenten samen"
+            />
+          </div>
+          <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
+            <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
               <span role="img" aria-label="initiative">
                 🚀
-              </span>{" "}
+              </span>
               Nieuwe Initiatieven
             </h1>
-            <p className="py-6 text-lg">
+            <p className="text-lg leading-relaxed">
               Heb je een goed idee of wil je samen met anderen iets nieuws
               opzetten? Bij ons is iedereen welkom om initiatieven te starten,
               mee te denken of samen te werken aan projecten die bijdragen aan
@@ -133,18 +144,23 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Call-to-action banner suggestion */}
-      <div className="w-full bg-[#58B095] py-12 flex flex-col max-w-6xl mx-auto items-center my-16 rounded-3xl shadow-lg">
-        <h2 className="text-3xl font-bold text-white mb-4">
-          Klaar om mee te doen?
-        </h2>
-        <p className="text-white mb-6 text-lg">
-          Sluit je aan bij onze community en maak samen het verschil voor
-          studentenwelzijn!
-        </p>
-        <a href="/contact" className="btn btn-accent btn-xl rounded-full">
-          Neem contact op
-        </a>
+      {/* Call-to-action section */}
+      <div className="w-full py-16 lg:py-24">
+        <div className="bg-[#58B095] py-12 lg:py-16 flex flex-col max-w-6xl mx-auto items-center rounded-3xl shadow-lg">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
+            Klaar om mee te doen?
+          </h2>
+          <p className="text-white mb-8 text-lg text-center max-w-2xl px-4">
+            Sluit je aan bij onze community en maak samen het verschil voor
+            studentenwelzijn!
+          </p>
+          <a
+            href="/contact"
+            className="btn btn-accent btn-xl rounded-full font-semibold"
+          >
+            Neem contact op
+          </a>
+        </div>
       </div>
 
       <TransitionWithBorder colorFrom={"bg-white"} colorTo={"bg-gray-900"} />
