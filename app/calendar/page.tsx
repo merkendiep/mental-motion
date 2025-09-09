@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder.jsx";
 import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 import Calendar from "@/src/components/Calendar";
 import Link from "next/link";
-import { eventsService, Event } from "@/src/lib/pocketbase";
+import { staticEvents, Event } from "@/src/data/events";
 
 const NextEvents = ({ events }: { events: Event[] }) => (
   <section className="max-w-5xl mx-auto mb-16 px-4 relative z-10">
@@ -92,43 +92,10 @@ const NextEvents = ({ events }: { events: Event[] }) => (
 );
 
 const BlogPage = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        const fetchedEvents = await eventsService.getAllSorted();
-        setEvents(fetchedEvents);
-      } catch (error) {
-        console.error("Failed to fetch events:", error);
-        // Set empty array if PocketBase fails
-        setEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col bg-white pt-24 lg:pt-36">
-        <div className="max-w-7xl mb-8 mx-auto px-2 lg:px-0">
-          <div className="text-center lg:text-center">
-            <h1 className="text-2xl font-black text-gray-700 my-0 uppercase md:text-6xl">
-              <span>Aankomende events</span>
-            </h1>
-          </div>
-        </div>
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        </div>
-      </div>
-    );
-  }
+  // Get only future events and sort them by date
+  const upcomingEvents = staticEvents
+    .filter((event) => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
     <div className="flex flex-col bg-white pt-24 lg:pt-36">
@@ -141,12 +108,12 @@ const BlogPage = () => {
       </div>
 
       {/* Next 3 Events Section */}
-      <NextEvents events={events} />
+      <NextEvents events={upcomingEvents} />
 
       {/* Calendar Section */}
       <div className="md:px-8 lg:px-12 xl:px-20 2xl:px-64 p-4">
         <div className="rounded-3xl shadow-md border border-primary/20 p-4 sm:p-8">
-          <Calendar events={events} />
+          <Calendar events={staticEvents} />
         </div>
       </div>
 

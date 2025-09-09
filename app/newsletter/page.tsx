@@ -7,7 +7,6 @@ import {
   HiExclamationCircle,
 } from "react-icons/hi";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
-import { newsletterService } from "@/src/lib/pocketbase";
 
 type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
@@ -69,27 +68,36 @@ const NewsletterPage = () => {
     setErrorMessage("");
 
     try {
-      await newsletterService.subscribe(
-        email,
-        selectedNewsletters,
-        organization
-      );
-      setStatus("success");
-      // Reset form
-      setEmail("");
-      setOrganization("");
-      setSelectedNewsletters(["algemeen"]);
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          organization,
+          newsletters: selectedNewsletters,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setStatus("success");
+        // Reset form
+        setEmail("");
+        setOrganization("");
+        setSelectedNewsletters(["algemeen"]);
+      } else {
+        throw new Error(
+          result.error || "Failed to submit newsletter subscription"
+        );
+      }
     } catch (error: any) {
       setStatus("error");
-
-      // Handle PocketBase specific errors
-      if (error?.data?.data?.email?.message) {
-        setErrorMessage("Dit e-mailadres is al geregistreerd.");
-      } else if (error?.message) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage("Er ging iets mis. Probeer het opnieuw.");
-      }
+      setErrorMessage(
+        error.message || "Er ging iets mis. Probeer het opnieuw."
+      );
     }
   };
   return (

@@ -6,7 +6,7 @@ import {
 } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Event } from "@/src/lib/pocketbase";
+import { Event } from "@/src/data/events";
 import { useState, useCallback } from "react";
 import {
   ChevronLeftIcon,
