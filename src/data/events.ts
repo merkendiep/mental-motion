@@ -1,4 +1,4 @@
-// Static events data - replace PocketBase with hardcoded events
+// Static events data for the application
 export interface Event {
   id: string;
   title: string;
