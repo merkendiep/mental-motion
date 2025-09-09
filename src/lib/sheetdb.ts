@@ -83,10 +83,17 @@ class SheetDBService {
   }
 
   async submitNewsletter(data: NewsletterData) {
+    // Map newsletters to separate columns
+    const newsletterColumns = {
+      newsletter_1: data.newsletters.includes("algemeen") ? "true" : "false",
+      newsletter_2: data.newsletters.includes("evenementen") ? "true" : "false",
+      newsletter_3: data.newsletters.includes("tips") ? "true" : "false",
+    };
+
     return this.makeRequest("newsletter", {
       email: data.email,
       organization: data.organization || "",
-      newsletters: data.newsletters.join(", "),
+      ...newsletterColumns,
       newsletter_count: data.newsletters.length,
       type: "newsletter",
     });

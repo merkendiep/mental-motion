@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate newsletter selections
-    const validNewsletters = ["algemeen", "events", "updates", "partners"];
+    const validNewsletters = ["algemeen", "evenementen", "tips"];
     const invalidNewsletters = data.newsletters.filter(
       (newsletter: string) => !validNewsletters.includes(newsletter)
     );
