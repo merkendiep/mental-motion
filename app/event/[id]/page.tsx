@@ -300,9 +300,10 @@ export default function EventPage({ params }: { params: tParams }) {
                 {event.location}
               </span>
             </div>
-            <p className="text-base-content/90 text-lg mb-2">
-              {event.description}
-            </p>
+            <div
+              className="text-base-content/90 text-lg mb-2 prose prose-lg max-w-none"
+              dangerouslySetInnerHTML={{ __html: event.description }}
+            />
           </div>
         </div>
 

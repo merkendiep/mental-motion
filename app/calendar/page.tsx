@@ -31,9 +31,6 @@ const NextEvents = ({ events }: { events: Event[] }) => (
                 {event.title}
               </h3>
               <div className="text-primary mb-2">{event.location}</div>
-              <p className="text-gray-500 text-sm flex-1">
-                {event.description}
-              </p>
               <Link
                 href={`/event/${event.id}`}
                 className="mt-4 inline-block text-center bg-primary hover:bg-primary/80 text-primary-content font-semibold px-4 py-2 rounded-lg shadow transition-colors"
