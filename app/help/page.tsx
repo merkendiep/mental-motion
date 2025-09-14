@@ -3,12 +3,129 @@
 import React from "react";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder.jsx";
 
-const frequentlyAskedQuestions = [
+// Type definition for FAQ items
+interface FAQItem {
+  question: string;
+  answer: string;
+  links?: Record<string, string>;
+}
+
+// Function to parse text and convert configured words into links
+const parseTextWithLinks = (
+  text: string,
+  links: Record<string, string> = {}
+) => {
+  if (!links || Object.keys(links).length === 0) {
+    return (
+      <span>
+        {text.split("\n").map((line, index, array) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < array.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </span>
+    );
+  }
+
+  const linkRanges: Array<{
+    start: number;
+    end: number;
+    word: string;
+    url: string;
+  }> = [];
+
+  // Find all link positions
+  Object.entries(links).forEach(([word, url]) => {
+    const regex = new RegExp(
+      `\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+      "gi"
+    );
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      linkRanges.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        word: match[0],
+        url: url,
+      });
+    }
+  });
+
+  // Sort by start position to process in order
+  linkRanges.sort((a, b) => a.start - b.start);
+
+  if (linkRanges.length === 0) {
+    return (
+      <span>
+        {text.split("\n").map((line, index, array) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < array.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </span>
+    );
+  }
+
+  const elements: React.ReactNode[] = [];
+  let lastIndex = 0;
+
+  linkRanges.forEach((linkRange, index) => {
+    // Add text before the link
+    if (linkRange.start > lastIndex) {
+      const textBeforeLink = text.substring(lastIndex, linkRange.start);
+      elements.push(
+        ...textBeforeLink.split("\n").map((line, lineIndex, lineArray) => (
+          <React.Fragment key={`text-${index}-${lineIndex}`}>
+            {line}
+            {lineIndex < lineArray.length - 1 && <br />}
+          </React.Fragment>
+        ))
+      );
+    }
+
+    // Add the link
+    elements.push(
+      <a
+        key={`link-${index}`}
+        href={linkRange.url}
+        target={linkRange.url.startsWith("/") ? "_self" : "_blank"}
+        rel={linkRange.url.startsWith("/") ? "" : "noopener noreferrer"}
+        className="text-blue-600 hover:text-blue-800 underline"
+      >
+        {linkRange.word}
+      </a>
+    );
+
+    lastIndex = linkRange.end;
+  });
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    const remainingText = text.substring(lastIndex);
+    elements.push(
+      ...remainingText.split("\n").map((line, lineIndex, lineArray) => (
+        <React.Fragment key={`remaining-${lineIndex}`}>
+          {line}
+          {lineIndex < lineArray.length - 1 && <br />}
+        </React.Fragment>
+      ))
+    );
+  }
+
+  return <span>{elements}</span>;
+};
+
+const frequentlyAskedQuestions: FAQItem[] = [
   {
     question: "Student & zorgwijzer",
-    link: "https://studentenzorgwijzer.nl",
     answer:
       "Hier vind je alles wat voor jou van pas kan komen: van verzekeringen tot vrijwilligerswerk tot zingeving. Studentenzorgwijzer is pas echt een fijn en volledig overzicht van het aanbod in Utrecht.",
+    links: {
+      Studentenzorgwijzer: "https://studentenzorgwijzer.nl",
+    },
   },
   {
     question: "Huisarts als eerste aanspreekpunt",
@@ -24,6 +141,10 @@ const frequentlyAskedQuestions = [
     question: "Zorgverlening",
     answer:
       "Voel je je al langer niet goed in je vel zitten en heb je behoefte aan begeleiding vanuit de zorg? Je huisarts is je eerste aanspreekpunt. De huisarts kent de weg naar alle zorg- en hulpverleners in de buurt en kan je indien nodig goed doorverwijzen, bijvoorbeeld naar een POH. Kijk op thuisarts voor direct advies over je klachten. Denk je aan zelfdoding? Kijk dan op 113 zelfmoordpreventie.",
+    links: {
+      thuisarts: "https://www.thuisarts.nl",
+      "113 zelfmoordpreventie": "https://www.113.nl",
+    },
   },
   {
     question: "Psychologische zorg",
@@ -34,6 +155,10 @@ const frequentlyAskedQuestions = [
     question: "113 Zelfmoordpreventie",
     answer:
       "113 Zelfmoordpreventie is de landelijke hulplijn waar mensen met zelfmoordgedachten naartoe kunnen bellen en chatten. Je kunt hier terecht als je gedachten hebt aan zelfmoord en hier anoniem met iemand over wilt praten. Praten kan opluchten en ruimte creëren om naar oplossingen te zoeken. Ook mensen die zich zorgen maken om iemand anders kunnen hier anoniem terecht om de situatie te bespreken en voor advies. De hulplijn is 24/7 anoniem bereikbaar via www.113.nl en 0800-0113. Kijk op de website van 113 Zelfmoordpreventie voor meer informatie.",
+    links: {
+      "www.113.nl": "https://www.113.nl",
+      "113 Zelfmoordpreventie": "https://www.113.nl",
+    },
   },
   {
     question: "Sociale ondersteuning",
@@ -59,6 +184,20 @@ const frequentlyAskedQuestions = [
     question: "De checkers",
     answer:
       "Maak je je zorgen om een ander en wil je die graag helpen. Kan je ook kijken op de pagina van De-checkers op deze pagina leer je in 3 korte modules hoe je anderen kan helpen, welke vragen je kan stellen en ook hoe je kan signaleren of het goed met iemand gaat.",
+    links: {
+      "De-checkers": "/de-peer",
+    },
+  },
+  {
+    question: "Organisaties & sociale basis",
+    answer:
+      "Net als MentalMotion zijn er nog veel meer andere mooie initiatieven die zich inzetten om het verschil te maken voor jonge mensen in Utrecht. Voelt reguliere zorg niet als de juiste plek, of moet je wachttijd overbruggen? Dan zijn deze organisaties misschien interessant voor jou.\n\nDe WachtVerzachter\nDe WachtVerzachter is er om wachttijd op professionele hulp te overbruggen. Je wordt gekoppeld aan een ervaringsdeskundige, en kunt meteen met iemand in gesprek die jouw situatie begrijpt. Meer informatie vind je op dewachtverzachter.nl.\n\nGeluksBV\nGeluksBV organiseert GeluksCafés speciaal voor jonge mensen. Hier staat samenzijn, positiviteit en zingeving centraal. Kijk op geluksbv.nl voor meer informatie.\n\nDe Checkers\nMaak je je zorgen om iemand in je omgeving? Kijk dan op De Checkers. Hier leer je in 3 korte modules hoe je anderen kan helpen, welke vragen je kan stellen en ook hoe je kan signaleren of het goed met iemand gaat.",
+    links: {
+      "dewachtverzachter.nl": "https://dewachtverzachter.nl",
+      "geluksbv.nl":
+        "https://geluksbv.nl/wat-we-doen/sociale-innovaties/gelukscafes/",
+      "Kijk dan op De Checkers": "/de-peer",
+    },
   },
 ];
 
@@ -94,7 +233,9 @@ const AboutUsPage = () => {
               <div className="collapse-title font-semibold">
                 {item.question}
               </div>
-              <div className="collapse-content text-sm">{item.answer}</div>
+              <div className="collapse-content text-sm">
+                {parseTextWithLinks(item.answer, item.links)}
+              </div>
             </div>
           ))}
         </div>
