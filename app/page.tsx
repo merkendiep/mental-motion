@@ -148,7 +148,7 @@ export default function Home() {
       <div className="w-full py-16 lg:py-24">
         <div className="bg-[#58B095] py-12 lg:py-16 flex flex-col max-w-6xl mx-auto items-center rounded-3xl shadow-lg">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
-            Klaar om mee te doen?
+            Klaar voor een Mental Mindshift?
           </h2>
           <p className="text-white mb-8 text-lg text-center max-w-2xl px-4">
             Sluit je aan bij onze community en maak samen het verschil voor

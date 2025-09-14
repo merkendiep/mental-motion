@@ -12,19 +12,22 @@ const Hero = () => {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-start">
           <span className="badge badge-lg mb-4">
-            Students peer support center
+            Students Peer Support Center
           </span>
 
           <h1 className="text-3xl font-black text-base-100 uppercase md:text-7xl">
-            <span>Door studenten</span>
+            <span>Voor studenten</span>
             <span className="text-gray-200/90">
-              <br /> Voor studenten
+              <br /> Door studenten
+            </span>
+            <span className="text-gray-200/90 text-lg block">
+              en alle jongvolwassenen in Utrecht
             </span>
           </h1>
 
           <p className="py-6 text-white lg:max-w-lg">
-            Door middel van peer support zorgen wij voor een mentaal gezonder
-            Utrecht!
+            Samen zorgen wij via Peer Support voor een Mental Mindshift in
+            Utrecht
           </p>
 
           <div className="space-y-2 text-white">
@@ -37,12 +40,12 @@ const Hero = () => {
               <span>Studieruimtes</span>
             </div>
             <div className="flex items-center">
-              <HomeIcon className={"size-8 mr-2"} />
-              <span>Zaalverhuur</span>
-            </div>
-            <div className="flex items-center">
               <HeartIcon className={"size-8 mr-2"} />
               <span>Mental health events</span>
+            </div>
+            <div className="flex items-center">
+              <HomeIcon className={"size-8 mr-2"} />
+              <span>Ruimte huren</span>
             </div>
           </div>
 

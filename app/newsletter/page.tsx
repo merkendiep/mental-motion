@@ -14,7 +14,7 @@ const NewsletterPage = () => {
   const [email, setEmail] = useState("");
   const [organization, setOrganization] = useState("");
   const [selectedNewsletters, setSelectedNewsletters] = useState<string[]>([
-    "algemeen",
+    "monthly",
   ]);
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,20 +22,20 @@ const NewsletterPage = () => {
   // Newsletter options
   const newsletterOptions = [
     {
-      id: "algemeen",
-      label: "Algemene nieuwsbrief",
+      id: "monthly",
+      label: "Maandelijkse MentalMotion Mail",
       description: "Belangrijke updates en nieuws",
     },
     {
-      id: "evenementen",
-      label: "Evenementen",
-      description: "Uitnodigingen voor evenementen en workshops",
+      id: "quarterly",
+      label: "Kwartaalrapportage",
+      description: "Blijf per kwartaal op de hoogte van onze impact",
     },
-    {
-      id: "tips",
-      label: "Tips & Artikelen",
-      description: "Handige tips en interessante artikelen",
-    },
+    // {
+    //   id: "tips",
+    //   label: "Tips & Artikelen",
+    //   description: "Handige tips en interessante artikelen",
+    // },
   ];
 
   const handleNewsletterChange = (newsletterId: string, checked: boolean) => {
@@ -87,7 +87,7 @@ const NewsletterPage = () => {
         // Reset form
         setEmail("");
         setOrganization("");
-        setSelectedNewsletters(["algemeen"]);
+        setSelectedNewsletters(["monthly"]);
       } else {
         throw new Error(
           result.error || "Failed to submit newsletter subscription"
@@ -115,10 +115,8 @@ const NewsletterPage = () => {
             Altijd als eerste op de hoogte!
           </span>
           <p className="mt-2 text-center text-lg text-base-content max-w-xl">
-            Blijf op de hoogte van het laatste nieuws, tips en exclusieve
-            acties.
-            <br />
-            Kies hieronder voor welke nieuwsbrieven je je wilt inschrijven.
+            Wil jij écht goed op de hoogte zijn van wat we doen? Meld je dan aan
+            voor een van onze nieuwsbrieven
           </p>
         </div>
       </div>
