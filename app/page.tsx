@@ -48,7 +48,7 @@ export default function Home() {
               gesprekken met opgeleide peer guides – studenten die weten wat jij
               doormaakt. Samen kijken we naar wat jij nodig hebt om verder te
               komen, of het nu gaat om studie, stress of persoonlijke groei. Wil
-              je zelf anderen ondersteunen? Sluit je aan bij ons team van peers
+              je zelf anderen ondersteunen? <a href="/join" className="text-[#58B095] underline hover:no-underline font-semibold">Sluit je aan</a> bij ons team van peers
               en maak het verschil voor medestudenten!
             </p>
           </div>
@@ -151,8 +151,10 @@ export default function Home() {
             Klaar voor een Mental Mindshift?
           </h2>
           <p className="text-white mb-8 text-lg text-center max-w-2xl px-4">
-            Sluit je aan bij onze community en maak samen het verschil voor
-            studentenwelzijn!
+            <a href="/join" className="underline hover:no-underline">
+              Sluit je aan
+            </a>{" "}
+            bij onze community en maak samen het verschil voor studentenwelzijn!
           </p>
           <a
             href="/contact"
