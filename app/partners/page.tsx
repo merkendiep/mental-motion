@@ -89,9 +89,11 @@ const PartnersPage = () => {
             </h1>
 
             <p className="text-lg font-medium text-gray-600 mb-8 md:text-xl max-w-2xl mx-auto">
-              Samen met onze partners maken we Utrecht creatiever, gezonder en
-              gelukkiger. Hun energie, ideeën en betrokkenheid zorgen ervoor dat
-              we écht impact maken in de stad.
+              Samen met vele anderen maken we Utrecht creatiever, gezonder en
+              gelukkiger. MentalMotion houdt ervan om waar dat kan de krachten
+              te bundelen. Wij gaan voor cocreatie! De energie, ideeën en
+              betrokkenheid van onze partners zorgen ervoor dat we samen écht
+              impact kunnen maken in de stad.
               <br />
               <br />
               Of je nu een organisatie, ondernemer of enthousiasteling bent:

@@ -47,9 +47,24 @@ export default function Home() {
               verhaal kwijt? Bij ons kun je gratis terecht voor vertrouwelijke
               gesprekken met opgeleide peer guides – studenten die weten wat jij
               doormaakt. Samen kijken we naar wat jij nodig hebt om verder te
-              komen, of het nu gaat om studie, stress of persoonlijke groei. Wil
-              je zelf anderen ondersteunen? <a href="/join" className="text-[#58B095] underline hover:no-underline font-semibold">Sluit je aan</a> bij ons team van peers
-              en maak het verschil voor medestudenten!
+              komen, of het nu gaat om studie, stress of persoonlijke groei. Je
+              kunt een afspraak maken maar mag ook binnen komen lopen, er staat
+              altijd iemand voor je klaar! Samen kijken we naar wat jij nodig
+              hebt om verder te komen, of het nu gaat om studie, stress of
+              persoonlijke groei.
+            </p>
+
+            <br />
+
+            <p className={"text-lg leading-relaxed"}>
+              Wil je zelf anderen ondersteunen?{" "}
+              <a
+                href="/join"
+                className="text-[#58B095] underline hover:no-underline font-semibold"
+              >
+                Sluit je aan
+              </a>{" "}
+              bij ons team van peers en maak het verschil voor medestudenten!
             </p>
           </div>
         </div>
@@ -107,10 +122,11 @@ export default function Home() {
             </h1>
             <p className="text-lg leading-relaxed">
               Heb jij ideeën over hoe studentenwelzijn beter kan? Bij ons krijg
-              je de ruimte om samen met andere studenten te brainstormen over
-              lokale en landelijke initiatieven. Werk mee aan projecten rondom
-              preventiezorg, eigenaarschap, participatie en zingeving. Jouw stem
-              telt – samen maken we het verschil voor de studentengemeenschap!
+              je de ruimte om samen met andere studenten en andere initiatieven
+              te brainstormen over lokale en landelijke zaken. Werk mee aan
+              projecten rondom preventiezorg, eigenaarschap, participatie en
+              zingeving. Jouw stem telt – samen maken we het verschil voor de
+              studentengemeenschap!
             </p>
           </div>
         </div>
@@ -134,11 +150,11 @@ export default function Home() {
             </h1>
             <p className="text-lg leading-relaxed">
               Heb je een goed idee of wil je samen met anderen iets nieuws
-              opzetten? Bij ons is iedereen welkom om initiatieven te starten,
-              mee te denken of samen te werken aan projecten die bijdragen aan
-              studentenwelzijn. Of je nu een klein plan hebt of groots wilt
-              uitpakken – wij bieden de ondersteuning en het netwerk om jouw
-              idee tot leven te brengen!
+              opzetten? Bij ons is iedereen welkom om activiteiten te
+              organiseren, mee te denken of samen te werken aan projecten die
+              bijdragen aan studentenwelzijn. Of je nu een klein plan hebt of
+              groots wilt uitpakken – wij bieden de ondersteuning en het netwerk
+              om jouw idee tot leven te brengen!
             </p>
           </div>
         </div>
