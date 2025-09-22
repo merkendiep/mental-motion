@@ -33,10 +33,14 @@ const JoinUs = () => {
       <TransitionWithBorder colorFrom={"bg-white"} colorTo={"bg-[#58B095]"} />
 
       <div className={" max-w-full w-full bg-[#58B095]"}>
-        <div className="hero-content flex-col mx-auto text-white lg:gap-16 lg:flex-row-reverse">
-          <img
-            className="mask mask-heart max-w-xs md:max-w-lg"
-            src="/images/peer-support-example-conversation.jpeg"
+        <div className="hero-content flex-col mx-auto text-white mt-16 lg:gap-16 lg:flex-row-reverse">
+          <div
+            className="hidden lg:block mask mask-heart w-[110rem] h-[30rem] bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "url('/images/peer-support-example-conversation.jpeg')",
+              backgroundPosition: "50% 20%",
+            }}
           />
 
           <div className="text-center lg:text-start">
