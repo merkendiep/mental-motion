@@ -31,7 +31,7 @@ export const staticEvents: Event[] = [
     description: `
       <p>
         Bij <strong>MentalMotion</strong> geloven we dat jongeren zelf de sleutel zijn tot beter beleid rond mentaal welzijn. 
-        Daarom organiseren we de <strong>BeleidsBrainstorm-reeks</strong>: bijeenkomsten waar studenten en jongvolwassenen 
+        Daarom organiseren we samen met VIDIUS studentenunie de <strong>BeleidsBrainstorm-reeks</strong>: bijeenkomsten waar studenten en jongvolwassenen 
         hun <em>ervaringen, ideeën en oplossingen</em> delen.
       </p>
       <p>
@@ -44,8 +44,9 @@ export const staticEvents: Event[] = [
         <strong>Data:</strong> 16 oktober | 20 november | 11 december
       </p>
       <p>
-        Wij vragen je graag om bij alle drie de data aanwezig te zijn, omdat de sessies op elkaar voortbouwen.
+        Wij vragen je graag om bij alle drie de data aanwezig te zijn, omdat de sessies op elkaar voortbouwen. (Indien je niet alle data kan en graag mee wilt doen - meld je aan en laat het ons weten via mail)
       </p>
+      <p>Meld je aan en doe mee – laat je stem horen!<br/><strong>Kosten: Gratis</strong></p>
   `,
     created: "2025-09-19T10:00:00Z",
     updated: "2025-09-19T10:00:00Z",
@@ -87,22 +88,14 @@ export const staticEvents: Event[] = [
     id: "4",
     title: "Thema-avond: sociale media gebruik",
     date: "2025-10-09",
-    time: "19:30 - 21:00",
-    location: "MentalMotion, Wolff en Dekenplein 5, 3532 XH",
+    time: "19:00 - 21:00 (inloop vanaf 19:00)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
     description: `
-    <p>
-      Bij <strong>MentalMotion</strong> organiseren we regelmatig <strong>thema-avonden</strong>: momenten waarop we samen stilstaan bij onderwerpen die ons allemaal raken. 
-      Denk aan stress en ontspanning, prestatiedruk, vriendschap, zingeving of… sociale media.
-    </p>
-    <p>
-      Tijdens deze avonden draait het om <em>peersupport</em> en <em>ervaringsdeskundigheid</em>. 
-      Je hoort verhalen van anderen, deelt wat jij wilt (niets moet!) en ontdekt dat je niet de enige bent. 
-      Het helpt je stil te staan bij je eigen regie, welzijn en positieve gezondheid. En het mooiste? Iedereen is welkom – gratis.
-    </p>
-    <p>
-      We trappen dit jaar af met het thema <strong>sociale media gebruik</strong>. Hoe ga jij om met Instagram, TikTok of WhatsApp? 
-      Geeft het je vooral verbinding of levert het stress op? Samen zoeken we naar balans en delen we ervaringen.
-    </p>
+    <p>Hoe gezond is jouw relatie met social media? Scroll je eindeloos door, of haal je er juist inspiratie uit? Tijdens deze interactieve thema-avond duiken we samen met Sofia en Stefan in de wereld van social media. We gaan het hebben over de impact op ons dagelijks leven, onze mentale gezondheid en hoe we er bewuster en relaxter mee om kunnen gaan.</p>
+    <p>Zoals altijd bij MentalMotion is er ruimte voor jouw eigen ervaringen en vragen. Geen college, maar een open gesprek met creatieve werkvormen en praktische tips. Samen ontdekken we hoe social media ons kan verbinden – zonder dat het ons opslokt.</p>
+    <p>Inloop tussen 19:00 en 19:30, het programma start om 19:30.</p>
+    <p>Meld je aan en doe mee – jouw stem en ervaring maken deze avond compleet!</p>
+    <p>Kosten: Gratis</p>
   `,
     created: "2025-09-19T10:00:00Z",
     updated: "2025-09-19T10:00:00Z",
@@ -127,6 +120,249 @@ export const staticEvents: Event[] = [
       Feel free to bring a friend who needs a creative reset.
     </p>
   `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "6",
+    title: "BabbelBanken op het Neude – Gewoon een beetje extra aardig-dag",
+    date: "2025-09-25",
+    time: "15:00-19:00",
+    location: "Neude, Utrecht",
+    description: `<p>Op 25 september vieren we in Utrecht de <em>Gewoon een beetje extra aardig-dag</em>. Een dag die in het teken staat van verbinding, openheid en mentale gezondheid. Met het initiatief <strong>BabbelBanken</strong> maken we van het Neude een plek waar iedereen welkom is om even stil te staan, elkaar te ontmoeten en in gesprek te gaan.</p>
+  
+  <p>Van 15:00 tot 19:00 vind je op het Neude acht feestelijk aangeklede banken. Op elke bank liggen gespreksstarters en kleine spelletjes die het makkelijker maken om een gesprek te beginnen. Vrijwilligers van MentalMotion, GeluksBV en Wachtverzachter ontvangen je graag en zorgen voor een veilige, laagdrempelige sfeer.</p>
+  
+  <p>Kom gratis langs voor een praatje, een luisterend oor of gewoon om samen even te zitten. Je krijgt er een non-alcoholisch drankje bij, een glimlach én misschien wel een nieuw contact.</p>
+  
+  <h3>Waarom BabbelBanken?</h3>
+  <ul>
+    <li>Omdat praten helpt.</li>
+    <li>Omdat verbinding eenzaamheid doorbreekt.</li>
+    <li>Omdat openheid over mentale gezondheid ons allemaal sterker maakt.</li>
+  </ul>
+  
+  <h3>Voor wie?</h3>
+  <p>Iedereen! Jong, oud, student of buurtbewoner: je bent welkom. Juist door samen te komen maken we Utrecht warmer, inclusiever en mentaal gezonder.</p>
+  
+  <p>Gewoon even aanschuiven dus – gratis, op het Neude, tussen 15:00 en 19:00 – want een beetje extra aardig zijn, dat kan iedereen.</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "7",
+    title: "🎲 Offline Spelletjesmiddag bij MentalMotion met Bas",
+    date: "2025-10-10",
+    time: "15:00-17:00",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<p>Elke vrijdagmiddag openen we De Peer voor een moment van ontspanning, verbinding en gezelligheid. Deze keer pakken we de bordspellen erbij! Bas neemt zijn favoriete spellen mee en nodigt je uit om samen te spelen.</p>
+    <p>Of je nu houdt van een strategisch bordspel, een luchtig kaartspel of gewoon zin hebt om te kletsen onder het genot van een kop thee – je bent van harte welkom. Geen verplichtingen, wél een fijne sfeer en ruimte om elkaar te ontmoeten.</p>
+    <p><strong>📍 Locatie:</strong> De Peer, Wolff en Dekenplein 5, Utrecht<br/>
+    <strong>🕑 Tijd:</strong> Vrijdag van 15:00 – 17:00 (vrije inloop)<br/>
+    <strong>💸 Kosten:</strong> Gratis</p>
+    <p>Neem vooral jezelf mee – de gezelligheid en de spellen regelen wij!</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "8",
+    title: "Tegeltjes(eigen)wijsheden @ Gezonde Ideeën Festival",
+    date: "2025-10-09",
+    time: "13:00 - 17:00",
+    location: "Younity, Jonkvrouw Sanderijndreef 35, Utrecht Overvecht",
+    description: `
+    <p>Wij van <strong>MentalMotion</strong> organiseren een creatieve actie tijdens het Gezonde Ideeën Festival: <em>Tegeltjes(eigen)wijsheden</em>! ✨</p>
+    <p>Iedereen heeft levenslessen en slimme inzichten die de moeite waard zijn om te delen. Daarom nemen we een stapel blanco tegels mee waarop jij je eigen wijsheid kunt beschrijven, versieren of vormgeven. Je mag je tegel meenemen naar huis of bij ons achterlaten.</p>
+    <p>Laat je een wijsheid achter? Dan zorgen wij ervoor dat jouw inzicht weer terechtkomt bij anderen die het kunnen gebruiken — bijvoorbeeld tijdens activiteiten van MentalMotion of in onze ontmoetingsruimte.</p>
+    <p>Kom langs, deel je slimmigheden en maak een praatje met ons. Samen maken we de Utrechtse studentengemeenschap gezonder en wijzer! 💡</p>
+    <p><strong>Toegang:</strong> gratis, aanmelden kan via de QR-code op de flyer.</p>
+  `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "9",
+    title: "Workshop: Omgaan met Polarisatie",
+    date: "2025-10-16",
+    time: "19:30 - 21:00",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht (i.s.m. Stichting Dock)",
+    description: `
+    <p><strong>Botsende meningen. Pittige gesprekken.</strong> We komen ze allemaal wel eens tegen — online, op school of op werk. Maar hoe blijf je rustig en open, ook als het spannend wordt?</p>
+    <p>Op <strong>16 oktober</strong> organiseren wij samen met <strong>Stichting Dock</strong> een workshop over polarisatie. 💚</p>
+    <p>Zij zijn experts op dit thema en leren je hoe je:</p>
+    <ul>
+      <li> kunt omgaan met radicale meningen of botsende standpunten</li>
+      <li>verbinding houdt in plaats van de afstand te vergroten</li>
+      <li> sterker in je eigen schoenen blijft staan</li>
+    </ul>
+    <p>Samen maken we ruimte voor dialoog, begrip en echte verbinding. </p>
+    <p><em>Stay Mental </em></p>
+  `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "10",
+    title: "Thema-avond Minimalisme",
+    date: "2025-10-23",
+    time: "19:30 - 21:00",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `
+    <p>Minimalisme is meer dan een strak interieur of kunststroming. Het is een bewuste levensstijl waarin je kiest voor minder spullen, minder prikkels en minder moeten.</p>
+
+    <p>Tijdens deze thema-avond duiken we samen in minimalisme. Niet als trend, maar als manier om dichter bij je persoonlijke waarden te komen. Hoe kan het selectief weglaten van het overbodige zorgen voor meer vrijheid en innerlijke rust? En wat betekent dat voor jou als student of jongwerkende?</p>
+
+    <p>Zoals altijd bij <strong>MentalMotion</strong> is er ruimte voor jouw eigen ervaringen en vragen. Geen college, maar een open gesprek met creatieve werkvormen en praktische tips.</p>
+
+    <p><strong>Inloop</strong> tussen <strong>19:00 en 19:30</strong>, het programma start om <strong>19:30</strong>.</p>
+
+    <p>Meld je aan en doe mee – jouw stem en ervaring maken deze avond compleet!<br/><strong>Kosten: Gratis</strong></p>
+  `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "11",
+    title: "Dungeons & Dragons middag met Bas",
+    date: "2025-10-23",
+    time: "14:00 - 18:00",
+    location: "De Peer, Wolff & Dekenplein 5, Utrecht",
+    description: `
+    <p>Op woensdag 23 oktober van 14:00 tot 18:00 duiken we samen met Bas in de wereld van <strong>Dungeons & Dragons</strong>!</p>
+    <p>Of je nu een doorgewinterde avonturier bent of voor het eerst de dobbelstenen rolt: iedereen is welkom. Bas neemt ons mee in spannende one-shots die speciaal zijn gemaakt voor zowel beginners als ervaren spelers. Zijn creativiteit en ervaring zorgen ervoor dat je gegarandeerd een middag vol verrassingen, avontuur en plezier beleeft.</p>
+    <p>Dus… verzamel je moed, kies je karakter en kom langs!</p>
+    <p><strong>Kosten:</strong> Gratis</p>
+  `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "12",
+    title: "Grote Mensen Middag – Samen de dingen fixen",
+    date: "2025-10-31",
+    time: "15:00 - 17:00",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `
+    <p>Soms heb je van die taken die je eindeloos voor je uitschuift. Belastingaangifte doen? Je agenda opschonen? Je mailbox eindelijk leegmaken of een nieuwe zorgverzekering uitzoeken? Dit keer doen we het samen!</p>
+    <p>Op donderdag 31 oktober van 15:00 tot 17:00 combineren we onze maandelijkse Offline Middag met een speciale editie: de Grote Mensen Middag. Een moment om met gelijkgestemden die vervelende klusjes aan te pakken. In een relaxte sfeer, met thee, snacks en een beetje gezamenlijke motivatie, vliegen ze opeens een stuk makkelijker voorbij.</p>
+    <ul>
+      <li>Geen oordeel, wel een fijne stok achter de deur.</li>
+      <li>Jij neemt mee wat jij wilt aanpakken.</li>
+      <li>Samen maken we er een productieve en gezellige middag van.</li>
+    </ul>
+    <p>Locatie: De Peer, Wolff en Dekenplein 5, Utrecht<br/>
+    Kosten: Gratis</p>
+  `,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "13",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-09-26",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "14",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-10-03",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "15",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-10-17",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen mit anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "16",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-10-24",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "17",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-11-07",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "18",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-11-14",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "19",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-11-21",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "20",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-11-28",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "21",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-12-05",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "22",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-12-12",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
+    created: "2025-09-19T10:00:00Z",
+    updated: "2025-09-19T10:00:00Z",
+  },
+  {
+    id: "23",
+    title: "Offline middag bij MentalMotion",
+    date: "2025-12-19",
+    time: "15:00–17:00 (vrije inloop)",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<h3>Unpluggen op vrijdag</h3><p>Elke vrijdagmiddag openen we <strong>De Peer</strong> voor een moment van rust, verbinding en ruimte om gewoon even niets te moeten. Tijdens <em>Unpluggen op vrijdag</em> kun je op adem komen, creatief bezig zijn, kletsen met anderen of gewoon relaxed aanwezig zijn. Geen programma, wél een fijne sfeer.</p><p>Voor vrijwilligers is dit een mooie gelegenheid om laagdrempelig contact te maken met anderen, een spelletje mee te doen of te helpen de ruimte gezellig te maken. Wil je een keer iets kleins organiseren tijdens deze middag—denk aan een tekenhoekje, slow playlist of mini-creatieve activiteit? Graag! Alles mag, niks moet.</p><p>We zorgen voor thee, lekkers en goede vibes. Jij hoeft alleen jezelf mee te nemen.</p><p><strong>Kosten:</strong> Gratis</p>`,
     created: "2025-09-19T10:00:00Z",
     updated: "2025-09-19T10:00:00Z",
   },
