@@ -41,11 +41,11 @@ const Contact = () => {
   };
 
   const openingHours = [
-    { day: "Maandag", hours: "09:00 - 17:00" },
-    { day: "Dinsdag", hours: "09:00 - 17:00" },
-    { day: "Woensdag", hours: "09:00 - 17:00" },
-    { day: "Donderdag", hours: "09:00 - 17:00" },
-    { day: "Vrijdag", hours: "09:00 - 17:00" },
+    { day: "Maandag", hours: "11:00 - 18:00" },
+    { day: "Dinsdag", hours: "Gesloten" },
+    { day: "Woensdag", hours: "Gesloten" },
+    { day: "Donderdag", hours: "11:00 - 18:00" },
+    { day: "Vrijdag", hours: "11:00 - 18:00" },
     { day: "Weekend", hours: "Gesloten" },
   ];
 

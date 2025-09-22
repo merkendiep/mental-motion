@@ -3,25 +3,25 @@ import FloorPlanRoom from "@/src/components/FloorPlanRoom";
 
 // Example room info data
 const ROOM_INFO = {
-  "De Boomgaard": {
+  "De Grote Kamer": {
     description:
-      "De Boomgaard is het kloppend hart van het gebouw: een ruime, lichte woonkamer waar mensen samenkomen om te ontspannen, te praten of samen te eten. De grote ramen bieden uitzicht op het groen en creëren een warme, uitnodigende sfeer.",
+      "De grote kamer is het kloppend hart van het gebouw: een ruime, lichte kamer waar mensen samenkomen om te ontspannen, te praten of samen te eten. De grote ramen bieden uitzicht op het groen en creëren een warme, uitnodigende sfeer. Ook is hier ruimte voor workshops en trainingen voor groepen van max. 15 personen.",
   },
-  "De Pit": {
+  "De Kleine Kamer": {
     description:
-      "De Pit vormt de centrale hal en is het toneel voor evenementen, bijeenkomsten en inspirerende gesprekken. Hier komen mensen samen om ideeën te delen, te vieren of gewoon te genieten van elkaars gezelschap.",
+      "Dit is onze ruimte voor 1-op-1 gesprekken, maar hier kun je ook even zitten om te mediteren, te bidden, of een boek te lezen. Als de deur dicht is, is deze ruimte in gebruik.",
   },
-  "De Tak": {
+  "De Vergaderruimte": {
     description:
-      "De Tak is een rustige werkruimte, badend in natuurlijk licht. Perfect voor geconcentreerd werken, lezen of creatieve sessies. Planten en zachte kleuren zorgen voor een kalme, productieve omgeving.",
+      "Schrik niet, geen grijze saaie tafel, maar wel een flipover en vrolijke peer-groene stoelen. Onze vergaderruimte is een fijne plek om met een kleinere groep te brainstormen. Geschikt voor max. 8 personen.",
   },
-  "De Schil": {
+  "De Studeerkamer": {
     description:
-      "De Schil is een knusse lounge, ideaal om even tot rust te komen. Zachte banken, warme verlichting en een huiselijke sfeer maken dit de perfecte plek voor een goed gesprek of een moment voor jezelf.",
+      "Je raadt het al: in de studeerkamer heerst er rust om te studeren. Dit zou je ook het kantoortje kunnen noemen en kan zowel door MentalMotion mensen als door studenten gebruikt worden om in diepe concentratie te werken.",
   },
-  "Het Zaadje": {
+  "De Huiskamer": {
     description:
-      "Het Zaadje is een kleine, intieme vergaderruimte. Hier ontstaan de grootste ideeën in een rustige setting, perfect voor overleg, brainstorms of vertrouwelijke gesprekken.",
+      "Dit is de eerste kamer die je ziet als je binnenkomt in de Peer: een grote bank, een groter raam, een gek vloerkleed en een fijne houten tafel. Dit is echt het huiskamergevoel, hier kan alles.",
   },
   WC: {
     description:
@@ -34,7 +34,7 @@ const ROOM_INFO = {
 };
 
 const FloorPlan = () => {
-  const [selectedRoom, setSelectedRoom] = useState("De Boomgaard");
+  const [selectedRoom, setSelectedRoom] = useState("De Grote Kamer");
 
   return (
     <>
@@ -47,47 +47,47 @@ const FloorPlan = () => {
           width={276}
           height={264}
           className={"left-0 top-0"}
-          onClick={() => setSelectedRoom("De Boomgaard")}
+          onClick={() => setSelectedRoom("De Grote Kamer")}
         >
-          De Boomgaard
+          De Grote Kamer
         </FloorPlanRoom>
 
         <FloorPlanRoom
           width={214}
           height={160}
           className={"right-0 top-0"}
-          onClick={() => setSelectedRoom("De Pit")}
+          onClick={() => setSelectedRoom("De Kleine Kamer")}
           noLeftBorder={true}
         >
-          De Pit
+          De Kleine Kamer
         </FloorPlanRoom>
 
         <FloorPlanRoom
           width={214}
           height={160}
           className={"right-[214px] top-0"}
-          onClick={() => setSelectedRoom("De Tak")}
+          onClick={() => setSelectedRoom("De Vergaderruimte")}
         >
-          De Tak
+          De Vergaderruimte
         </FloorPlanRoom>
 
         <FloorPlanRoom
           width={190}
           height={111}
           className={"right-[428px] top-0"}
-          onClick={() => setSelectedRoom("De Schil")}
+          onClick={() => setSelectedRoom("De Studeerkamer")}
         >
-          De Schil
+          De Studeerkamer
         </FloorPlanRoom>
 
         <FloorPlanRoom
           width={137}
           height={112}
           className={"right-[486px] bottom-0"}
-          onClick={() => setSelectedRoom("Het Zaadje")}
+          onClick={() => setSelectedRoom("De Huiskamer")}
           noLeftBorder={true}
         >
-          Het Zaadje
+          De Huiskamer
         </FloorPlanRoom>
 
         <FloorPlanRoom

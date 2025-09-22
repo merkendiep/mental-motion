@@ -17,6 +17,15 @@ const RentLocationPage = () => {
             <p className="text-2xl">De ideale plek voor studenten</p>
           </h1>
           <p className="text-lg md:text-2xl text-gray-600 mb-6">
+            <span className="font-semibold text-primary">De Peer</span> is onze
+            'huiskamer weg van huis', een fijne plek waar je gewoon mag zijn,
+            waar je even kunt lunchen in de tuin, rustig kunt werken als het
+            thuis chaos is, op de bank hangen met een kop thee en een boek, of
+            een inspirerende workshop kunt volgen. Er zijn verschillende
+            ruimtes, dus er is altijd wel een plek te vinden om even 1-op-1 te
+            kletsen.
+          </p>
+          <p className="text-lg md:text-xl text-gray-600 mb-6">
             Zoek je een inspirerende locatie om te vergaderen, studeren of een
             evenement te organiseren met je werkgroep, commissie of vereniging?{" "}
             <span className="font-semibold text-primary">De Peer</span> biedt
