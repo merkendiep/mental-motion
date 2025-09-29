@@ -2,6 +2,21 @@ import Link from "next/link";
 import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 
 const posts = {
+    'een-jaar-in-de-maak': {
+        title: 'One year in the making',
+        banner: '/images/Hard-laugh-group.jpeg',
+        authors: ['Sofia'],
+        description: `Jaar 2 is gestart! Dat klinkt minder spectaculair dan hoe het voelt. Toen ik begon bij MentalMotion, heette het nog geen MentalMotion, en was het niet veel meer dan een idee, of eigenlijk een plan van aanpak dat ik door mocht lezen tijdens een meeting in een koffietentje. Ik voelde al dat ik mee wilde doen voor mijn hoofd begreep wat dat precies zou betekenen.
+
+Marik en Mieke liepen al een tijdje rond met dit plan, en stonden op het punt om een subsidieaanvraag te doen (die zou worden afgewezen). Dat MentalMotion kon starten was een kwestie van geduld en doorzettingsvermogen. Eerst was er een idee, daarna hadden we een kernteam, toen kozen we een naam. Na meer drempels dan we voorzien hadden vonden we een locatie én een eerste samenwerkingspartner, waardoor we De Peer konden gaan huren en inrichten. Er kwam een logo, een flyer. Nog een aantal maanden netwerken en schaven aan weer nieuwe aanvragen, tot we in de zomer van 2024 eindelijk genoeg geld bij elkaar hadden om in september te kunnen starten.
+
+Dat was fantastisch. En heel veel tegelijk. Ik had tijdens het doen van die laatste aanvragen net mijn stage afgerond en de eerste versie van mijn masterscriptie geschreven. Toen we open gingen moest die scriptie nog af. "Voor studenten, door studenten", wat dat betekent heb ik vorig jaar echt doorleefd. Want een startup runnen en afstuderen is best een uitdaging. Bovendien wisten we nog niet wat daar allemaal bij komt kijken: hoe zorg je dat studenten weten dat je bestaat? wat voor activiteiten slaan aan? bij welke events kunnen we aanwezig zijn? hoe begeleid je vrijwilligers? en vooral: hoe zorg je dat je naast werk ook nog aan leven toekomt? Ons eerste jaar was een feest omdat we eindelijk, na zo lang plannen maken, mochten doen wat we wilden doen. Maar het was ook zwemmen, zeg maar gerust watertrappelen.
+
+Dat we nu kunnen starten met ons tweede jaar voelt alsof we de vruchten kunnen plukken van ons harde werken in de jaren hiervoor. Dit is waar we het voor gedaan hebben. Nu weten we beter wat werkt, wat ons te wachten staat, en hoe we ons daarop voor kunnen bereiden. Bovendien zijn we niet meer 'alleen' maar werken we nu samen met fantastische vrijwilligers. En ons team is gegroeid. So far was deze maand naar werk toe gaan echt een feestje
+
+Sofia`,
+        date: '15-01-2025',
+    },
     'de-tegelwijsheden-hangen': {
         title: 'De tegelwijsheden hangen!',
         banner: '/images/praat-erover-dat-helpt-echt.jpeg',
@@ -52,7 +67,9 @@ export default async function BlogPostPage({ params }: { params: tParams }) {
                         </div>
                     </header>
                     <section className="prose prose-lg max-w-none text-gray-700">
-                        <p>{post.description}</p>
+                        {post.description.split('\n\n').map((paragraph, index) => (
+                            <p key={index} className="mb-4">{paragraph}</p>
+                        ))}
                     </section>
                 </article>
             </div>

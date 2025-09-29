@@ -5,6 +5,16 @@ import TransitionWithBorder from '@/src/components/TransitionWithBorder.jsx';
 
 const posts = [
     {
+        title: 'One year in the making',
+        slug: 'een-jaar-in-de-maak',
+        banner: '/images/Hard-laugh-group.jpeg',
+        authors: [
+            'Sofia',
+        ],
+        description: 'Jaar 2 is gestart! Dat klinkt minder spectaculair dan hoe het voelt. Toen ik begon bij MentalMotion, heette het nog geen MentalMotion, en was het niet veel meer dan een idee. Ons eerste jaar was een feest omdat we eindelijk, na zo lang plannen maken, mochten doen wat we wilden doen.',
+        date: '15-01-2025',
+    },
+    {
         title: 'De tegelwijsheden hangen!',
         slug: 'de-tegelwijsheden-hangen',
         banner: '/images/praat-erover-dat-helpt-echt.jpeg',
