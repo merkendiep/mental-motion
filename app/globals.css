@@ -23,7 +23,7 @@ body {
 }
 
 @plugin "daisyui" {
-  themes: emerald;
+  themes: false;
 }
 
 @plugin "daisyui/theme" {
