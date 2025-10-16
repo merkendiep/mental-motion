@@ -11,7 +11,7 @@ const posts = [
     authors: ["Sofia"],
     description:
       "Jaar 2 is gestart! Dat klinkt minder spectaculair dan hoe het voelt. Toen ik begon bij MentalMotion, heette het nog geen MentalMotion, en was het niet veel meer dan een idee. Ons eerste jaar was een feest omdat we eindelijk, na zo lang plannen maken, mochten doen wat we wilden doen.",
-    date: "29-09-2025",
+    date: "21-09-2025",
   },
   {
     title: "De tegelwijsheden hangen!",
