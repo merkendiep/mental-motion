@@ -23,35 +23,6 @@ export const staticEvents: Event[] = [
     updated: "2024-12-01T10:00:00Z",
   },
   {
-    id: "2",
-    title: "BeleidsBrainstorm",
-    date: "2025-10-16", // startdatum van de reeks
-    time: "13:00 - 15:00",
-    location: "MentalMotion, Wolff en Dekenplein 5, 3532 XH",
-    description: `
-      <p>
-        Bij <strong>MentalMotion</strong> geloven we dat jongeren zelf de sleutel zijn tot beter beleid rond mentaal welzijn. 
-        Daarom organiseren we samen met VIDIUS studentenunie de <strong>BeleidsBrainstorm-reeks</strong>: bijeenkomsten waar studenten en jongvolwassenen 
-        hun <em>ervaringen, ideeën en oplossingen</em> delen.
-      </p>
-      <p>
-        Want wie weet beter waar het wringt dan jonge mensen zelf? Zij voelen prestatiedruk, de eenzaamheid ook in een volle kamer, 
-        het verdwalen in het woud van hulpaanbod en de financiële zorgen die dromen doen vervagen. 
-        Samen brengen we deze inzichten verder – richting onderwijsinstellingen, gemeenten en welzijnsorganisaties. 
-        Zo werken we aan beleid dat écht aansluit, met ruimte voor <em>peer-support, eigen regie en positieve gezondheid</em>.
-      </p>
-      <p>
-        <strong>Data:</strong> 16 oktober | 20 november | 11 december
-      </p>
-      <p>
-        Wij vragen je graag om bij alle drie de data aanwezig te zijn, omdat de sessies op elkaar voortbouwen. (Indien je niet alle data kan en graag mee wilt doen - meld je aan en laat het ons weten via mail)
-      </p>
-      <p>Meld je aan en doe mee – laat je stem horen!<br/><strong>Kosten: Gratis</strong></p>
-  `,
-    created: "2025-09-19T10:00:00Z",
-    updated: "2025-09-19T10:00:00Z",
-  },
-  {
     id: "3",
     title: "Peer-groep",
     date: "2025-10-13", // startdatum van de reeks
