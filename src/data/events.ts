@@ -337,6 +337,27 @@ export const staticEvents: Event[] = [
     created: "2025-09-19T10:00:00Z",
     updated: "2025-09-19T10:00:00Z",
   },
+  {
+    id: "24",
+    title: "BeleidsBrainstorm werkgroep",
+    date: "2025-11-20",
+    time: "18:00 - 20:00",
+    location: "De Peer, Wolff en Dekenplein 5, Utrecht",
+    description: `<p><strong>Beleid maken voor jongerenwelzijn?</strong> Laat jongeren zelf aan het woord!</p>
+<p>Iedereen praat óver jongeren… maar wanneer luisteren we écht?</p>
+<p>Bij <strong>MentalMotion</strong> geloven we dat jongeren zelf de sleutel zijn tot beter beleid rond mentaal welzijn. Daarom organiseren we de <em>BeleidsBrainstorm</em>-reeks: bijeenkomsten waar jongvolwassenen hun ervaringen, ideeën en oplossingen delen. Want wie weet beter waar het wringt dan jongeren zelf? Zij voelen prestatiedruk, de eenzaamheid ook in een volle kamer, het verdwalen in het woud van hulpaanbod en de financiële zorgen die dromen doen vervagen.</p>
+<p>Samen brengen we deze inzichten verder en rapporteren we aan onderwijsinstellingen, gemeenten en welzijnsorganisaties.</p>
+<p><strong>Meebouwen aan beleid dat werkt?</strong><br/>Laat je stem horen en sluit aan bij de werkgroep!</p>
+<hr/>
+<p><strong>Data</strong></p>
+<ul>
+  <li>20 november 2025</li>
+  <li>4 december 2025</li>
+  <li>18 december 2025</li>
+</ul>`,
+    created: "2025-10-18T10:00:00Z",
+    updated: "2025-10-18T10:00:00Z",
+  },
 ];
 
 // Helper functions to interact with static events data
