@@ -20,7 +20,7 @@ const ContactPage = () => {
       icon: <MapPinIcon className="h-6 w-6" />,
       title: "Kom langs",
       description: "Wolff en Dekenplein 5, 3532 XH Utrecht",
-      detail: "Maandag t/m vrijdag open",
+      detail: "Maandag, donderdag en vrijdag open",
       color: "text-primary",
     },
     {

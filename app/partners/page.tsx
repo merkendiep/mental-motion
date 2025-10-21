@@ -76,6 +76,12 @@ const partners = [
     description: "[Text over inzet van partner]",
     website: "",
   },
+  {
+    name: "Versatile",
+    logo: "/images/partners/Versatile.jpg",
+    description: "[Text over inzet van partner]",
+    website: "https://svversatile.nl/",
+  },
 ];
 
 const PartnersPage = () => {
