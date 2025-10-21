@@ -5,6 +5,14 @@ import TransitionWithBorder from "@/src/components/TransitionWithBorder.jsx";
 
 const posts = [
   {
+    title: "Stabiele basis voor jongvolwassenen in Utrecht",
+    slug: "stabiele-basis-voor-jongvolwassenen-in-utrecht",
+    banner: "/images/friendly-hug-outside.jpeg",
+    authors: ["Marik"],
+    description: `Ik werk dagelijks met studenten en andere jongvolwassenen in Utrecht. Ik zie gezichten die moe zijn maar doorgaan. Ik hoor verhalen over roosters die schuiven en kamers die te duur zijn. Soms is er chaos. Vaker zijn het kleine dingen die optellen. Een gemiste les Een nacht slecht sla...`,
+    date: "21-10-2025",
+  },
+  {
     title: "One year in the making",
     slug: "een-jaar-in-de-maak",
     banner: "/images/blogpost-3-cover.png",

@@ -2,6 +2,30 @@ import Link from "next/link";
 import WorkInProgressWarning from "@/src/components/WorkInProgressWarning";
 
 const posts = {
+  "stabiele-basis-voor-jongvolwassenen-in-utrecht": {
+    title: "Stabiele basis voor jongvolwassenen in Utrecht",
+    banner: "/images/friendly-hug-outside.jpeg",
+    authors: ["Marik"],
+    description: `Stabiele basis voor jongvolwassenen in Utrecht
+
+    Ik werk dagelijks met studenten en andere jongvolwassenen in Utrecht. Ik zie gezichten die moe zijn maar doorgaan. Ik hoor verhalen over roosters die schuiven en kamers die te duur zijn. Soms is er chaos. Vaker zijn het kleine dingen die optellen. Een gemiste les. Een nacht slecht slapen. Een formulier dat net te ingewikkeld is. Zo lekt energie weg. Niet in één keer. Wel elke dag een beetje.
+    
+    Wat ik heb geleerd is eenvoudig. Welzijn groeit als je vaste grond voelt. Zekerheid in tijd en plek. Bekende gezichten die je naam kennen. Een ritme waar je op kunt terugvallen. Toegang zonder drempel. Gesprekken die vroeg starten. Dat is waarom wij bij MentalMotion met peersupport werken. Het is nabij. Het is normaal. Het is er elke dag. Je loopt binnen voor koffie en blijft voor een eerlijk gesprek. Soms helpt één blik meer dan een plan van acht pagina’s.
+
+    Na een drukke periode achter de rug te hebben kregen wij de kans in te spreken bij de RIB (raadsinformatiebijeenkomst) op dertig september. We hebben drie punten neergezet. Niet als losse wensen. Als dingen die we zelf elke week in de praktijk zien.
+
+    Eén. Structurele financiering van de sociale basis. Geen losse potjes die verdwijnen als het kalenderjaar wisselt. Continuïteit is zelf een interventie. Vaste openingstijden. Tijd om te leren en bij te sturen. Een klein kernteam dat zichtbaar is in de wijk en op campussen. Maak afspraken voor meerdere jaren en kijk niet alleen naar aantallen doorverwijzingen. Kijk vooral naar bereik, aanwezigheid en tijdigheid. Is de deur open als iemand het nodig heeft. Dat is de maat die telt.
+
+    Twee. Regie bij jongvolwassenen. Geen inspraak aan het eind maar medezeggenschap vanaf de start. Jongeren zitten aan tafel met mandaat over doelen, middelen en tempo. Betaal hun tijd. Leg vast wie waarover beslist en op basis van welke gegevens. Werk in korte rondes van ontwerpen, testen en bijsturen. Richt een jongerenraad in met instemmingsrecht op programma en begroting. Erken lived experience als expertise en borg dit in functies en inkoop. Zo wordt het beleid van hén en sluit het aan op hun leven.
+
+    Drie. Eenvoud in de keten. Minder formulieren. Kortere lijnen tussen informele steun en professionele hulp. Eén herkenbare ingang per gebied. Warme overdracht binnen dagen, niet binnen weken. Vaste contactpersonen per onderwijsinstelling en per wijk. Geef peers een korte route voor overleg met professionals. Twijfel wordt dan bespreekbaar voordat het uitgroeit tot uitval. Dat is goedkoper voor het systeem en vriendelijker voor de mens.
+
+    Wat werkt in Utrecht is niet ingewikkeld. Een open huis waar je zonder afspraak binnenloopt. Peers die luisteren en meedenken. Groepen waar je herkenning vindt. Rustige tafels om te studeren. Iemand die de weg wijst als het overzicht verdwijnt. Zo bouw je aan zekerheid en stabiliteit. Dan daalt de spanning. Dan komt er weer ruimte voor plezier, focus en groei.
+
+    Dit is waar wij voor staan. Vandaag. Morgen. En zolang het nodig is.
+`,
+    date: "21-10-2025",
+  },
   "een-jaar-in-de-maak": {
     title: "One year in the making",
     banner: "/images/blogpost-3-cover.png",
@@ -41,10 +65,6 @@ type tParams = Promise<{ slug: string }>;
 export default async function BlogPostPage({ params }: { params: tParams }) {
   const { slug } = await params;
   const post = posts[slug as PostKey];
-
-  if (!post) {
-    return <WorkInProgressWarning />;
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-gray-100 pt-24 lg:pt-44">
