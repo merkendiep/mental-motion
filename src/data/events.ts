@@ -210,7 +210,7 @@ export const staticEvents: Event[] = [
   {
     id: "12",
     title: "Grote Mensen Middag – Samen de dingen fixen",
-    date: "2025-10-31",
+    date: "2025-11-07",
     time: "15:00 - 17:00",
     location: "De Peer, Wolff en Dekenplein 5, Utrecht",
     description: `
