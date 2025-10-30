@@ -215,7 +215,7 @@ export const staticEvents: Event[] = [
     location: "De Peer, Wolff en Dekenplein 5, Utrecht",
     description: `
     <p>Soms heb je van die taken die je eindeloos voor je uitschuift. Belastingaangifte doen? Je agenda opschonen? Je mailbox eindelijk leegmaken of een nieuwe zorgverzekering uitzoeken? Dit keer doen we het samen!</p>
-    <p>Op donderdag 31 oktober van 15:00 tot 17:00 combineren we onze maandelijkse Offline Middag met een speciale editie: de Grote Mensen Middag. Een moment om met gelijkgestemden die vervelende klusjes aan te pakken. In een relaxte sfeer, met thee, snacks en een beetje gezamenlijke motivatie, vliegen ze opeens een stuk makkelijker voorbij.</p>
+    <p>Op vrijdag 7 november van 15:00 tot 17:00 combineren we onze maandelijkse Offline Middag met een speciale editie: de Grote Mensen Middag. Een moment om met gelijkgestemden die vervelende klusjes aan te pakken. In een relaxte sfeer, met thee, snacks en een beetje gezamenlijke motivatie, vliegen ze opeens een stuk makkelijker voorbij.</p>
     <ul>
       <li>Geen oordeel, wel een fijne stok achter de deur.</li>
       <li>Jij neemt mee wat jij wilt aanpakken.</li>
@@ -355,6 +355,49 @@ export const staticEvents: Event[] = [
   <li>4 december 2025</li>
   <li>18 december 2025</li>
 </ul>`,
+    created: "2025-10-18T10:00:00Z",
+    updated: "2025-10-18T10:00:00Z",
+  },
+  {
+    id: "25",
+    title: "Dungeons & Dragons middag met Bas",
+    date: "2025-11-20",
+    time: "13:30 - 17:30",
+    location: "De Peer, Wolff & Dekenplein 5, Utrecht",
+    description: `
+<p>Op donderdag 20 november van 13:30 tot 17:30 duiken we samen met Bas in de wereld van <strong>Dungeons & Dragons</strong>!</p>
+<p>Of je nu een doorgewinterde avonturier bent of voor het eerst de dobbelstenen rolt: iedereen is welkom. Bas neemt ons mee in spannende one-shots die speciaal zijn gemaakt voor zowel beginners als ervaren spelers. Zijn creativiteit en ervaring zorgen ervoor dat je gegarandeerd een middag vol verrassingen, avontuur en plezier beleeft.</p>
+<p>Dus… verzamel je moed, kies je karakter en kom langs!</p>
+<strong>Kosten:</strong> Gratis</p>
+`,
+    created: "2025-10-18T10:00:00Z",
+    updated: "2025-10-18T10:00:00Z",
+  },
+  {
+    id: "26",
+    title:
+      "Offline ontwaken: Een avond over je scherm loslaten en jezelf terugvinden",
+    date: "2025-11-27",
+    time: "19:30 - 21:00",
+    location: "Wolff en Dekenplein 5",
+    description: `
+    <p>
+      Tijdens deze thema-avond verkennen we samen de impact van social media en
+      telefoongebruik op ons dagelijks leven. We gaan in gesprek over hoe ons
+      leven verrijkt, maar soms ook beperkt wordt door onze schermen, en we
+      wisselen praktische tips uit. Verwacht herkenning, humor en ruimte om stil
+      te staan bij wat er gebeurt als je je scherm even loslaat. Een avond van
+      ontmoeting, reflectie en misschien wel een klein beetje ontwaken.
+    </p>
+
+    <h3>Praktisch</h3>
+    <ul>
+      <li><strong>Inloop:</strong> vanaf 19:00 uur</li>
+      <li><strong>Tijd programma:</strong> 19:30–21:00</li>
+      <li><strong>Locatie:</strong> Wolff en Dekenplein 5</li>
+      <li><strong>Aanmelden:</strong> via de <em>UU Wellbeing Week(s)</em></li>
+    </ul>
+  `,
     created: "2025-10-18T10:00:00Z",
     updated: "2025-10-18T10:00:00Z",
   },
