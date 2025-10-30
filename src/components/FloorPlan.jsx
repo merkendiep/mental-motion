@@ -56,10 +56,10 @@ const FloorPlan = () => {
           width={214}
           height={160}
           className={"right-0 top-0"}
-          onClick={() => setSelectedRoom("De Kleine Kamer")}
+          onClick={() => setSelectedRoom("De Huiskamer")}
           noLeftBorder={true}
         >
-          De Kleine Kamer
+          De Huiskamer
         </FloorPlanRoom>
 
         <FloorPlanRoom
@@ -84,10 +84,10 @@ const FloorPlan = () => {
           width={137}
           height={112}
           className={"right-[486px] bottom-0"}
-          onClick={() => setSelectedRoom("De Huiskamer")}
+          onClick={() => setSelectedRoom("De Kleine Kamer")}
           noLeftBorder={true}
         >
-          De Huiskamer
+          De Kleine Kamer
         </FloorPlanRoom>
 
         <FloorPlanRoom
