@@ -87,11 +87,9 @@ const NextEvents = ({ events }: { events: Event[] }) => (
 );
 
 const BlogPage = async () => {
-  // Fetch events from Supabase
+  // Fetch all events and upcoming events from Supabase
   const allEvents = await eventService.getAllEventsIncludingPast();
-  const upcomingEvents = allEvents.filter(
-    (event) => new Date(event.date) >= new Date()
-  );
+  const upcomingEvents = await eventService.getUpcomingEvents();
 
   return (
     <div className="flex flex-col bg-white pt-24 lg:pt-36">

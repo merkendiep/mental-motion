@@ -31,7 +31,7 @@ export interface EventSignup {
   id?: number;
   first_name: string;
   last_name: string;
-  email: string;
+  email: string; // Expected to be already normalized (lowercase, trimmed)
   mobile?: string;
   event_id: string;
   event_title: string;

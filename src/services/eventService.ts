@@ -1,5 +1,4 @@
 import { supabase, Event, EventSignup } from '@/src/lib/supabase';
-import { normalizeEmail } from '@/src/lib/validation';
 
 /**
  * Event Service
@@ -71,6 +70,7 @@ export class EventService {
 
   /**
    * Register a user for an event
+   * Note: Email should already be normalized before calling this method
    */
   async registerForEvent(signup: EventSignup): Promise<void> {
     try {
@@ -79,7 +79,7 @@ export class EventService {
         .insert({
           first_name: signup.first_name,
           last_name: signup.last_name,
-          email: normalizeEmail(signup.email),
+          email: signup.email, // Already normalized at API boundary
           mobile: signup.mobile || null,
           event_id: signup.event_id,
           event_title: signup.event_title,
