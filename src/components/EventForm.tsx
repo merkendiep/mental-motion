@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Event } from "@/src/lib/supabase";
+import { isValidEmail, isValidMobile } from "@/src/lib/validation";
 
 interface EventFormProps {
   event: Event;
@@ -18,12 +19,6 @@ export default function EventForm({ event }: EventFormProps) {
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
-
-  // Email validation function
-  const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   // Handle email change with validation
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +61,7 @@ export default function EventForm({ event }: EventFormProps) {
     }
 
     // Optional mobile validation (if provided)
-    if (mobile.trim() && !/^[\+]?[\d\s\-\(\)]{8,}$/.test(mobile.trim())) {
+    if (mobile.trim() && !isValidMobile(mobile.trim())) {
       setSubmitStatus("error");
       setErrorMessage("Voer een geldig mobiel nummer in.");
       return;

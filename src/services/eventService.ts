@@ -1,4 +1,5 @@
 import { supabase, Event, EventSignup } from '@/src/lib/supabase';
+import { normalizeEmail } from '@/src/lib/validation';
 
 /**
  * Event Service
@@ -8,6 +9,11 @@ export class EventService {
   /**
    * Get all events sorted by date (ascending)
    * Only returns future events by default
+   * 
+   * Note: Date comparison uses ISO date strings (YYYY-MM-DD) and compares
+   * at the date level only (ignoring time). Events are filtered based on
+   * the server's local date. For timezone-aware filtering, consider storing
+   * and comparing full timestamps with timezone information.
    */
   async getAllEvents(includePast: boolean = false): Promise<Event[]> {
     try {
@@ -73,7 +79,7 @@ export class EventService {
         .insert({
           first_name: signup.first_name,
           last_name: signup.last_name,
-          email: signup.email.toLowerCase().trim(),
+          email: normalizeEmail(signup.email),
           mobile: signup.mobile || null,
           event_id: signup.event_id,
           event_title: signup.event_title,

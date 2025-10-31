@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eventService } from "@/src/services/eventService";
+import { isValidEmail, isValidName, isValidMobile, normalizeEmail } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,15 +24,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Email validation
-    if (!data.email.includes("@")) {
+    if (!isValidEmail(data.email)) {
       return NextResponse.json(
         { error: "Voer een geldig e-mailadres in" },
         { status: 400 }
       );
     }
 
-    // Basic name validation
-    if (data.first_name.trim().length < 2 || data.last_name.trim().length < 2) {
+    // Name validation
+    if (!isValidName(data.first_name) || !isValidName(data.last_name)) {
       return NextResponse.json(
         { error: "Voer geldige voor- en achternaam in" },
         { status: 400 }
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Mobile validation (optional, but if provided should be valid)
-    if (data.mobile && !/^[\+]?[\d\s\-\(\)]{8,}$/.test(data.mobile.trim())) {
+    if (data.mobile && !isValidMobile(data.mobile)) {
       return NextResponse.json(
         { error: "Voer een geldig mobiel nummer in" },
         { status: 400 }
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
     await eventService.registerForEvent({
       first_name: data.first_name.trim(),
       last_name: data.last_name.trim(),
-      email: data.email.trim().toLowerCase(),
+      email: normalizeEmail(data.email),
       mobile: data.mobile?.trim() || "",
       event_id: data.event_id.trim(),
       event_title: data.event_title.trim(),

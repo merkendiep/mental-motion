@@ -121,6 +121,7 @@ After setting up the database and environment variables:
 - Consider adding more granular permissions for event management.
 - Email addresses are stored in plain text - ensure your Supabase project has appropriate security measures.
 - Consider adding duplicate registration checks (e.g., same email for same event).
+- **Important**: Event descriptions support HTML. Always sanitize HTML content before inserting it into the database to prevent XSS attacks. Consider using a library like [DOMPurify](https://github.com/cure53/DOMPurify) on the admin side when creating events.
 
 ## Troubleshooting
 
