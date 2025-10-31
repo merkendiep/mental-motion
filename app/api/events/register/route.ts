@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sheetDBService } from "@/src/lib/sheetdb";
+import { eventService } from "@/src/services/eventService";
 
 export async function POST(request: NextRequest) {
   try {
@@ -46,7 +46,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await sheetDBService.submitEventSignup({
+    // Register the event signup using the event service
+    await eventService.registerForEvent({
       first_name: data.first_name.trim(),
       last_name: data.last_name.trim(),
       email: data.email.trim().toLowerCase(),
