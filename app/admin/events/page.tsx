@@ -23,13 +23,13 @@ export default async function AdminEventsPage() {
 
   return (
     <AdminLayout userEmail={user.email}>
-      <div className="space-y-6">
+      <div className="space-y-4 lg:space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">
+          <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
             Manage Events
           </h1>
-          <p className="text-base-content/70">
-            Select an event to edit its details
+          <p className="text-sm lg:text-base text-base-content/70">
+            Edit event details with WYSIWYG editor
           </p>
         </div>
         

@@ -30,7 +30,7 @@ export default function RichTextEditor({
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "prose prose-lg max-w-none focus:outline-none min-h-[200px] p-4",
+        class: "prose prose-sm lg:prose-lg max-w-none focus:outline-none min-h-[200px] lg:min-h-[300px] p-3 lg:p-4",
       },
     },
     onUpdate: ({ editor }) => {
@@ -51,124 +51,124 @@ export default function RichTextEditor({
   return (
     <div className="border border-base-300 rounded-lg">
       {/* Toolbar */}
-      <div className="flex flex-wrap gap-1 p-2 border-b border-base-300 bg-base-100">
+      <div className="flex flex-wrap gap-1 p-2 border-b border-base-300 bg-base-100 overflow-x-auto">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("bold") ? "btn-primary" : "btn-ghost"
           }`}
           title="Bold"
         >
-          <strong>B</strong>
+          <strong className="text-xs lg:text-sm">B</strong>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("italic") ? "btn-primary" : "btn-ghost"
           }`}
           title="Italic"
         >
-          <em>I</em>
+          <em className="text-xs lg:text-sm">I</em>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("strike") ? "btn-primary" : "btn-ghost"
           }`}
           title="Strikethrough"
         >
-          <s>S</s>
+          <s className="text-xs lg:text-sm">S</s>
         </button>
-        <div className="divider divider-horizontal mx-0"></div>
+        <div className="divider divider-horizontal mx-0 hidden sm:flex"></div>
         <button
           type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("heading", { level: 2 })
               ? "btn-primary"
               : "btn-ghost"
           }`}
           title="Heading 2"
         >
-          H2
+          <span className="text-xs lg:text-sm">H2</span>
         </button>
         <button
           type="button"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 3 }).run()
           }
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("heading", { level: 3 })
               ? "btn-primary"
               : "btn-ghost"
           }`}
           title="Heading 3"
         >
-          H3
+          <span className="text-xs lg:text-sm">H3</span>
         </button>
-        <div className="divider divider-horizontal mx-0"></div>
+        <div className="divider divider-horizontal mx-0 hidden sm:flex"></div>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("bulletList") ? "btn-primary" : "btn-ghost"
           }`}
           title="Bullet List"
         >
-          • List
+          <span className="text-xs lg:text-sm">• List</span>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("orderedList") ? "btn-primary" : "btn-ghost"
           }`}
           title="Numbered List"
         >
-          1. List
+          <span className="text-xs lg:text-sm">1. List</span>
         </button>
-        <div className="divider divider-horizontal mx-0"></div>
+        <div className="divider divider-horizontal mx-0 hidden sm:flex"></div>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`btn btn-sm ${
+          className={`btn btn-xs lg:btn-sm ${
             editor.isActive("blockquote") ? "btn-primary" : "btn-ghost"
           }`}
           title="Quote"
         >
-          " Quote
+          <span className="text-xs lg:text-sm">" Quote</span>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          className="btn btn-sm btn-ghost"
+          className="btn btn-xs lg:btn-sm btn-ghost"
           title="Horizontal Rule"
         >
-          ―
+          <span className="text-xs lg:text-sm">―</span>
         </button>
-        <div className="divider divider-horizontal mx-0"></div>
+        <div className="divider divider-horizontal mx-0 hidden sm:flex"></div>
         <button
           type="button"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo()}
-          className="btn btn-sm btn-ghost"
+          className="btn btn-xs lg:btn-sm btn-ghost"
           title="Undo"
         >
-          ↶
+          <span className="text-xs lg:text-sm">↶</span>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo()}
-          className="btn btn-sm btn-ghost"
+          className="btn btn-xs lg:btn-sm btn-ghost"
           title="Redo"
         >
-          ↷
+          <span className="text-xs lg:text-sm">↷</span>
         </button>
       </div>
 

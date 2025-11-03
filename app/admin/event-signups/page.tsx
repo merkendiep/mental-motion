@@ -22,26 +22,26 @@ export default async function AdminEventSignupsPage() {
 
   return (
     <AdminLayout userEmail={user.email}>
-      <div className="space-y-6">
+      <div className="space-y-4 lg:space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">
+          <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
             Event Signups
           </h1>
-          <p className="text-base-content/70">
+          <p className="text-sm lg:text-base text-base-content/70">
             View all event registrations
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-base-content/60 text-sm">Total Signups</p>
-                <p className="text-3xl font-bold text-primary mt-1">{signups.length}</p>
+                <p className="text-base-content/60 text-xs lg:text-sm">Total Signups</p>
+                <p className="text-2xl lg:text-3xl font-bold text-primary mt-1">{signups.length}</p>
               </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 lg:w-6 lg:h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
@@ -52,14 +52,14 @@ export default async function AdminEventSignupsPage() {
         {/* Signups Table */}
         <div className="card bg-white shadow-lg rounded-2xl border border-base-200">
           <div className="overflow-x-auto">
-            <table className="table w-full">
+            <table className="table w-full text-sm lg:text-base">
               <thead>
                 <tr className="border-b border-base-300">
                   <th className="bg-base-100">Name</th>
                   <th className="bg-base-100">Email</th>
-                  <th className="bg-base-100">Mobile</th>
+                  <th className="bg-base-100 hidden md:table-cell">Mobile</th>
                   <th className="bg-base-100">Event</th>
-                  <th className="bg-base-100">Date</th>
+                  <th className="bg-base-100 hidden lg:table-cell">Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,10 +69,10 @@ export default async function AdminEventSignupsPage() {
                       <td className="font-medium">
                         {signup.first_name} {signup.last_name}
                       </td>
-                      <td>{signup.email}</td>
-                      <td>{signup.mobile || '-'}</td>
-                      <td>{signup.event_title}</td>
-                      <td className="text-sm text-base-content/60">
+                      <td className="break-all">{signup.email}</td>
+                      <td className="hidden md:table-cell">{signup.mobile || '-'}</td>
+                      <td className="break-words">{signup.event_title}</td>
+                      <td className="text-sm text-base-content/60 hidden lg:table-cell">
                         {signup.created_at ? new Date(signup.created_at).toLocaleDateString() : '-'}
                       </td>
                     </tr>
