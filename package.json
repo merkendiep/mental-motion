@@ -10,13 +10,18 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.78.0",
+    "@tiptap/extension-link": "^3.10.1",
+    "@tiptap/react": "^3.10.1",
+    "@tiptap/starter-kit": "^3.10.1",
     "moment": "^2.30.1",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-big-calendar": "^1.19.4",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "tiptap": "^1.32.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

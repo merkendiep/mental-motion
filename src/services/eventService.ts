@@ -1,4 +1,4 @@
-import { supabase, Event, EventSignup } from '@/src/lib/supabase';
+import { supabase, Event, EventSignup } from "@/src/lib/supabase";
 
 /**
  * Event Service
@@ -8,7 +8,7 @@ export class EventService {
   /**
    * Get all events sorted by date (ascending)
    * Only returns future events by default
-   * 
+   *
    * Note: Date comparison uses ISO date strings (YYYY-MM-DD) and compares
    * at the date level only (ignoring time). Events are filtered based on
    * the server's local date. For timezone-aware filtering, consider storing
@@ -17,26 +17,26 @@ export class EventService {
   async getAllEvents(includePast: boolean = false): Promise<Event[]> {
     try {
       let query = supabase
-        .from('events')
-        .select('*')
-        .order('date', { ascending: true });
+        .from("events")
+        .select("*")
+        .order("date", { ascending: true });
 
       // Filter out past events unless explicitly requested
       if (!includePast) {
-        const today = new Date().toISOString().split('T')[0];
-        query = query.gte('date', today);
+        const today = new Date().toISOString().split("T")[0];
+        query = query.gte("date", today);
       }
 
       const { data, error } = await query;
 
       if (error) {
-        console.error('Error fetching events:', error);
-        throw new Error('Failed to fetch events');
+        console.error("Error fetching events:", error);
+        throw new Error("Failed to fetch events");
       }
 
       return data || [];
     } catch (error) {
-      console.error('Event service error:', error);
+      console.error("Event service error:", error);
       throw error;
     }
   }
@@ -47,23 +47,23 @@ export class EventService {
   async getEventById(id: string): Promise<Event | null> {
     try {
       const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .eq('id', id)
+        .from("events")
+        .select("*")
+        .eq("id", id)
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') {
+        if (error.code === "PGRST116") {
           // Not found
           return null;
         }
-        console.error('Error fetching event:', error);
-        throw new Error('Failed to fetch event');
+        console.error("Error fetching event:", error);
+        throw new Error("Failed to fetch event");
       }
 
       return data;
     } catch (error) {
-      console.error('Event service error:', error);
+      console.error("Event service error:", error);
       throw error;
     }
   }
@@ -74,23 +74,21 @@ export class EventService {
    */
   async registerForEvent(signup: EventSignup): Promise<void> {
     try {
-      const { error } = await supabase
-        .from('event_signups')
-        .insert({
-          first_name: signup.first_name,
-          last_name: signup.last_name,
-          email: signup.email, // Already normalized at API boundary
-          mobile: signup.mobile || null,
-          event_id: signup.event_id,
-          event_title: signup.event_title,
-        });
+      const { error } = await supabase.from("event_signups").insert({
+        first_name: signup.first_name,
+        last_name: signup.last_name,
+        email: signup.email, // Already normalized at API boundary
+        mobile: signup.mobile || null,
+        event_id: signup.event_id,
+        event_title: signup.event_title,
+      });
 
       if (error) {
-        console.error('Error registering for event:', error);
-        throw new Error('Failed to register for event');
+        console.error("Error registering for event:", error);
+        throw new Error("Failed to register for event");
       }
     } catch (error) {
-      console.error('Event signup error:', error);
+      console.error("Event signup error:", error);
       throw error;
     }
   }
@@ -107,6 +105,38 @@ export class EventService {
    */
   async getAllEventsIncludingPast(): Promise<Event[]> {
     return this.getAllEvents(true);
+  }
+
+  /**
+   * Update an event by ID
+   */
+  async updateEvent(id: string, updates: Partial<Event>): Promise<Event> {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error updating event:", error);
+
+        if (error.code === "PGRST116") {
+          throw new Error(`Event with ID "${id}" not found in database`);
+        }
+
+        throw new Error("Failed to update event");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Event update error:", error);
+      throw error;
+    }
   }
 }
 
