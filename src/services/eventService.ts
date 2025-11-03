@@ -108,6 +108,33 @@ export class EventService {
   async getAllEventsIncludingPast(): Promise<Event[]> {
     return this.getAllEvents(true);
   }
+
+  /**
+   * Update an event by ID
+   */
+  async updateEvent(id: string, updates: Partial<Event>): Promise<Event> {
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error updating event:', error);
+        throw new Error('Failed to update event');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Event update error:', error);
+      throw error;
+    }
+  }
 }
 
 // Export a singleton instance
