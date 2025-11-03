@@ -133,6 +133,49 @@ CREATE POLICY "Authenticated users can delete blog posts"
   USING (auth.role() = 'authenticated');
 ```
 
+### 4. Newsletter Subscriptions Table
+
+This table stores newsletter subscriptions.
+
+```sql
+CREATE TABLE newsletter_subscriptions (
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  organization TEXT,
+  newsletters TEXT[] NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Add indexes for better query performance
+CREATE INDEX idx_newsletter_subscriptions_email ON newsletter_subscriptions(email);
+CREATE INDEX idx_newsletter_subscriptions_created_at ON newsletter_subscriptions(created_at);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE newsletter_subscriptions ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Anyone can insert subscriptions (public subscription)
+CREATE POLICY "Anyone can subscribe to newsletters"
+  ON newsletter_subscriptions FOR INSERT
+  WITH CHECK (true);
+
+-- Policy: Users can update their own subscription (by email)
+CREATE POLICY "Users can update their own subscription"
+  ON newsletter_subscriptions FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Policy: Only authenticated users can view subscriptions (adjust as needed)
+CREATE POLICY "Authenticated users can view subscriptions"
+  ON newsletter_subscriptions FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+-- Policy: Only authenticated users can delete subscriptions
+CREATE POLICY "Authenticated users can delete subscriptions"
+  ON newsletter_subscriptions FOR DELETE
+  USING (auth.role() = 'authenticated');
+```
+
 ## Migrating Existing Events
 
 If you have existing events in the `src/data/events.ts` file, you can migrate them to Supabase:
@@ -182,6 +225,37 @@ VALUES
 
 **Note:** For the `content` field, you can include the full blog post text with proper formatting. The `authors` field uses PostgreSQL array syntax: `ARRAY['Author1', 'Author2']`.
 
+## Migrating Newsletter Subscriptions
+
+If you have existing newsletter subscriptions from SheetDB, you can migrate them to Supabase:
+
+1. Export your existing subscriptions from SheetDB (if applicable)
+2. Go to your Supabase dashboard
+3. Navigate to the Table Editor
+4. Select the `newsletter_subscriptions` table
+5. Insert rows manually or use the SQL Editor to bulk insert
+
+Example SQL for bulk insert:
+
+```sql
+INSERT INTO newsletter_subscriptions (email, organization, newsletters)
+VALUES
+  (
+    'user@example.com',
+    'Example Organization',
+    ARRAY['monthly', 'quarterly']
+  ),
+  (
+    'another@example.com',
+    NULL,
+    ARRAY['monthly']
+  ),
+  -- Add more subscriptions...
+;
+```
+
+**Note:** The `newsletters` field uses PostgreSQL array syntax. Valid newsletter types are: `'monthly'`, `'quarterly'`, `'tips'`. Adjust based on your newsletter configuration.
+
 ## Testing the Integration
 
 After setting up the database and environment variables:
@@ -189,8 +263,11 @@ After setting up the database and environment variables:
 1. Start the development server: `npm run dev`
 2. Navigate to `/calendar` to see events from Supabase
 3. Navigate to `/blog` to see blog posts from Supabase
-3. Click on an event to view details and test registration
-4. Check the `event_signups` table in Supabase to verify registrations are being saved
+4. Navigate to `/newsletter` to test newsletter subscription
+5. Click on an event to view details and test registration
+6. Check the respective tables in Supabase to verify data is being saved:
+   - `event_signups` for event registrations
+   - `newsletter_subscriptions` for newsletter signups
 
 ## Security Notes
 
