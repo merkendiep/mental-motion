@@ -87,6 +87,52 @@ CREATE POLICY "Authenticated users can view signups"
   USING (auth.role() = 'authenticated');
 ```
 
+### 3. Blog Posts Table
+
+This table stores all blog posts that will be displayed on the blog pages.
+
+```sql
+CREATE TABLE blog_posts (
+  id SERIAL PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  banner TEXT NOT NULL,
+  authors TEXT[] NOT NULL,
+  description TEXT NOT NULL,
+  content TEXT NOT NULL,
+  date DATE NOT NULL,
+  published BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Add indexes for better query performance
+CREATE INDEX idx_blog_posts_slug ON blog_posts(slug);
+CREATE INDEX idx_blog_posts_date ON blog_posts(date);
+CREATE INDEX idx_blog_posts_published ON blog_posts(published);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Anyone can read published blog posts
+CREATE POLICY "Published blog posts are viewable by everyone"
+  ON blog_posts FOR SELECT
+  USING (published = true);
+
+-- Policy: Only authenticated users can insert/update/delete blog posts (adjust as needed)
+CREATE POLICY "Authenticated users can insert blog posts"
+  ON blog_posts FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update blog posts"
+  ON blog_posts FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can delete blog posts"
+  ON blog_posts FOR DELETE
+  USING (auth.role() = 'authenticated');
+```
+
 ## Migrating Existing Events
 
 If you have existing events in the `src/data/events.ts` file, you can migrate them to Supabase:
@@ -106,12 +152,43 @@ VALUES
 ;
 ```
 
+## Migrating Existing Blog Posts
+
+If you have existing blog posts in the `app/blog/page.tsx` file, you can migrate them to Supabase:
+
+1. Go to your Supabase dashboard
+2. Navigate to the Table Editor
+3. Select the `blog_posts` table
+4. Insert rows manually or use the SQL Editor to bulk insert
+
+Example SQL for bulk insert:
+
+```sql
+INSERT INTO blog_posts (slug, title, banner, authors, description, content, date, published)
+VALUES
+  (
+    'stabiele-basis-voor-jongvolwassenen-in-utrecht',
+    'Stabiele basis voor jongvolwassenen in Utrecht',
+    '/images/friendly-hug-outside.jpeg',
+    ARRAY['Marik'],
+    'Ik werk dagelijks met studenten en andere jongvolwassenen in Utrecht...',
+    'Full content here...',
+    '2025-10-21',
+    true
+  ),
+  -- Add more blog posts...
+;
+```
+
+**Note:** For the `content` field, you can include the full blog post text with proper formatting. The `authors` field uses PostgreSQL array syntax: `ARRAY['Author1', 'Author2']`.
+
 ## Testing the Integration
 
 After setting up the database and environment variables:
 
 1. Start the development server: `npm run dev`
 2. Navigate to `/calendar` to see events from Supabase
+3. Navigate to `/blog` to see blog posts from Supabase
 3. Click on an event to view details and test registration
 4. Check the `event_signups` table in Supabase to verify registrations are being saved
 
