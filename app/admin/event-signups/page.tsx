@@ -50,36 +50,36 @@ export default async function AdminEventSignupsPage() {
         </div>
 
         {/* Signups Table */}
-        <div className="card bg-white shadow-lg rounded-2xl border border-base-200">
+        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="table w-full text-sm lg:text-base">
+            <table className="table w-full text-xs sm:text-sm lg:text-base">
               <thead>
                 <tr className="border-b border-base-300">
-                  <th className="bg-base-100">Name</th>
-                  <th className="bg-base-100">Email</th>
-                  <th className="bg-base-100 hidden md:table-cell">Mobile</th>
-                  <th className="bg-base-100">Event</th>
-                  <th className="bg-base-100 hidden lg:table-cell">Date</th>
+                  <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Name</th>
+                  <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Email</th>
+                  <th className="bg-base-100 hidden md:table-cell p-2 sm:p-3 lg:p-4">Mobile</th>
+                  <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Event</th>
+                  <th className="bg-base-100 hidden lg:table-cell p-2 sm:p-3 lg:p-4">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {signups.length > 0 ? (
                   signups.map((signup) => (
                     <tr key={signup.id} className="hover:bg-base-100">
-                      <td className="font-medium">
+                      <td className="font-medium p-2 sm:p-3 lg:p-4">
                         {signup.first_name} {signup.last_name}
                       </td>
-                      <td className="break-all">{signup.email}</td>
-                      <td className="hidden md:table-cell">{signup.mobile || '-'}</td>
-                      <td className="break-words">{signup.event_title}</td>
-                      <td className="text-sm text-base-content/60 hidden lg:table-cell">
+                      <td className="break-all p-2 sm:p-3 lg:p-4">{signup.email}</td>
+                      <td className="hidden md:table-cell p-2 sm:p-3 lg:p-4">{signup.mobile || '-'}</td>
+                      <td className="break-words p-2 sm:p-3 lg:p-4">{signup.event_title}</td>
+                      <td className="text-xs sm:text-sm text-base-content/60 hidden lg:table-cell p-2 sm:p-3 lg:p-4">
                         {signup.created_at ? new Date(signup.created_at).toLocaleDateString() : '-'}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="text-center py-8 text-base-content/60">
+                    <td colSpan={5} className="text-center py-8 text-base-content/60 text-sm">
                       No signups found
                     </td>
                   </tr>

@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -27,6 +29,10 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
     } catch (error) {
       console.error("Error signing out:", error);
     }
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
   };
 
   const navItems = [
@@ -129,17 +135,70 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-white">
+      {/* Mobile Header with Hamburger */}
+      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-base-300 shadow-md">
+        <div className="flex items-center justify-between p-4">
+          <div>
+            <h1 className="text-xl font-bold text-primary">Admin Panel</h1>
+            <p className="text-xs text-base-content/60">Mental Motion</p>
+          </div>
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="btn btn-ghost btn-square"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isSidebarOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 min-h-screen bg-white border-r border-base-300 shadow-lg">
-          {/* Logo/Header */}
-          <div className="p-6 border-b border-base-300">
+        <aside
+          className={`
+            fixed lg:sticky top-0 z-50 lg:z-auto
+            w-64 h-screen bg-white border-r border-base-300 shadow-lg
+            transform transition-transform duration-300 ease-in-out
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          `}
+        >
+          {/* Logo/Header - Hidden on mobile (shown in mobile header instead) */}
+          <div className="hidden lg:block p-6 border-b border-base-300">
             <h1 className="text-2xl font-bold text-primary">Admin Panel</h1>
             <p className="text-sm text-base-content/60 mt-1">Mental Motion</p>
           </div>
 
           {/* Navigation */}
-          <nav className="p-4">
+          <nav className="p-4 mt-16 lg:mt-0">
             <ul className="space-y-2">
               {navItems.map((item) => {
                 const isActive = pathname === item.path;
@@ -147,6 +206,7 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
                   <li key={item.path}>
                     <Link
                       href={item.path}
+                      onClick={closeSidebar}
                       className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                         isActive
                           ? "bg-primary text-primary-content shadow-md"
@@ -195,7 +255,9 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8">{children}</main>
+        <main className="flex-1 p-4 md:p-6 lg:p-8 w-full lg:w-auto min-w-0">
+          {children}
+        </main>
       </div>
     </div>
   );
