@@ -3,6 +3,8 @@ import { getCurrentUser, isAdmin } from '@/src/lib/auth';
 import AdminLayout from '@/src/components/AdminLayout';
 import Link from 'next/link';
 import { eventService } from '@/src/services/eventService';
+import { blogService } from '@/src/services/blogService';
+import { newsletterService } from '@/src/services/newsletterService';
 
 export default async function AdminDashboardPage() {
   // Check authentication
@@ -18,9 +20,11 @@ export default async function AdminDashboardPage() {
     redirect('/');
   }
 
-  // Fetch some stats for the dashboard
+  // Fetch stats for the dashboard
   const events = await eventService.getAllEventsIncludingPast();
   const upcomingEvents = await eventService.getUpcomingEvents();
+  const blogPosts = await blogService.getAllPostsIncludingUnpublished();
+  const newsletters = await newsletterService.getAllSubscriptions();
 
   return (
     <AdminLayout userEmail={user.email}>
@@ -31,7 +35,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -49,12 +53,12 @@ export default async function AdminDashboardPage() {
           <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-base-content/60 text-sm">Upcoming Events</p>
-                <p className="text-3xl font-bold text-success mt-1">{upcomingEvents.length}</p>
+                <p className="text-base-content/60 text-sm">Blog Posts</p>
+                <p className="text-3xl font-bold text-success mt-1">{blogPosts.length}</p>
               </div>
               <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
               </div>
             </div>
@@ -63,12 +67,26 @@ export default async function AdminDashboardPage() {
           <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-base-content/60 text-sm">Past Events</p>
-                <p className="text-3xl font-bold text-base-content mt-1">{events.length - upcomingEvents.length}</p>
+                <p className="text-base-content/60 text-sm">Newsletter Subs</p>
+                <p className="text-3xl font-bold text-info mt-1">{newsletters.length}</p>
               </div>
-              <div className="w-12 h-12 bg-base-300 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-base-content" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div className="w-12 h-12 bg-info/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-base-content/60 text-sm">Upcoming Events</p>
+                <p className="text-3xl font-bold text-warning mt-1">{upcomingEvents.length}</p>
+              </div>
+              <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
             </div>
@@ -78,7 +96,7 @@ export default async function AdminDashboardPage() {
         {/* Quick Actions */}
         <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
           <h2 className="text-xl font-bold text-primary mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <Link
               href="/admin/events"
               className="btn btn-lg bg-primary/10 hover:bg-primary/20 text-primary border-primary/20 flex flex-col items-center gap-2 h-auto py-6"
@@ -106,7 +124,17 @@ export default async function AdminDashboardPage() {
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
-              <span>Manage Blog Posts</span>
+              <span>Blog Posts</span>
+            </Link>
+
+            <Link
+              href="/admin/newsletter-signups"
+              className="btn btn-lg bg-info/10 hover:bg-info/20 text-info border-info/20 flex flex-col items-center gap-2 h-auto py-6"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+              </svg>
+              <span>Newsletter</span>
             </Link>
 
             <Link

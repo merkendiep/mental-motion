@@ -1,35 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser, isAdmin } from '@/src/lib/auth';
 import AdminLayout from '@/src/components/AdminLayout';
-
-// Since blog posts are currently hardcoded in the blog page,
-// we'll display them as read-only for now
-const posts = [
-  {
-    title: "Stabiele basis voor jongvolwassenen in Utrecht",
-    slug: "stabiele-basis-voor-jongvolwassenen-in-utrecht",
-    authors: ["Marik"],
-    date: "21-10-2025",
-  },
-  {
-    title: "One year in the making",
-    slug: "een-jaar-in-de-maak",
-    authors: ["Sofia"],
-    date: "21-09-2025",
-  },
-  {
-    title: "De tegelwijsheden hangen!",
-    slug: "de-tegelwijsheden-hangen",
-    authors: ["Marik", "Sofia"],
-    date: "18-10-2024",
-  },
-  {
-    title: "MentalMotion op de UITweek",
-    slug: "mental-motion-op-de-uitweek",
-    authors: ["Marik", "Sofia"],
-    date: "12-08-2024",
-  },
-];
+import { blogService } from '@/src/services/blogService';
 
 export default async function AdminBlogPostsPage() {
   // Check authentication
@@ -45,6 +17,9 @@ export default async function AdminBlogPostsPage() {
     redirect('/');
   }
 
+  // Fetch all blog posts from Supabase
+  const posts = await blogService.getAllPostsIncludingUnpublished();
+
   return (
     <AdminLayout userEmail={user.email}>
       <div className="space-y-6">
@@ -53,18 +28,8 @@ export default async function AdminBlogPostsPage() {
             Blog Posts
           </h1>
           <p className="text-base-content/70">
-            Manage blog posts
+            Manage blog posts from Supabase database
           </p>
-        </div>
-
-        {/* Info Alert */}
-        <div className="alert alert-info">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>
-            Blog posts are currently managed in the codebase. Database integration coming soon.
-          </span>
         </div>
 
         {/* Stats */}
@@ -82,69 +47,86 @@ export default async function AdminBlogPostsPage() {
               </div>
             </div>
           </div>
+
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-base-content/60 text-sm">Published</p>
+                <p className="text-3xl font-bold text-success mt-1">
+                  {posts.filter(p => p.published).length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-base-content/60 text-sm">Drafts</p>
+                <p className="text-3xl font-bold text-warning mt-1">
+                  {posts.filter(p => !p.published).length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Blog Posts List */}
         <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
           <div className="space-y-4">
-            {posts.map((post, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-base-100 rounded-lg border border-base-200"
-              >
-                <div>
-                  <h3 className="font-semibold text-base-content">{post.title}</h3>
-                  <p className="text-sm text-base-content/60 mt-1">
-                    By {post.authors.join(', ')} • {post.date}
-                  </p>
-                  <p className="text-xs text-base-content/40 mt-1">
-                    Slug: {post.slug}
-                  </p>
-                </div>
-                <a
-                  href={`/blog/${post.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-sm btn-ghost"
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <div
+                  key={post.id}
+                  className="flex items-center justify-between p-4 bg-base-100 rounded-lg border border-base-200"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-base-content">{post.title}</h3>
+                      {post.published ? (
+                        <span className="badge badge-success badge-sm">Published</span>
+                      ) : (
+                        <span className="badge badge-warning badge-sm">Draft</span>
+                      )}
+                    </div>
+                    <p className="text-sm text-base-content/60 mt-1">
+                      By {post.authors.join(', ')} • {post.date}
+                    </p>
+                    <p className="text-xs text-base-content/40 mt-1">
+                      Slug: {post.slug}
+                    </p>
+                    <p className="text-sm text-base-content/70 mt-2 line-clamp-2">
+                      {post.description}
+                    </p>
+                  </div>
+                  <a
+                    href={`/blog/${post.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-sm btn-ghost"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-base-content/60">
+                No blog posts found in database
               </div>
-            ))}
+            )}
           </div>
-        </div>
-
-        {/* Future Feature Info */}
-        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
-          <h2 className="text-xl font-bold text-primary mb-4">Coming Soon</h2>
-          <ul className="space-y-2 text-base-content/70">
-            <li className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Store blog posts in Supabase database
-            </li>
-            <li className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Create and edit blog posts with WYSIWYG editor
-            </li>
-            <li className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Upload and manage blog post images
-            </li>
-            <li className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Publish/unpublish posts
-            </li>
-          </ul>
         </div>
       </div>
     </AdminLayout>
