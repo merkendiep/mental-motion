@@ -3,15 +3,13 @@
 import { useState } from 'react';
 import { Event } from '@/src/lib/supabase';
 import RichTextEditor from './RichTextEditor';
-import { signOut } from '@/src/lib/auth';
 import { useRouter } from 'next/navigation';
 
 interface EventEditClientProps {
   events: Event[];
-  userEmail: string;
 }
 
-export default function EventEditClient({ events, userEmail }: EventEditClientProps) {
+export default function EventEditClient({ events }: EventEditClientProps) {
   const router = useRouter();
   const [selectedEventId, setSelectedEventId] = useState<string>('');
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
@@ -90,31 +88,8 @@ export default function EventEditClient({ events, userEmail }: EventEditClientPr
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      router.push('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Header with user info and sign out */}
-      <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4">
-        <div className="flex items-center justify-between">
-          <div className="text-sm">
-            Logged in as: <span className="font-semibold">{userEmail}</span>
-          </div>
-          <button onClick={handleSignOut} className="btn btn-sm btn-ghost">
-            Sign Out
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Event List */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">{/* Event List */}
         <div className="lg:col-span-1">
           <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6">
             <h2 className="text-xl font-bold text-primary mb-4">Select Event</h2>
@@ -307,6 +282,5 @@ export default function EventEditClient({ events, userEmail }: EventEditClientPr
           )}
         </div>
       </div>
-    </div>
   );
 }

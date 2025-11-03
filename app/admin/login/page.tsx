@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 
     try {
       await signInWithEmail(email, password);
-      router.push('/events/edit');
+      router.push('/admin/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in');
     } finally {
