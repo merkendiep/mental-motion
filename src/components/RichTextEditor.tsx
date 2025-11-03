@@ -1,9 +1,9 @@
 "use client";
 
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
-import { useEffect } from 'react';
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+import { useEffect } from "react";
 
 interface RichTextEditorProps {
   content: string;
@@ -11,21 +11,26 @@ interface RichTextEditorProps {
   placeholder?: string;
 }
 
-export default function RichTextEditor({ content, onChange, placeholder }: RichTextEditorProps) {
+export default function RichTextEditor({
+  content,
+  onChange,
+  placeholder,
+}: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-primary underline',
+          class: "text-primary underline",
         },
       }),
     ],
     content,
+    immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[200px] p-4',
+        class: "prose prose-lg max-w-none focus:outline-none min-h-[200px] p-4",
       },
     },
     onUpdate: ({ editor }) => {
@@ -50,7 +55,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`btn btn-sm ${editor.isActive('bold') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("bold") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Bold"
         >
           <strong>B</strong>
@@ -58,7 +65,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`btn btn-sm ${editor.isActive('italic') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("italic") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Italic"
         >
           <em>I</em>
@@ -66,7 +75,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`btn btn-sm ${editor.isActive('strike') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("strike") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Strikethrough"
         >
           <s>S</s>
@@ -74,16 +85,28 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <div className="divider divider-horizontal mx-0"></div>
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`btn btn-sm ${editor.isActive('heading', { level: 2 }) ? 'btn-primary' : 'btn-ghost'}`}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={`btn btn-sm ${
+            editor.isActive("heading", { level: 2 })
+              ? "btn-primary"
+              : "btn-ghost"
+          }`}
           title="Heading 2"
         >
           H2
         </button>
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={`btn btn-sm ${editor.isActive('heading', { level: 3 }) ? 'btn-primary' : 'btn-ghost'}`}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          className={`btn btn-sm ${
+            editor.isActive("heading", { level: 3 })
+              ? "btn-primary"
+              : "btn-ghost"
+          }`}
           title="Heading 3"
         >
           H3
@@ -92,7 +115,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`btn btn-sm ${editor.isActive('bulletList') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("bulletList") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Bullet List"
         >
           • List
@@ -100,7 +125,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`btn btn-sm ${editor.isActive('orderedList') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("orderedList") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Numbered List"
         >
           1. List
@@ -109,7 +136,9 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`btn btn-sm ${editor.isActive('blockquote') ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn btn-sm ${
+            editor.isActive("blockquote") ? "btn-primary" : "btn-ghost"
+          }`}
           title="Quote"
         >
           " Quote
@@ -142,7 +171,7 @@ export default function RichTextEditor({ content, onChange, placeholder }: RichT
           ↷
         </button>
       </div>
-      
+
       {/* Editor Content */}
       <div className="bg-white">
         <EditorContent editor={editor} />

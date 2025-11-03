@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { eventService } from '@/src/services/eventService';
-import { getCurrentUser, isAdmin } from '@/src/lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser, isAdmin } from "@/src/lib/auth";
+import { createServerSupabaseClient } from "@/src/lib/supabase";
 
 export async function PUT(request: NextRequest) {
   try {
     // Check authentication
     const user = await getCurrentUser();
-    
+
     if (!user || !user.email) {
       return NextResponse.json(
-        { error: 'Unauthorized - Please sign in' },
+        { error: "Unauthorized - Please sign in" },
         { status: 401 }
       );
     }
@@ -18,7 +18,7 @@ export async function PUT(request: NextRequest) {
     const adminStatus = await isAdmin(user.email);
     if (!adminStatus) {
       return NextResponse.json(
-        { error: 'Forbidden - Admin access required' },
+        { error: "Forbidden - Admin access required" },
         { status: 403 }
       );
     }
@@ -30,7 +30,7 @@ export async function PUT(request: NextRequest) {
     // Validate required fields
     if (!id) {
       return NextResponse.json(
-        { error: 'Event ID is required' },
+        { error: "Event ID is required" },
         { status: 400 }
       );
     }
@@ -43,17 +43,46 @@ export async function PUT(request: NextRequest) {
     if (location !== undefined) updates.location = location;
     if (description !== undefined) updates.description = description;
 
-    // Update event
-    const updatedEvent = await eventService.updateEvent(id, updates);
+    // Create authenticated Supabase client
+    const supabase = await createServerSupabaseClient();
+
+    // Update event using authenticated client
+    const { data, error } = await supabase
+      .from("events")
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error updating event:", error);
+
+      if (error.code === "PGRST116") {
+        return NextResponse.json(
+          { error: `Event with ID "${id}" not found in database` },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(
+        { error: "Failed to update event" },
+        { status: 500 }
+      );
+    }
+
+    const updatedEvent = data;
 
     return NextResponse.json({
       success: true,
       event: updatedEvent,
     });
   } catch (error: any) {
-    console.error('Error updating event:', error);
+    console.error("Error updating event:", error);
     return NextResponse.json(
-      { error: error.message || 'Failed to update event' },
+      { error: error.message || "Failed to update event" },
       { status: 500 }
     );
   }
