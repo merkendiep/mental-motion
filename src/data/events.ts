@@ -401,6 +401,23 @@ export const staticEvents: Event[] = [
     created: "2025-10-18T10:00:00Z",
     updated: "2025-10-18T10:00:00Z",
   },
+  {
+    id: "27",
+    title: `Rust in de race: een thema-avond over prestatiedruk`,
+    date: `2025-11-13`,
+    time: `19:30 - 21:00`,
+    location: `Wolff en Dekenplein 5`,
+    description: `Prestatiedruk – we voelen het allemaal wel eens. Weinig tijd voor leuke dingen, allemaal deadlines en zorgen over de toekomst… ‘als ik dit nu niet doe krijg ik daar later spijt van, of krijg ik nooit meer een kans’. Zo houden we onszelf in beweging, en putten we onszelf makkelijk uit.
+Tijdens deze thema-avond in samenwerking met de WachtVerzachter zetten we 'prestatie op pauze' en gaan we in gesprek over wat druk met ons doet. Samen verkennen we hoe we omgaan met moeten, mogen en alles daartussen. Niet om het perfect te doen, maar om elkaar te steunen en te begrijpen.
+  <h3>Praktisch</h3>
+    <ul>
+      <li><strong>Inloop:</strong> vanaf 19:00 uur</li>
+      <li><strong>Tijd programma:</strong> 19:30–21:00</li>
+      <li><strong>Locatie:</strong> Wolff en Dekenplein 5</li>
+`,
+    created: "2025-10-18T10:00:00Z",
+    updated: "2025-10-18T10:00:00Z",
+  },
 ];
 
 // Helper functions to interact with static events data
