@@ -1,48 +1,10 @@
-"use client";
-
 import React from "react";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder.jsx";
+import { blogService } from "@/src/services/blogService";
 
-const posts = [
-  {
-    title: "Stabiele basis voor jongvolwassenen in Utrecht",
-    slug: "stabiele-basis-voor-jongvolwassenen-in-utrecht",
-    banner: "/images/friendly-hug-outside.jpeg",
-    authors: ["Marik"],
-    description: `Ik werk dagelijks met studenten en andere jongvolwassenen in Utrecht. Ik zie gezichten die moe zijn maar doorgaan. Ik hoor verhalen over roosters die schuiven en kamers die te duur zijn. Soms is er chaos. Vaker zijn het kleine dingen die optellen. Een gemiste les Een nacht slecht sla...`,
-    date: "21-10-2025",
-  },
-  {
-    title: "One year in the making",
-    slug: "een-jaar-in-de-maak",
-    banner: "/images/blogpost-3-cover.png",
-    authors: ["Sofia"],
-    description:
-      "Jaar 2 is gestart! Dat klinkt minder spectaculair dan hoe het voelt. Toen ik begon bij MentalMotion, heette het nog geen MentalMotion, en was het niet veel meer dan een idee. Ons eerste jaar was een feest omdat we eindelijk, na zo lang plannen maken, mochten doen wat we wilden doen.",
-    date: "21-09-2025",
-  },
-  {
-    title: "De tegelwijsheden hangen!",
-    slug: "de-tegelwijsheden-hangen",
-    banner: "/images/praat-erover-dat-helpt-echt.jpeg",
-    authors: ["Marik", "Sofia"],
-    description:
-      "Op 20 september organiseerden we bij MentalMotion een klusdag op onze locatie De Peer, om deze helemaal gereed te maken voor jullie! Tijdens deze dag hebben we onder andere de grote raamstickers geplakt, een groot whiteboard opgehangen en de prachtige tegeltjes, gemaakt door studenten tijdens de UIT, een mooie plek",
-    date: "18-10-2024",
-  },
-  {
-    title: "MentalMotion op de UITweek",
-    slug: "mental-motion-op-de-uitweek",
-    banner: "/images/Uitweek2024.jpeg",
-    authors: ["Marik", "Sofia"],
-    description:
-      "Op 12 Augustus stonden we met MentalMotion op de UITweek! Tijdens deze dag konden de nieuwe studenten met ons kennismaken en kon je een eigen tegelwijsheid schrijven voor jezelf of de ander.\n" +
-      "We hebben een hele leuke en warme dag gehad!",
-    date: "12-08-2024",
-  },
-];
-
-const BlogPage = () => {
+const BlogPage = async () => {
+  // Fetch blog posts from Supabase
+  const posts = await blogService.getPublishedPosts();
   return (
     <div className="flex flex-col bg-base-100 pt-24 lg:pt-44">
       <div className="max-w-5xl mx-auto px-4 w-full">
