@@ -1,26 +1,40 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signInWithEmail } from '@/src/lib/auth';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
-      await signInWithEmail(email, password);
-      router.push('/admin/dashboard');
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to sign in");
+      }
+
+      // Refresh the page to update the session
+      router.push("/admin/dashboard");
+      router.refresh();
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
+      setError(err.message || "Failed to sign in");
     } finally {
       setIsLoading(false);
     }
@@ -33,7 +47,7 @@ export default function AdminLoginPage() {
           <h1 className="text-3xl font-bold text-primary mb-6 text-center">
             Admin Login
           </h1>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="form-control">
               <label className="label">
@@ -85,9 +99,9 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className={`btn btn-primary w-full ${isLoading ? 'loading' : ''}`}
+              className={`btn btn-primary w-full ${isLoading ? "loading" : ""}`}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
         </div>
