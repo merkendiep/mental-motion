@@ -210,7 +210,7 @@ const Calendar = ({ events = [] }: CalendarProps) => {
             onNavigate={handleNavigate}
             onView={handleViewChange}
             toolbar={false} // We use custom toolbar
-            style={{ height: view === "agenda" ? 400 : 600 }}
+            style={{ height: view === "agenda" ? 400 : 840 }}
             components={{
               event: EventComponent,
             }}
@@ -289,10 +289,15 @@ const Calendar = ({ events = [] }: CalendarProps) => {
 
         .calendar-container .rbc-month-row {
           border-bottom: 1px solid #f3f4f6;
+          min-height: 160px;
         }
 
         .calendar-container .rbc-day-bg {
           border-left: 1px solid #f3f4f6;
+        }
+
+        .calendar-container .rbc-month-view .rbc-day-slot {
+          min-height: 160px;
         }
 
         .calendar-container .rbc-time-view .rbc-time-gutter {
