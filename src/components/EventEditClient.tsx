@@ -84,7 +84,7 @@ export default function EventEditClient({ events, userEmail }: EventEditClientPr
       }
     } catch (error: any) {
       setSubmitStatus('error');
-      setErrorMessage(error.message || 'Er ging iets mis. Probeer het opnieuw.');
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
