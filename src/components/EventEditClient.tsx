@@ -37,6 +37,9 @@ export default function EventEditClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "upcoming" | "past">("all");
 
+  // Get today's date for filtering (memoized to avoid recalculation)
+  const today = useMemo(() => new Date().toISOString().split("T")[0], []);
+
   // Filter and search events
   const filteredEvents = useMemo(() => {
     let filtered = [...events];
@@ -47,14 +50,13 @@ export default function EventEditClient({
       filtered = filtered.filter(
         (event) =>
           event.title.toLowerCase().includes(query) ||
-          event.location.toLowerCase().includes(query) ||
+          (event.location && event.location.toLowerCase().includes(query)) ||
           event.date.includes(query)
       );
     }
     
     // Apply status filter
     if (statusFilter !== "all") {
-      const today = new Date().toISOString().split("T")[0];
       filtered = filtered.filter((event) => {
         if (statusFilter === "upcoming") {
           return event.date >= today;
@@ -66,7 +68,7 @@ export default function EventEditClient({
     }
     
     return filtered;
-  }, [events, searchQuery, statusFilter]);
+  }, [events, searchQuery, statusFilter, today]);
 
   // Filter signups for the selected event
   const eventSignups = useMemo(() => {
@@ -305,7 +307,7 @@ export default function EventEditClient({
                 const eventSignupCount = signups.filter(
                   (signup) => signup.event_id === event.id
                 ).length;
-                const isPastEvent = event.date < new Date().toISOString().split("T")[0];
+                const isPastEvent = event.date < today;
                 
                 return (
                   <button

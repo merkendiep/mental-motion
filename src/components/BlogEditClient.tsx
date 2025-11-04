@@ -56,9 +56,9 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (post) =>
-          post.title.toLowerCase().includes(query) ||
-          post.description.toLowerCase().includes(query) ||
-          post.slug.toLowerCase().includes(query)
+          (post.title && post.title.toLowerCase().includes(query)) ||
+          (post.description && post.description.toLowerCase().includes(query)) ||
+          (post.slug && post.slug.toLowerCase().includes(query))
       );
     }
     
