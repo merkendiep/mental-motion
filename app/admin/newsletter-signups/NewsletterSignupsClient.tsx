@@ -320,7 +320,7 @@ export default function NewsletterSignupsClient({
             </div>
           </div>
 
-          <div
+          {/* <div
             className={`card bg-white shadow-lg rounded-2xl border-2 p-4 lg:p-6 cursor-pointer transition-all ${
               filter === "tips"
                 ? "border-warning"
@@ -351,7 +351,7 @@ export default function NewsletterSignupsClient({
                 </svg>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Filter Info */}
