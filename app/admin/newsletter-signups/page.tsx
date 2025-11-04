@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser, isAdmin } from '@/src/lib/auth';
 import AdminLayout from '@/src/components/AdminLayout';
-import { newsletterService } from '@/src/services/newsletterService';
+import { newsletterService, NewsletterSubscription } from '@/src/services/newsletterService';
 
 export default async function AdminNewsletterSignupsPage() {
   // Check authentication
@@ -18,7 +18,15 @@ export default async function AdminNewsletterSignupsPage() {
   }
 
   // Fetch all newsletter subscriptions
-  const subscriptions = await newsletterService.getAllSubscriptions();
+  let subscriptions: NewsletterSubscription[] = [];
+  let errorMessage: string | null = null;
+  
+  try {
+    subscriptions = await newsletterService.getAllSubscriptions();
+  } catch (error) {
+    console.error('Error fetching newsletter subscriptions:', error);
+    errorMessage = error instanceof Error ? error.message : 'Unknown error';
+  }
 
   // Calculate stats
   const totalSubscriptions = subscriptions.length;
@@ -37,6 +45,21 @@ export default async function AdminNewsletterSignupsPage() {
             View all newsletter subscriptions from Supabase database
           </p>
         </div>
+
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="alert alert-error shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <h3 className="font-bold">Error loading subscriptions</h3>
+              <div className="text-xs">{errorMessage}</div>
+              <div className="text-xs mt-2">Make sure Supabase environment variables are configured:</div>
+              <div className="text-xs font-mono">NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY</div>
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">

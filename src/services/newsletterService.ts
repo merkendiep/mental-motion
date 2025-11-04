@@ -28,7 +28,7 @@ export class NewsletterService {
       // Check if subscription already exists
       const { data: existing, error: fetchError } = await supabase
         .from('newsletter_subscriptions')
-        .select('id, newsletters')
+        .select('id, newsletters, organization')
         .eq('email', normalizedEmail)
         .maybeSingle();
 
