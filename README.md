@@ -1,5 +1,27 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Mental Motion - Student Peer Support Center
+
+This application provides a platform for managing events and facilitating peer support for students.
+
+## Features
+
+- **Event Management**: Events are stored and retrieved from Supabase database
+- **Event Calendar**: Visual calendar showing all upcoming events
+- **Event Registration**: Users can register for events directly through the platform
+- **Clean Architecture**: Separation of concerns with dedicated services and components
+
+## Environment Setup
+
+1. Copy `.env.example` to `.env.local`
+2. Add your Supabase credentials:
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+For detailed Supabase setup instructions, see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md).
+
 ## Getting Started
 
 First, run the development server:

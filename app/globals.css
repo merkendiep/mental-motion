@@ -61,3 +61,28 @@ body {
   --depth: 1;
   --noise: 1;
 }
+
+/* Tiptap Editor Styles */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+  margin-left: 0;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid var(--color-base-300);
+  margin: 2rem 0;
+}

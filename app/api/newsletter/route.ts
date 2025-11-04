@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sheetDBService } from "@/src/lib/sheetdb";
+import { newsletterService } from "@/src/services/newsletterService";
+import { isValidEmail } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,8 +14,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Email validation
-    if (!data.email.includes("@") || data.email.length < 5) {
+    // Email validation using validation utility
+    if (!isValidEmail(data.email)) {
       return NextResponse.json(
         { error: "Voer een geldig e-mailadres in" },
         { status: 400 }
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate newsletter selections
-    const validNewsletters = ["algemeen", "evenementen", "tips"];
+    const validNewsletters = ["monthly", "quarterly", "tips"];
     const invalidNewsletters = data.newsletters.filter(
       (newsletter: string) => !validNewsletters.includes(newsletter)
     );
@@ -34,9 +35,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await sheetDBService.submitNewsletter({
+    // Subscribe using newsletter service
+    await newsletterService.subscribe({
       email: data.email.trim().toLowerCase(),
-      organization: data.organization?.trim() || "",
+      organization: data.organization?.trim() || undefined,
       newsletters: data.newsletters,
     });
 
