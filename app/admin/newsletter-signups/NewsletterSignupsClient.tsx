@@ -20,6 +20,8 @@ export default function NewsletterSignupsClient({
 }: NewsletterSignupsClientProps) {
   const [filter, setFilter] = useState<FilterType>("all");
   const [dateRange, setDateRange] = useState<DateRangeType>("all-time");
+  const [searchEmail, setSearchEmail] = useState("");
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
   // Helper function to filter by date range
   const filterByDateRange = (subscription: NewsletterSubscription) => {
@@ -45,7 +47,7 @@ export default function NewsletterSignupsClient({
     }
   };
 
-  // Sort subscriptions by date descending and filter by newsletter type and date range
+  // Sort subscriptions by date descending and filter by newsletter type, date range, and email search
   const filteredSubscriptions = useMemo(() => {
     // First sort by date descending
     const sorted = [...subscriptions].sort((a, b) => {
@@ -61,9 +63,50 @@ export default function NewsletterSignupsClient({
       const matchesNewsletterType =
         filter === "all" || s.newsletters.includes(filter);
       const matchesDateRange = filterByDateRange(s);
-      return matchesNewsletterType && matchesDateRange;
+      const matchesEmail =
+        searchEmail.trim() === "" ||
+        s.email.toLowerCase().includes(searchEmail.toLowerCase().trim()) ||
+        (s.organization &&
+          s.organization
+            .toLowerCase()
+            .includes(searchEmail.toLowerCase().trim()));
+      return matchesNewsletterType && matchesDateRange && matchesEmail;
     });
-  }, [subscriptions, filter, dateRange]);
+  }, [subscriptions, filter, dateRange, searchEmail]);
+
+  // Handle subscription deletion
+  const handleDelete = async (subscription: NewsletterSubscription) => {
+    if (!subscription.id) return;
+
+    const confirmed = confirm(
+      `Are you sure you want to delete the subscription for ${subscription.email}?`
+    );
+
+    if (!confirmed) return;
+
+    setIsDeleting(subscription.id);
+
+    try {
+      const response = await fetch("/api/newsletter/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: subscription.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete subscription");
+      }
+
+      // Refresh the page to update the list
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting subscription:", error);
+      alert("Failed to delete subscription. Please try again.");
+      setIsDeleting(null);
+    }
+  };
 
   // Calculate stats (always use full dataset for stats)
   const totalSubscriptions = subscriptions.length;
@@ -88,7 +131,7 @@ export default function NewsletterSignupsClient({
   return (
     <AdminLayout userEmail={userEmail}>
       <div className="space-y-4 lg:space-y-6">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
               Newsletter Subscriptions
@@ -98,42 +141,46 @@ export default function NewsletterSignupsClient({
             </p>
           </div>
 
-          {/* Date Range Filter */}
-          <div className="card bg-white shadow-sm border border-base-200 p-4 rounded-xl">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <label
-                htmlFor="dateRange"
-                className="text-sm font-semibold text-base-content flex items-center gap-2"
+          {/* Filters Container */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:min-w-[400px]">
+            {/* Email Search */}
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search by email or organization..."
+                value={searchEmail}
+                onChange={(e) => setSearchEmail(e.target.value)}
+                className="input input-bordered input-sm w-full pl-10"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/40"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-                Filter by date:
-              </label>
-              <select
-                id="dateRange"
-                value={dateRange}
-                onChange={(e) => setDateRange(e.target.value as DateRangeType)}
-                className="select select-bordered w-full sm:w-auto min-w-[200px]"
-              >
-                {dateRangeOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
             </div>
+
+            {/* Date Range Filter */}
+            <select
+              id="dateRange"
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value as DateRangeType)}
+              className="select select-bordered select-sm w-full sm:w-auto"
+            >
+              {dateRangeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -308,7 +355,9 @@ export default function NewsletterSignupsClient({
         </div>
 
         {/* Filter Info */}
-        {(filter !== "all" || dateRange !== "all-time") && (
+        {(filter !== "all" ||
+          dateRange !== "all-time" ||
+          searchEmail.trim() !== "") && (
           <div className="alert alert-info shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -344,6 +393,12 @@ export default function NewsletterSignupsClient({
                     </strong>
                   </>
                 )}
+                {searchEmail.trim() !== "" && (
+                  <>
+                    {" "}
+                    matching <strong>"{searchEmail}"</strong>
+                  </>
+                )}
                 .
               </span>
               <div className="mt-1 flex flex-wrap gap-2">
@@ -363,11 +418,22 @@ export default function NewsletterSignupsClient({
                     Clear date filter
                   </button>
                 )}
-                {(filter !== "all" || dateRange !== "all-time") && (
+                {searchEmail.trim() !== "" && (
+                  <button
+                    onClick={() => setSearchEmail("")}
+                    className="text-sm underline font-semibold hover:text-info-content"
+                  >
+                    Clear search
+                  </button>
+                )}
+                {(filter !== "all" ||
+                  dateRange !== "all-time" ||
+                  searchEmail.trim() !== "") && (
                   <button
                     onClick={() => {
                       setFilter("all");
                       setDateRange("all-time");
+                      setSearchEmail("");
                     }}
                     className="text-sm underline font-semibold hover:text-info-content"
                   >
@@ -392,6 +458,9 @@ export default function NewsletterSignupsClient({
                   <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Newsletters</th>
                   <th className="bg-base-100 hidden lg:table-cell p-2 sm:p-3 lg:p-4">
                     Subscribed On
+                  </th>
+                  <th className="bg-base-100 p-2 sm:p-3 lg:p-4 text-center">
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -430,15 +499,44 @@ export default function NewsletterSignupsClient({
                             ).toLocaleDateString()
                           : "-"}
                       </td>
+                      <td className="p-2 sm:p-3 lg:p-4 text-center">
+                        <button
+                          onClick={() => handleDelete(subscription)}
+                          disabled={isDeleting === subscription.id}
+                          className="btn btn-ghost btn-xs text-error hover:bg-error hover:text-error-content"
+                          title="Delete subscription"
+                        >
+                          {isDeleting === subscription.id ? (
+                            <span className="loading loading-spinner loading-xs"></span>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td
-                      colSpan={4}
+                      colSpan={5}
                       className="text-center py-8 text-base-content/60 text-sm"
                     >
-                      {filter === "all" && dateRange === "all-time"
+                      {filter === "all" &&
+                      dateRange === "all-time" &&
+                      searchEmail.trim() === ""
                         ? "No newsletter subscriptions found"
                         : "No subscribers found matching the selected filters"}
                     </td>
