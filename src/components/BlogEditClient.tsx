@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { BlogPost } from "@/src/services/blogService";
 import RichTextEditor from "./RichTextEditor";
 import { useRouter } from "next/navigation";
@@ -32,6 +32,57 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  
+  // Filter and search states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [publishedFilter, setPublishedFilter] = useState<"all" | "published" | "draft">("all");
+  const [authorFilter, setAuthorFilter] = useState<string>("all");
+
+  // Get unique authors for filter
+  const uniqueAuthors = useMemo(() => {
+    const authorsSet = new Set<string>();
+    posts.forEach((post) => {
+      post.authors.forEach((author) => authorsSet.add(author));
+    });
+    return Array.from(authorsSet).sort();
+  }, [posts]);
+
+  // Filter and search posts
+  const filteredPosts = useMemo(() => {
+    let filtered = [...posts];
+    
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (post) =>
+          post.title.toLowerCase().includes(query) ||
+          post.description.toLowerCase().includes(query) ||
+          post.slug.toLowerCase().includes(query)
+      );
+    }
+    
+    // Apply published filter
+    if (publishedFilter !== "all") {
+      filtered = filtered.filter((post) => {
+        if (publishedFilter === "published") {
+          return post.published === true;
+        } else if (publishedFilter === "draft") {
+          return post.published === false;
+        }
+        return true;
+      });
+    }
+    
+    // Apply author filter
+    if (authorFilter !== "all") {
+      filtered = filtered.filter((post) =>
+        post.authors.includes(authorFilter)
+      );
+    }
+    
+    return filtered;
+  }, [posts, searchQuery, publishedFilter, authorFilter]);
 
   const handlePostSelect = (postId: number) => {
     setSelectedPostId(postId);
@@ -214,8 +265,8 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
       {/* Blog Post List */}
       <div className="lg:col-span-1">
-        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6">
-          <div className="flex justify-between items-center mb-4">
+        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6 flex flex-col h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
+          <div className="flex justify-between items-center mb-4 flex-shrink-0">
             <h2 className="text-lg lg:text-xl font-bold text-primary">
               Select Blog Post
             </h2>
@@ -241,13 +292,70 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
             </button>
           </div>
 
-          {posts.length === 0 ? (
-            <p className="text-base-content/60 text-center py-8 text-sm">
-              No blog posts found
-            </p>
+          {/* Search and Filter Controls */}
+          <div className="space-y-2 mb-4 flex-shrink-0">
+            <div className="form-control">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search posts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="input input-bordered input-sm w-full pl-9 text-sm"
+                />
+                <svg
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/40"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            
+            <select
+              value={publishedFilter}
+              onChange={(e) => setPublishedFilter(e.target.value as "all" | "published" | "draft")}
+              className="select select-bordered select-sm w-full text-sm"
+            >
+              <option value="all">All Status</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+            
+            {uniqueAuthors.length > 0 && (
+              <select
+                value={authorFilter}
+                onChange={(e) => setAuthorFilter(e.target.value)}
+                className="select select-bordered select-sm w-full text-sm"
+              >
+                <option value="all">All Authors</option>
+                {uniqueAuthors.map((author) => (
+                  <option key={author} value={author}>
+                    {author}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+
+          {filteredPosts.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center">
+              <p className="text-base-content/60 text-center py-8 text-sm">
+                {searchQuery || publishedFilter !== "all" || authorFilter !== "all"
+                  ? "No posts match your filters"
+                  : "No blog posts found"}
+              </p>
+            </div>
           ) : (
-            <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
-              {posts.map((post) => (
+            <div className="flex-1 overflow-y-auto space-y-2 min-h-0">
+              {filteredPosts.map((post) => (
                 <button
                   key={post.id}
                   onClick={() => handlePostSelect(post.id!)}
@@ -257,22 +365,31 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
                       : "bg-base-100 border-base-300 hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold truncate text-sm lg:text-base">
-                      {post.title}
+                  <div className="flex items-start gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold truncate text-sm lg:text-base">
+                        {post.title}
+                      </div>
+                      <div className="text-xs lg:text-sm opacity-80 mt-1">
+                        {post.date}
+                      </div>
+                      {post.authors.length > 0 && (
+                        <div className="text-xs opacity-70 mt-0.5 truncate">
+                          {post.authors.join(", ")}
+                        </div>
+                      )}
                     </div>
-                    {post.published ? (
-                      <span className="badge badge-success badge-xs lg:badge-sm">
-                        Published
-                      </span>
-                    ) : (
-                      <span className="badge badge-warning badge-xs lg:badge-sm">
-                        Draft
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-xs lg:text-sm opacity-80 mt-1">
-                    {post.date}
+                    <div className="flex-shrink-0">
+                      {post.published ? (
+                        <span className="badge badge-success badge-xs lg:badge-sm">
+                          Published
+                        </span>
+                      ) : (
+                        <span className="badge badge-warning badge-xs lg:badge-sm">
+                          Draft
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </button>
               ))}
