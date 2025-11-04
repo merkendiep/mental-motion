@@ -1,4 +1,4 @@
-import { supabase } from '@/src/lib/supabase';
+import { supabase } from "@/src/lib/supabase";
 
 /**
  * Blog Post Interface
@@ -29,25 +29,25 @@ export class BlogService {
   async getAllPosts(includeUnpublished: boolean = false): Promise<BlogPost[]> {
     try {
       let query = supabase
-        .from('blog_posts')
-        .select('*')
-        .order('date', { ascending: false });
+        .from("blog_posts")
+        .select("*")
+        .order("date", { ascending: false });
 
       // Filter to only published posts unless explicitly requested
       if (!includeUnpublished) {
-        query = query.eq('published', true);
+        query = query.eq("published", true);
       }
 
       const { data, error } = await query;
 
       if (error) {
-        console.error('Error fetching blog posts:', error);
-        throw new Error('Failed to fetch blog posts');
+        console.error("Error fetching blog posts:", error);
+        throw new Error("Failed to fetch blog posts");
       }
 
       return data || [];
     } catch (error) {
-      console.error('Blog service error:', error);
+      console.error("Blog service error:", error);
       throw error;
     }
   }
@@ -58,24 +58,24 @@ export class BlogService {
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
     try {
       const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .eq('published', true)
+        .from("blog_posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') {
+        if (error.code === "PGRST116") {
           // Not found
           return null;
         }
-        console.error('Error fetching blog post:', error);
-        throw new Error('Failed to fetch blog post');
+        console.error("Error fetching blog post:", error);
+        throw new Error("Failed to fetch blog post");
       }
 
       return data;
     } catch (error) {
-      console.error('Blog service error:', error);
+      console.error("Blog service error:", error);
       throw error;
     }
   }
@@ -92,6 +92,89 @@ export class BlogService {
    */
   async getAllPostsIncludingUnpublished(): Promise<BlogPost[]> {
     return this.getAllPosts(true);
+  }
+
+  /**
+   * Create a new blog post
+   */
+  async createPost(
+    postData: Omit<BlogPost, "id" | "created_at" | "updated_at">
+  ): Promise<BlogPost> {
+    try {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .insert({
+          ...postData,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error creating blog post:", error);
+        throw new Error("Failed to create blog post");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Blog post creation error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update a blog post by ID
+   */
+  async updatePost(id: number, updates: Partial<BlogPost>): Promise<BlogPost> {
+    try {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error updating blog post:", error);
+
+        if (error.code === "PGRST116") {
+          throw new Error(`Blog post with ID "${id}" not found in database`);
+        }
+
+        throw new Error("Failed to update blog post");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Blog post update error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a blog post by ID
+   */
+  async deletePost(id: number): Promise<void> {
+    try {
+      const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+
+      if (error) {
+        console.error("Error deleting blog post:", error);
+
+        if (error.code === "PGRST116") {
+          throw new Error(`Blog post with ID "${id}" not found in database`);
+        }
+
+        throw new Error("Failed to delete blog post");
+      }
+    } catch (error) {
+      console.error("Blog post deletion error:", error);
+      throw error;
+    }
   }
 }
 

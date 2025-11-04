@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser, isAdmin } from '@/src/lib/auth';
 import AdminLayout from '@/src/components/AdminLayout';
-import { blogService } from '@/src/services/blogService';
 import BlogEditClient from '@/src/components/BlogEditClient';
+import { createServerSupabaseClient } from '@/src/lib/supabase';
 
 export default async function AdminBlogPostsPage() {
   // Check authentication
@@ -18,8 +18,22 @@ export default async function AdminBlogPostsPage() {
     redirect('/');
   }
 
-  // Fetch all blog posts from Supabase
-  const posts = await blogService.getAllPostsIncludingUnpublished();
+  // Fetch all blog posts from Supabase using authenticated client
+  const supabase = await createServerSupabaseClient();
+  const { data: posts, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .order('updated_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching blog posts:', error);
+    throw new Error('Failed to fetch blog posts');
+  }
+
+  if (error) {
+    console.error('Error fetching blog posts:', error);
+    throw new Error('Failed to fetch blog posts');
+  }
 
   return (
     <AdminLayout userEmail={user.email}>
@@ -33,7 +47,7 @@ export default async function AdminBlogPostsPage() {
           </p>
         </div>
 
-        <BlogEditClient posts={posts} />
+        <BlogEditClient posts={posts || []} />
       </div>
     </AdminLayout>
   );
