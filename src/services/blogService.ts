@@ -1,4 +1,4 @@
-import { supabase } from "@/src/lib/supabase";
+import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
 
 /**
  * Blog Post Interface
@@ -28,7 +28,8 @@ export class BlogService {
    */
   async getAllPosts(includeUnpublished: boolean = false): Promise<BlogPost[]> {
     try {
-      let query = supabase
+      const supabaseServer = await createServerSupabaseClient();
+      let query = supabaseServer
         .from("blog_posts")
         .select("*")
         .order("date", { ascending: false });
@@ -57,7 +58,8 @@ export class BlogService {
    */
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
     try {
-      const { data, error } = await supabase
+      const supabaseServer = await createServerSupabaseClient();
+      const { data, error } = await supabaseServer
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)

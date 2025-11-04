@@ -1,4 +1,9 @@
-import { supabase, Event, EventSignup } from "@/src/lib/supabase";
+import {
+  supabase,
+  createServerSupabaseClient,
+  Event,
+  EventSignup,
+} from "@/src/lib/supabase";
 
 /**
  * Event Service
@@ -16,7 +21,8 @@ export class EventService {
    */
   async getAllEvents(includePast: boolean = false): Promise<Event[]> {
     try {
-      let query = supabase
+      const supabaseServer = await createServerSupabaseClient();
+      let query = supabaseServer
         .from("events")
         .select("*")
         .order("date", { ascending: true });
@@ -46,7 +52,8 @@ export class EventService {
    */
   async getEventById(id: string): Promise<Event | null> {
     try {
-      const { data, error } = await supabase
+      const supabaseServer = await createServerSupabaseClient();
+      const { data, error } = await supabaseServer
         .from("events")
         .select("*")
         .eq("id", id)

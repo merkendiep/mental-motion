@@ -1,4 +1,8 @@
-import { supabase, EventSignup } from '@/src/lib/supabase';
+import {
+  supabase,
+  createServerSupabaseClient,
+  EventSignup,
+} from "@/src/lib/supabase";
 
 /**
  * Event Signup Service
@@ -7,45 +11,49 @@ import { supabase, EventSignup } from '@/src/lib/supabase';
 export class SignupService {
   /**
    * Get all event signups
+   * Uses server-side client for proper authentication in server components
    */
   async getAllSignups(): Promise<EventSignup[]> {
     try {
-      const { data, error } = await supabase
-        .from('event_signups')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const supabaseServer = await createServerSupabaseClient();
+      const { data, error } = await supabaseServer
+        .from("event_signups")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
-        console.error('Error fetching signups:', error);
-        throw new Error('Failed to fetch signups');
+        console.error("Error fetching signups:", error);
+        throw new Error("Failed to fetch signups");
       }
 
       return data || [];
     } catch (error) {
-      console.error('Signup service error:', error);
+      console.error("Signup service error:", error);
       throw error;
     }
   }
 
   /**
    * Get signups for a specific event
+   * Uses server-side client for proper authentication in server components
    */
   async getSignupsByEventId(eventId: string): Promise<EventSignup[]> {
     try {
-      const { data, error } = await supabase
-        .from('event_signups')
-        .select('*')
-        .eq('event_id', eventId)
-        .order('created_at', { ascending: false });
+      const supabaseServer = await createServerSupabaseClient();
+      const { data, error } = await supabaseServer
+        .from("event_signups")
+        .select("*")
+        .eq("event_id", eventId)
+        .order("created_at", { ascending: false });
 
       if (error) {
-        console.error('Error fetching event signups:', error);
-        throw new Error('Failed to fetch event signups');
+        console.error("Error fetching event signups:", error);
+        throw new Error("Failed to fetch event signups");
       }
 
       return data || [];
     } catch (error) {
-      console.error('Event signup service error:', error);
+      console.error("Event signup service error:", error);
       throw error;
     }
   }
