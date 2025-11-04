@@ -108,6 +108,39 @@ export class EventService {
   }
 
   /**
+   * Create a new event
+   */
+  async createEvent(
+    eventData: Omit<Event, "id" | "created_at" | "updated_at">
+  ): Promise<Event> {
+    try {
+      // Generate a unique ID for the event
+      const eventId = crypto.randomUUID();
+
+      const { data, error } = await supabase
+        .from("events")
+        .insert({
+          id: eventId,
+          ...eventData,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error creating event:", error);
+        throw new Error("Failed to create event");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Event creation error:", error);
+      throw error;
+    }
+  }
+
+  /**
    * Update an event by ID
    */
   async updateEvent(id: string, updates: Partial<Event>): Promise<Event> {
@@ -135,6 +168,28 @@ export class EventService {
       return data;
     } catch (error) {
       console.error("Event update error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete an event by ID
+   */
+  async deleteEvent(id: string): Promise<void> {
+    try {
+      const { error } = await supabase.from("events").delete().eq("id", id);
+
+      if (error) {
+        console.error("Error deleting event:", error);
+
+        if (error.code === "PGRST116") {
+          throw new Error(`Event with ID "${id}" not found in database`);
+        }
+
+        throw new Error("Failed to delete event");
+      }
+    } catch (error) {
+      console.error("Event deletion error:", error);
       throw error;
     }
   }
