@@ -133,6 +133,29 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
     },
   ];
 
+  const externalLinks = [
+    {
+      name: "View Website",
+      path: "/",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+          />
+        </svg>
+      ),
+      external: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-white">
       {/* Mobile Header with Hamburger */}
@@ -219,6 +242,40 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
                   </li>
                 );
               })}
+            </ul>
+
+            {/* Divider */}
+            <div className="divider my-4"></div>
+
+            {/* External Links */}
+            <ul className="space-y-2">
+              {externalLinks.map((item) => (
+                <li key={item.path}>
+                  <a
+                    href={item.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={closeSidebar}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-base-content hover:bg-primary/10 transition-all"
+                  >
+                    {item.icon}
+                    <span className="font-medium">{item.name}</span>
+                    <svg
+                      className="w-4 h-4 ml-auto"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
 
