@@ -1,4 +1,4 @@
-import { supabase } from '@/src/lib/supabase';
+import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
 
 /**
  * Newsletter Subscription Interface
@@ -27,14 +27,14 @@ export class NewsletterService {
 
       // Check if subscription already exists
       const { data: existing, error: fetchError } = await supabase
-        .from('newsletter_subscriptions')
-        .select('id, newsletters, organization')
-        .eq('email', normalizedEmail)
+        .from("newsletter_subscriptions")
+        .select("id, newsletters, organization")
+        .eq("email", normalizedEmail)
         .maybeSingle();
 
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        console.error('Error checking existing subscription:', fetchError);
-        throw new Error('Failed to check existing subscription');
+      if (fetchError && fetchError.code !== "PGRST116") {
+        console.error("Error checking existing subscription:", fetchError);
+        throw new Error("Failed to check existing subscription");
       }
 
       if (existing) {
@@ -44,22 +44,22 @@ export class NewsletterService {
         );
 
         const { error: updateError } = await supabase
-          .from('newsletter_subscriptions')
+          .from("newsletter_subscriptions")
           .update({
             newsletters: mergedNewsletters,
             organization: subscription.organization || existing.organization,
             updated_at: new Date().toISOString(),
           })
-          .eq('id', existing.id);
+          .eq("id", existing.id);
 
         if (updateError) {
-          console.error('Error updating subscription:', updateError);
-          throw new Error('Failed to update subscription');
+          console.error("Error updating subscription:", updateError);
+          throw new Error("Failed to update subscription");
         }
       } else {
         // Create new subscription
         const { error: insertError } = await supabase
-          .from('newsletter_subscriptions')
+          .from("newsletter_subscriptions")
           .insert({
             email: normalizedEmail,
             organization: subscription.organization || null,
@@ -67,12 +67,12 @@ export class NewsletterService {
           });
 
         if (insertError) {
-          console.error('Error creating subscription:', insertError);
-          throw new Error('Failed to create subscription');
+          console.error("Error creating subscription:", insertError);
+          throw new Error("Failed to create subscription");
         }
       }
     } catch (error) {
-      console.error('Newsletter service error:', error);
+      console.error("Newsletter service error:", error);
       throw error;
     }
   }
@@ -80,26 +80,28 @@ export class NewsletterService {
   /**
    * Get a subscription by email
    */
-  async getSubscriptionByEmail(email: string): Promise<NewsletterSubscription | null> {
+  async getSubscriptionByEmail(
+    email: string
+  ): Promise<NewsletterSubscription | null> {
     try {
       const { data, error } = await supabase
-        .from('newsletter_subscriptions')
-        .select('*')
-        .eq('email', email.toLowerCase().trim())
+        .from("newsletter_subscriptions")
+        .select("*")
+        .eq("email", email.toLowerCase().trim())
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') {
+        if (error.code === "PGRST116") {
           // Not found
           return null;
         }
-        console.error('Error fetching subscription:', error);
-        throw new Error('Failed to fetch subscription');
+        console.error("Error fetching subscription:", error);
+        throw new Error("Failed to fetch subscription");
       }
 
       return data;
     } catch (error) {
-      console.error('Newsletter service error:', error);
+      console.error("Newsletter service error:", error);
       throw error;
     }
   }
@@ -107,22 +109,25 @@ export class NewsletterService {
   /**
    * Unsubscribe user from specific newsletters
    */
-  async unsubscribe(email: string, newslettersToRemove: string[]): Promise<void> {
+  async unsubscribe(
+    email: string,
+    newslettersToRemove: string[]
+  ): Promise<void> {
     try {
       const normalizedEmail = email.toLowerCase().trim();
-      
+
       const { data: existing, error: fetchError } = await supabase
-        .from('newsletter_subscriptions')
-        .select('id, newsletters')
-        .eq('email', normalizedEmail)
+        .from("newsletter_subscriptions")
+        .select("id, newsletters")
+        .eq("email", normalizedEmail)
         .single();
 
       if (fetchError) {
-        if (fetchError.code === 'PGRST116') {
+        if (fetchError.code === "PGRST116") {
           // Already not subscribed
           return;
         }
-        throw new Error('Failed to fetch subscription');
+        throw new Error("Failed to fetch subscription");
       }
 
       // Remove specified newsletters
@@ -133,51 +138,53 @@ export class NewsletterService {
       if (updatedNewsletters.length === 0) {
         // Delete subscription if no newsletters left
         const { error: deleteError } = await supabase
-          .from('newsletter_subscriptions')
+          .from("newsletter_subscriptions")
           .delete()
-          .eq('id', existing.id);
+          .eq("id", existing.id);
 
         if (deleteError) {
-          throw new Error('Failed to delete subscription');
+          throw new Error("Failed to delete subscription");
         }
       } else {
         // Update with remaining newsletters
         const { error: updateError } = await supabase
-          .from('newsletter_subscriptions')
+          .from("newsletter_subscriptions")
           .update({
             newsletters: updatedNewsletters,
             updated_at: new Date().toISOString(),
           })
-          .eq('id', existing.id);
+          .eq("id", existing.id);
 
         if (updateError) {
-          throw new Error('Failed to update subscription');
+          throw new Error("Failed to update subscription");
         }
       }
     } catch (error) {
-      console.error('Newsletter service error:', error);
+      console.error("Newsletter service error:", error);
       throw error;
     }
   }
 
   /**
    * Get all subscriptions (for admin use)
+   * Uses server-side client for proper authentication in server components
    */
   async getAllSubscriptions(): Promise<NewsletterSubscription[]> {
     try {
-      const { data, error } = await supabase
-        .from('newsletter_subscriptions')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const supabaseServer = await createServerSupabaseClient();
+      const { data, error } = await supabaseServer
+        .from("newsletter_subscriptions")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
-        console.error('Error fetching subscriptions:', error);
-        throw new Error('Failed to fetch subscriptions');
+        console.error("Error fetching subscriptions:", error);
+        throw new Error("Failed to fetch subscriptions");
       }
 
       return data || [];
     } catch (error) {
-      console.error('Newsletter service error:', error);
+      console.error("Newsletter service error:", error);
       throw error;
     }
   }
