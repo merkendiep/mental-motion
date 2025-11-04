@@ -11,6 +11,7 @@ interface NewsletterSignupsClientProps {
 }
 
 type FilterType = "all" | "monthly" | "quarterly" | "tips";
+type DateRangeType = "all-time" | "24h" | "week" | "month" | "year";
 
 export default function NewsletterSignupsClient({
   userEmail,
@@ -18,16 +19,53 @@ export default function NewsletterSignupsClient({
   errorMessage,
 }: NewsletterSignupsClientProps) {
   const [filter, setFilter] = useState<FilterType>("all");
+  const [dateRange, setDateRange] = useState<DateRangeType>("all-time");
 
-  // Filter subscriptions based on selected newsletter type
-  const filteredSubscriptions = useMemo(() => {
-    if (filter === "all") {
-      return subscriptions;
+  // Helper function to filter by date range
+  const filterByDateRange = (subscription: NewsletterSubscription) => {
+    if (dateRange === "all-time" || !subscription.created_at) {
+      return true;
     }
-    return subscriptions.filter((s) => s.newsletters.includes(filter));
-  }, [subscriptions, filter]);
 
-  // Calculate stats
+    const createdDate = new Date(subscription.created_at);
+    const now = new Date();
+    const diffMs = now.getTime() - createdDate.getTime();
+
+    switch (dateRange) {
+      case "24h":
+        return diffMs <= 24 * 60 * 60 * 1000;
+      case "week":
+        return diffMs <= 7 * 24 * 60 * 60 * 1000;
+      case "month":
+        return diffMs <= 30 * 24 * 60 * 60 * 1000;
+      case "year":
+        return diffMs <= 365 * 24 * 60 * 60 * 1000;
+      default:
+        return true;
+    }
+  };
+
+  // Sort subscriptions by date descending and filter by newsletter type and date range
+  const filteredSubscriptions = useMemo(() => {
+    // First sort by date descending
+    const sorted = [...subscriptions].sort((a, b) => {
+      if (!a.created_at) return 1;
+      if (!b.created_at) return -1;
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    });
+
+    // Then apply filters
+    return sorted.filter((s) => {
+      const matchesNewsletterType =
+        filter === "all" || s.newsletters.includes(filter);
+      const matchesDateRange = filterByDateRange(s);
+      return matchesNewsletterType && matchesDateRange;
+    });
+  }, [subscriptions, filter, dateRange]);
+
+  // Calculate stats (always use full dataset for stats)
   const totalSubscriptions = subscriptions.length;
   const monthlyCount = subscriptions.filter((s) =>
     s.newsletters.includes("monthly")
@@ -39,16 +77,64 @@ export default function NewsletterSignupsClient({
     s.newsletters.includes("tips")
   ).length;
 
+  const dateRangeOptions = [
+    { value: "all-time", label: "All time" },
+    { value: "24h", label: "Last 24h" },
+    { value: "week", label: "Last week" },
+    { value: "month", label: "Last month" },
+    { value: "year", label: "Last year" },
+  ] as const;
+
   return (
     <AdminLayout userEmail={userEmail}>
       <div className="space-y-4 lg:space-y-6">
-        <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
-            Newsletter Subscriptions
-          </h1>
-          <p className="text-sm lg:text-base text-base-content/70">
-            View all newsletter subscriptions from Supabase database
-          </p>
+        <div className="flex flex-col gap-4">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
+              Newsletter Subscriptions
+            </h1>
+            <p className="text-sm lg:text-base text-base-content/70">
+              View all newsletter subscriptions from Supabase database
+            </p>
+          </div>
+
+          {/* Date Range Filter */}
+          <div className="card bg-white shadow-sm border border-base-200 p-4 rounded-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <label
+                htmlFor="dateRange"
+                className="text-sm font-semibold text-base-content flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+                Filter by date:
+              </label>
+              <select
+                id="dateRange"
+                value={dateRange}
+                onChange={(e) => setDateRange(e.target.value as DateRangeType)}
+                className="select select-bordered w-full sm:w-auto min-w-[200px]"
+              >
+                {dateRangeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Error Message */}
@@ -222,7 +308,7 @@ export default function NewsletterSignupsClient({
         </div>
 
         {/* Filter Info */}
-        {filter !== "all" && (
+        {(filter !== "all" || dateRange !== "all-time") && (
           <div className="alert alert-info shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -237,17 +323,59 @@ export default function NewsletterSignupsClient({
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
-            <span>
-              Showing {filteredSubscriptions.length} subscriber
-              {filteredSubscriptions.length !== 1 ? "s" : ""} for{" "}
-              <strong>{filter}</strong> newsletter.
-              <button
-                onClick={() => setFilter("all")}
-                className="ml-2 underline font-semibold hover:text-info-content"
-              >
-                Clear filter
-              </button>
-            </span>
+            <div className="flex-1">
+              <span>
+                Showing {filteredSubscriptions.length} subscriber
+                {filteredSubscriptions.length !== 1 ? "s" : ""}
+                {filter !== "all" && (
+                  <>
+                    {" "}
+                    for <strong>{filter}</strong> newsletter
+                  </>
+                )}
+                {dateRange !== "all-time" && (
+                  <>
+                    {" "}
+                    from{" "}
+                    <strong>
+                      {dateRangeOptions
+                        .find((o) => o.value === dateRange)
+                        ?.label.toLowerCase()}
+                    </strong>
+                  </>
+                )}
+                .
+              </span>
+              <div className="mt-1 flex flex-wrap gap-2">
+                {filter !== "all" && (
+                  <button
+                    onClick={() => setFilter("all")}
+                    className="text-sm underline font-semibold hover:text-info-content"
+                  >
+                    Clear newsletter filter
+                  </button>
+                )}
+                {dateRange !== "all-time" && (
+                  <button
+                    onClick={() => setDateRange("all-time")}
+                    className="text-sm underline font-semibold hover:text-info-content"
+                  >
+                    Clear date filter
+                  </button>
+                )}
+                {(filter !== "all" || dateRange !== "all-time") && (
+                  <button
+                    onClick={() => {
+                      setFilter("all");
+                      setDateRange("all-time");
+                    }}
+                    className="text-sm underline font-semibold hover:text-info-content"
+                  >
+                    Clear all filters
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
@@ -310,9 +438,9 @@ export default function NewsletterSignupsClient({
                       colSpan={4}
                       className="text-center py-8 text-base-content/60 text-sm"
                     >
-                      {filter === "all"
+                      {filter === "all" && dateRange === "all-time"
                         ? "No newsletter subscriptions found"
-                        : `No subscribers found for ${filter} newsletter`}
+                        : "No subscribers found matching the selected filters"}
                     </td>
                   </tr>
                 )}
