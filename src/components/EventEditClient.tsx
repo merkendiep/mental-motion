@@ -32,6 +32,43 @@ export default function EventEditClient({
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  
+  // Filter and search states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "upcoming" | "past">("all");
+
+  // Get today's date for filtering (memoized to avoid recalculation)
+  const today = useMemo(() => new Date().toISOString().split("T")[0], []);
+
+  // Filter and search events
+  const filteredEvents = useMemo(() => {
+    let filtered = [...events];
+    
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (event) =>
+          event.title.toLowerCase().includes(query) ||
+          (event.location && event.location.toLowerCase().includes(query)) ||
+          event.date.includes(query)
+      );
+    }
+    
+    // Apply status filter
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((event) => {
+        if (statusFilter === "upcoming") {
+          return event.date >= today;
+        } else if (statusFilter === "past") {
+          return event.date < today;
+        }
+        return true;
+      });
+    }
+    
+    return filtered;
+  }, [events, searchQuery, statusFilter, today]);
 
   // Filter signups for the selected event
   const eventSignups = useMemo(() => {
@@ -191,8 +228,8 @@ export default function EventEditClient({
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
       {/* Event List */}
       <div className="lg:col-span-1">
-        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6">
-          <div className="flex justify-between items-center mb-4">
+        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6 flex flex-col h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
+          <div className="flex justify-between items-center mb-4 flex-shrink-0">
             <h2 className="text-lg lg:text-xl font-bold text-primary">
               Select Event
             </h2>
@@ -218,16 +255,60 @@ export default function EventEditClient({
             </button>
           </div>
 
-          {events.length === 0 ? (
-            <p className="text-base-content/60 text-center py-8 text-sm">
-              No events found
-            </p>
+          {/* Search and Filter Controls */}
+          <div className="space-y-2 mb-4 flex-shrink-0">
+            <div className="form-control">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search events..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="input input-bordered input-sm w-full pl-9 text-sm"
+                />
+                <svg
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/40"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as "all" | "upcoming" | "past")}
+              className="select select-bordered select-sm w-full text-sm"
+            >
+              <option value="all">All Events</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
+
+          {filteredEvents.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center">
+              <p className="text-base-content/60 text-center py-8 text-sm">
+                {searchQuery || statusFilter !== "all" 
+                  ? "No events match your filters" 
+                  : "No events found"}
+              </p>
+            </div>
           ) : (
-            <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
-              {events.map((event) => {
+            <div className="flex-1 overflow-y-auto space-y-2 min-h-0">
+              {filteredEvents.map((event) => {
                 const eventSignupCount = signups.filter(
                   (signup) => signup.event_id === event.id
                 ).length;
+                const isPastEvent = event.date < today;
+                
                 return (
                   <button
                     key={event.id}
@@ -246,18 +327,32 @@ export default function EventEditClient({
                         <div className="text-xs lg:text-sm opacity-80 mt-1">
                           {event.date} • {event.time}
                         </div>
-                      </div>
-                      {eventSignupCount > 0 && (
-                        <div
-                          className={`badge badge-sm ${
-                            selectedEventId === event.id
-                              ? "badge-secondary"
-                              : "badge-primary"
-                          }`}
-                        >
-                          {eventSignupCount}
+                        <div className="text-xs opacity-70 mt-0.5 truncate">
+                          {event.location}
                         </div>
-                      )}
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        {eventSignupCount > 0 && (
+                          <div
+                            className={`badge badge-sm ${
+                              selectedEventId === event.id
+                                ? "badge-secondary"
+                                : "badge-primary"
+                            }`}
+                          >
+                            {eventSignupCount}
+                          </div>
+                        )}
+                        {isPastEvent && (
+                          <div className={`badge badge-xs ${
+                            selectedEventId === event.id
+                              ? "badge-neutral"
+                              : "badge-ghost"
+                          }`}>
+                            Past
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </button>
                 );
