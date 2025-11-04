@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { Event } from "@/src/lib/supabase";
+import { useState, useMemo } from "react";
+import { Event, EventSignup } from "@/src/lib/supabase";
 import RichTextEditor from "./RichTextEditor";
 import { useRouter } from "next/navigation";
 
 interface EventEditClientProps {
   events: Event[];
+  signups: EventSignup[];
 }
 
-export default function EventEditClient({ events }: EventEditClientProps) {
+export default function EventEditClient({
+  events,
+  signups,
+}: EventEditClientProps) {
   const router = useRouter();
   const [selectedEventId, setSelectedEventId] = useState<string>("");
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
@@ -28,6 +32,12 @@ export default function EventEditClient({ events }: EventEditClientProps) {
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Filter signups for the selected event
+  const eventSignups = useMemo(() => {
+    if (!selectedEventId) return [];
+    return signups.filter((signup) => signup.event_id === selectedEventId);
+  }, [selectedEventId, signups]);
 
   const handleEventSelect = (eventId: string) => {
     setSelectedEventId(eventId);
@@ -214,24 +224,44 @@ export default function EventEditClient({ events }: EventEditClientProps) {
             </p>
           ) : (
             <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
-              {events.map((event) => (
-                <button
-                  key={event.id}
-                  onClick={() => handleEventSelect(event.id)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    selectedEventId === event.id
-                      ? "bg-primary text-primary-content border-primary shadow-md"
-                      : "bg-base-100 border-base-300 hover:border-primary hover:bg-primary/5"
-                  }`}
-                >
-                  <div className="font-semibold truncate text-sm lg:text-base">
-                    {event.title}
-                  </div>
-                  <div className="text-xs lg:text-sm opacity-80 mt-1">
-                    {event.date} • {event.time}
-                  </div>
-                </button>
-              ))}
+              {events.map((event) => {
+                const eventSignupCount = signups.filter(
+                  (signup) => signup.event_id === event.id
+                ).length;
+                return (
+                  <button
+                    key={event.id}
+                    onClick={() => handleEventSelect(event.id)}
+                    className={`w-full text-left p-3 rounded-lg border transition-all ${
+                      selectedEventId === event.id
+                        ? "bg-primary text-primary-content border-primary shadow-md"
+                        : "bg-base-100 border-base-300 hover:border-primary hover:bg-primary/5"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold truncate text-sm lg:text-base">
+                          {event.title}
+                        </div>
+                        <div className="text-xs lg:text-sm opacity-80 mt-1">
+                          {event.date} • {event.time}
+                        </div>
+                      </div>
+                      {eventSignupCount > 0 && (
+                        <div
+                          className={`badge badge-sm ${
+                            selectedEventId === event.id
+                              ? "badge-secondary"
+                              : "badge-primary"
+                          }`}
+                        >
+                          {eventSignupCount}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -467,6 +497,89 @@ export default function EventEditClient({ events }: EventEditClientProps) {
                 </svg>
                 Create New Event
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* Event Signups Table - Only show when an event is selected */}
+        {editingEvent && eventSignups.length > 0 && (
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 overflow-hidden mt-4 lg:mt-6">
+            <div className="p-4 lg:p-6 border-b border-base-200">
+              <h3 className="text-lg lg:text-xl font-bold text-primary">
+                Event Signups ({eventSignups.length})
+              </h3>
+              <p className="text-sm text-base-content/70 mt-1">
+                People registered for this event
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="table w-full text-xs sm:text-sm lg:text-base">
+                <thead>
+                  <tr className="border-b border-base-300">
+                    <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Name</th>
+                    <th className="bg-base-100 p-2 sm:p-3 lg:p-4">Email</th>
+                    <th className="bg-base-100 hidden md:table-cell p-2 sm:p-3 lg:p-4">
+                      Mobile
+                    </th>
+                    <th className="bg-base-100 hidden lg:table-cell p-2 sm:p-3 lg:p-4">
+                      Signup Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {eventSignups.map((signup) => (
+                    <tr key={signup.id} className="hover:bg-base-100">
+                      <td className="font-medium p-2 sm:p-3 lg:p-4">
+                        {signup.first_name} {signup.last_name}
+                      </td>
+                      <td className="break-all p-2 sm:p-3 lg:p-4">
+                        {signup.email}
+                      </td>
+                      <td className="hidden md:table-cell p-2 sm:p-3 lg:p-4">
+                        {signup.mobile || "-"}
+                      </td>
+                      <td className="text-xs sm:text-sm text-base-content/60 hidden lg:table-cell p-2 sm:p-3 lg:p-4">
+                        {signup.created_at
+                          ? new Date(signup.created_at).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )
+                          : "-"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* No Signups Message */}
+        {editingEvent && eventSignups.length === 0 && (
+          <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-6 mt-4 lg:mt-6">
+            <div className="text-center py-8">
+              <svg
+                className="mx-auto h-12 w-12 text-base-content/20 mb-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <p className="text-base-content/60 text-sm lg:text-base">
+                No signups yet for this event
+              </p>
             </div>
           </div>
         )}

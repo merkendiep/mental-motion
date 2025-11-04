@@ -1,25 +1,27 @@
-import { redirect } from 'next/navigation';
-import { getCurrentUser, isAdmin } from '@/src/lib/auth';
-import EventEditClient from '@/src/components/EventEditClient';
-import { eventService } from '@/src/services/eventService';
-import AdminLayout from '@/src/components/AdminLayout';
+import { redirect } from "next/navigation";
+import { getCurrentUser, isAdmin } from "@/src/lib/auth";
+import EventEditClient from "@/src/components/EventEditClient";
+import { eventService } from "@/src/services/eventService";
+import { signupService } from "@/src/services/signupService";
+import AdminLayout from "@/src/components/AdminLayout";
 
 export default async function AdminEventsPage() {
   // Check authentication
   const user = await getCurrentUser();
-  
+
   if (!user || !user.email) {
-    redirect('/admin/login');
+    redirect("/admin/login");
   }
 
   // Check if user is admin
   const adminStatus = await isAdmin(user.email);
   if (!adminStatus) {
-    redirect('/');
+    redirect("/");
   }
 
-  // Fetch all events
+  // Fetch all events and signups
   const events = await eventService.getAllEventsIncludingPast();
+  const signups = await signupService.getAllSignups();
 
   return (
     <AdminLayout userEmail={user.email}>
@@ -32,8 +34,8 @@ export default async function AdminEventsPage() {
             Edit event details with WYSIWYG editor
           </p>
         </div>
-        
-        <EventEditClient events={events} />
+
+        <EventEditClient events={events} signups={signups} />
       </div>
     </AdminLayout>
   );
