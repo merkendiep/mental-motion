@@ -24,17 +24,23 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file") as File;
 
     if (!file) {
-      return NextResponse.json(
-        { error: "No file provided" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
     // Validate file type
-    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    const validTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
     if (!validTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed." },
+        {
+          error:
+            "Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.",
+        },
         { status: 400 }
       );
     }
@@ -50,10 +56,13 @@ export async function POST(request: NextRequest) {
 
     // Create server-side Supabase client with user's session
     const supabase = await createServerSupabaseClient();
-    
+
     // Generate a unique filename
     const timestamp = Date.now();
-    const fileName = `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+    const fileName = `${timestamp}-${file.name.replace(
+      /[^a-zA-Z0-9.-]/g,
+      "_"
+    )}`;
 
     // Upload the file to Supabase Storage
     const { data, error } = await supabase.storage
