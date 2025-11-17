@@ -57,12 +57,10 @@ export async function POST(request: NextRequest) {
     // Create server-side Supabase client with user's session
     const supabase = await createServerSupabaseClient();
 
-    // Generate a unique filename
+    // Generate a unique filename with blogs folder prefix
     const timestamp = Date.now();
-    const fileName = `${timestamp}-${file.name.replace(
-      /[^a-zA-Z0-9.-]/g,
-      "_"
-    )}`;
+    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+    const fileName = `blogs/${timestamp}-${sanitizedFileName}`;
 
     // Upload the file to Supabase Storage
     const { data, error } = await supabase.storage
