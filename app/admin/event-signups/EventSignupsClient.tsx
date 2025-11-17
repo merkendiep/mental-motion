@@ -21,6 +21,15 @@ export default function EventSignupsClient({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
+  // Filter events to only show recent and upcoming (past 2 weeks + future)
+  const relevantEvents = useMemo(() => {
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+    const twoWeeksAgoString = twoWeeksAgo.toISOString().split("T")[0];
+
+    return events.filter((event) => event.date >= twoWeeksAgoString);
+  }, [events]);
+
   // Filter and search signups
   const filteredSignups = useMemo(() => {
     let filtered = [...signups];
@@ -227,7 +236,7 @@ export default function EventSignupsClient({
                 className="select select-bordered w-full"
               >
                 <option value="all">All Events</option>
-                {events.map((event) => (
+                {relevantEvents.map((event) => (
                   <option key={event.id} value={event.id}>
                     {event.title} - {new Date(event.date).toLocaleDateString()}
                   </option>
