@@ -131,6 +131,25 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
         </svg>
       ),
     },
+    {
+      name: "Partners",
+      path: "/admin/partners",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
+        </svg>
+      ),
+    },
   ];
 
   const externalLinks = [
@@ -211,7 +230,11 @@ export default function AdminLayout({ children, userEmail }: AdminLayoutProps) {
             fixed lg:sticky top-0 z-50 lg:z-auto
             w-64 h-screen bg-white border-r border-base-300 shadow-lg
             transform transition-transform duration-300 ease-in-out
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            ${
+              isSidebarOpen
+                ? "translate-x-0"
+                : "-translate-x-full lg:translate-x-0"
+            }
           `}
         >
           {/* Logo/Header - Hidden on mobile (shown in mobile header instead) */}
