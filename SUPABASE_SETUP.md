@@ -288,3 +288,12 @@ After setting up the database and environment variables:
 - Verify the `event_signups` table exists
 - Check RLS policies allow public inserts
 - Review server logs for any error messages
+
+## Additional Resources
+
+- [Supabase Storage Documentation](https://supabase.com/docs/guides/storage)
+- [Storage Setup for Blog Images](./SUPABASE_STORAGE_SETUP.md)
+
+## Next Steps
+
+After setting up the database tables, you should also configure Supabase Storage for blog image uploads. See [SUPABASE_STORAGE_SETUP.md](./SUPABASE_STORAGE_SETUP.md) for detailed instructions.

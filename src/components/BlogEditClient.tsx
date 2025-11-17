@@ -32,6 +32,8 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
 
   const handlePostSelect = (postId: number) => {
     setSelectedPostId(postId);
@@ -210,6 +212,64 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
     }
   };
 
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      setSubmitStatus("error");
+      setErrorMessage("Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      setSubmitStatus("error");
+      setErrorMessage("File too large. Maximum size is 5MB.");
+      return;
+    }
+
+    setIsUploadingImage(true);
+    setUploadProgress("Uploading image...");
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/blog/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setFormData((prev) => ({
+          ...prev,
+          banner: result.url,
+        }));
+        setUploadProgress("Image uploaded successfully!");
+        setTimeout(() => setUploadProgress(""), 3000);
+      } else {
+        throw new Error(result.error || "Failed to upload image");
+      }
+    } catch (error: any) {
+      setSubmitStatus("error");
+      setErrorMessage(
+        error.message || "Failed to upload image. Please try again."
+      );
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
       {/* Blog Post List */}
@@ -370,19 +430,64 @@ export default function BlogEditClient({ posts }: BlogEditClientProps) {
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text font-semibold text-sm lg:text-base">
-                      Banner Image URL
+                      Banner Image
                     </span>
                   </label>
-                  <input
-                    type="text"
-                    value={formData.banner}
-                    onChange={(e) =>
-                      handleInputChange("banner", e.target.value)
-                    }
-                    className="input input-bordered input-primary w-full text-sm lg:text-base"
-                    required
-                    placeholder="/images/..."
-                  />
+                  
+                  {/* Image Preview */}
+                  {formData.banner && (
+                    <div className="mb-3">
+                      <img
+                        src={formData.banner}
+                        alt="Banner preview"
+                        className="w-full h-48 object-cover rounded-lg border border-base-300"
+                      />
+                    </div>
+                  )}
+
+                  {/* File Upload */}
+                  <div className="mb-3">
+                    <label className="label">
+                      <span className="label-text-alt text-xs">
+                        Upload new image (max 5MB)
+                      </span>
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                      onChange={handleImageUpload}
+                      disabled={isUploadingImage}
+                      className="file-input file-input-bordered file-input-primary w-full text-sm lg:text-base"
+                    />
+                    {uploadProgress && (
+                      <p className="text-xs text-success mt-1">{uploadProgress}</p>
+                    )}
+                    {isUploadingImage && (
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="loading loading-spinner loading-sm"></span>
+                        <span className="text-xs text-base-content/70">Uploading...</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Manual URL Input */}
+                  <div>
+                    <label className="label">
+                      <span className="label-text-alt text-xs">
+                        Or enter image URL manually
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.banner}
+                      onChange={(e) =>
+                        handleInputChange("banner", e.target.value)
+                      }
+                      className="input input-bordered input-primary w-full text-sm lg:text-base"
+                      required
+                      placeholder="/images/... or https://..."
+                    />
+                  </div>
                 </div>
 
                 <div className="form-control">
