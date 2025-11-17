@@ -18,6 +18,7 @@ export default function EventEditClient({
   const [selectedEventId, setSelectedEventId] = useState<string>("");
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
+  const [activeTab, setActiveTab] = useState<"upcoming" | "history">("upcoming");
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -38,6 +39,17 @@ export default function EventEditClient({
     if (!selectedEventId) return [];
     return signups.filter((signup) => signup.event_id === selectedEventId);
   }, [selectedEventId, signups]);
+
+  // Filter events based on active tab
+  const filteredEvents = useMemo(() => {
+    const today = new Date().toISOString().split("T")[0];
+    
+    if (activeTab === "upcoming") {
+      return events.filter((event) => event.date >= today);
+    } else {
+      return events.filter((event) => event.date < today);
+    }
+  }, [events, activeTab]);
 
   const handleEventSelect = (eventId: string) => {
     setSelectedEventId(eventId);
@@ -218,13 +230,29 @@ export default function EventEditClient({
             </button>
           </div>
 
-          {events.length === 0 ? (
+          {/* Tabs for Upcoming vs History */}
+          <div className="tabs tabs-boxed bg-base-200 mb-4">
+            <button
+              className={`tab ${activeTab === "upcoming" ? "tab-active" : ""}`}
+              onClick={() => setActiveTab("upcoming")}
+            >
+              Upcoming
+            </button>
+            <button
+              className={`tab ${activeTab === "history" ? "tab-active" : ""}`}
+              onClick={() => setActiveTab("history")}
+            >
+              History
+            </button>
+          </div>
+
+          {filteredEvents.length === 0 ? (
             <p className="text-base-content/60 text-center py-8 text-sm">
-              No events found
+              No {activeTab === "upcoming" ? "upcoming" : "past"} events found
             </p>
           ) : (
             <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
-              {events.map((event) => {
+              {filteredEvents.map((event) => {
                 const eventSignupCount = signups.filter(
                   (signup) => signup.event_id === event.id
                 ).length;
