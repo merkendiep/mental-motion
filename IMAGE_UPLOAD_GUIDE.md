@@ -21,7 +21,7 @@ Admins can now upload images directly to Supabase Storage when creating or editi
 
 1. Go to [Supabase Dashboard](https://app.supabase.com)
 2. Navigate to **Storage** → **New bucket**
-3. Create a bucket named: `blog-images`
+3. Create a bucket named: `mentalmotion`
 4. ✅ Enable "Public bucket"
 5. Click **Create bucket**
 
@@ -34,13 +34,13 @@ The default policies work fine, but for additional security, you can add:
 CREATE POLICY "Authenticated users can upload blog images"
 ON storage.objects FOR INSERT
 TO authenticated
-WITH CHECK (bucket_id = 'blog-images');
+WITH CHECK (bucket_id = 'mentalmotion');
 
 -- Allow anyone to view public images
 CREATE POLICY "Anyone can view blog images"
 ON storage.objects FOR SELECT
 TO public
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 ```
 
 ### 3. Test It Out
@@ -104,7 +104,7 @@ SUPABASE_SETUP.md                       # Updated with storage reference
 
 ### Upload fails
 - ✅ Verify you're logged in as admin
-- ✅ Check `blog-images` bucket exists and is public
+- ✅ Check `mentalmotion` bucket exists and is public
 - ✅ Verify file is under 5MB and correct format
 
 ### Images don't display

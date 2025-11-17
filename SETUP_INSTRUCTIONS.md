@@ -26,7 +26,7 @@ I've successfully implemented a complete image upload system for your blog admin
    - Click the green "New bucket" button
 
 3. **Create the bucket**
-   - **Name**: Type exactly `blog-images`
+   - **Name**: Type exactly `mentalmotion`
    - **Public bucket**: ✅ Toggle this ON (images need to be publicly accessible)
    - **File size limit**: Leave default or set to 5MB
    - Click "Create bucket"
@@ -43,7 +43,7 @@ The default policies should work fine, but for extra security you can add these 
 CREATE POLICY "Authenticated users can upload blog images"
 ON storage.objects FOR INSERT
 TO authenticated
-WITH CHECK (bucket_id = 'blog-images');
+WITH CHECK (bucket_id = 'mentalmotion');
 ```
 
 **Policy 2: Allow public viewing**
@@ -51,7 +51,7 @@ WITH CHECK (bucket_id = 'blog-images');
 CREATE POLICY "Anyone can view blog images"
 ON storage.objects FOR SELECT
 TO public
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 ```
 
 **Policy 3: Allow authenticated deletion**
@@ -59,7 +59,7 @@ USING (bucket_id = 'blog-images');
 CREATE POLICY "Authenticated users can delete blog images"
 ON storage.objects FOR DELETE
 TO authenticated
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 ```
 
 > **Note**: The API already checks for admin authentication, so these policies are an extra layer of security.
@@ -152,7 +152,7 @@ Or enter image URL manually
 - ✅ Check your email is in the `ADMIN_EMAILS` environment variable
 
 ### "Failed to upload file"
-- ✅ Verify the `blog-images` bucket exists in Supabase
+- ✅ Verify the `mentalmotion` bucket exists in Supabase
 - ✅ Make sure the bucket is set to **public**
 - ✅ Check your internet connection
 
@@ -175,7 +175,7 @@ For more details, see:
 
 ## 🎯 Summary
 
-You're all set! Just create the `blog-images` bucket in Supabase (Step 1 above) and you'll be ready to upload images. The whole setup takes less than 5 minutes.
+You're all set! Just create the `mentalmotion` bucket in Supabase (Step 1 above) and you'll be ready to upload images. The whole setup takes less than 5 minutes.
 
 **Questions?** Check the documentation files or review the troubleshooting section above.
 

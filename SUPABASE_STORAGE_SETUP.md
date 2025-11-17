@@ -21,7 +21,7 @@ The blog admin panel now supports uploading images directly to Supabase Storage.
 3. Navigate to **Storage** in the left sidebar
 4. Click **New bucket**
 5. Configure the bucket:
-   - **Name**: `blog-images`
+   - **Name**: `mentalmotion`
    - **Public bucket**: ✅ Enable (so images are publicly accessible)
    - **File size limit**: 5MB (optional, but recommended)
    - **Allowed MIME types**: Leave empty or specify: `image/jpeg,image/png,image/gif,image/webp`
@@ -41,26 +41,26 @@ CREATE POLICY "Authenticated users can upload blog images"
 ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
-  bucket_id = 'blog-images'
+  bucket_id = 'mentalmotion'
 );
 
 -- Policy: Authenticated users can update their uploads
 CREATE POLICY "Authenticated users can update blog images"
 ON storage.objects FOR UPDATE
 TO authenticated
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 
 -- Policy: Authenticated users can delete files
 CREATE POLICY "Authenticated users can delete blog images"
 ON storage.objects FOR DELETE
 TO authenticated
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 
 -- Policy: Anyone can view public files
 CREATE POLICY "Anyone can view blog images"
 ON storage.objects FOR SELECT
 TO public
-USING (bucket_id = 'blog-images');
+USING (bucket_id = 'mentalmotion');
 ```
 
 #### Option B: More restrictive policies (optional)
@@ -73,14 +73,14 @@ CREATE POLICY "Only admins can upload blog images"
 ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
-  bucket_id = 'blog-images' AND
+  bucket_id = 'mentalmotion' AND
   auth.jwt() ->> 'email' IN ('admin@example.com', 'another-admin@example.com')
 );
 ```
 
 ### 3. Verify Storage Configuration
 
-1. In your Supabase Dashboard, go to **Storage** → **blog-images**
+1. In your Supabase Dashboard, go to **Storage** → **mentalmotion**
 2. Try uploading a test image manually to verify the bucket is working
 3. Copy the public URL of the test image
 4. Verify you can access the image URL in your browser
@@ -102,6 +102,7 @@ WITH CHECK (
 The `StorageService` class provides clean methods for interacting with Supabase Storage:
 
 - `uploadFile(file, path?)` - Uploads a file and returns the public URL
+  - Files are automatically saved in the `/blogs` subfolder for organization
 - `deleteFile(path)` - Deletes a file from storage
 - `getPublicUrl(path)` - Gets the public URL for a file
 - `listFiles(path?)` - Lists files in a directory
@@ -133,13 +134,15 @@ The component provides:
 ### File Size Limit
 - Maximum: 5MB per file
 
-### File Naming
-Files are automatically renamed with a timestamp prefix to avoid collisions:
+### File Naming and Organization
+Files are automatically organized and renamed:
+- **Location**: All blog images are saved in the `/blogs` subfolder within the bucket
+- **Naming**: Files are renamed with a timestamp prefix to avoid collisions
 ```
-{timestamp}-{sanitized-filename}
+blogs/{timestamp}-{sanitized-filename}
 ```
 
-Example: `1700241234567-blog-banner.jpg`
+Example: `blogs/1700241234567-blog-banner.jpg`
 
 ## Troubleshooting
 
@@ -148,7 +151,7 @@ Example: `1700241234567-blog-banner.jpg`
 - Check that your email is in the `ADMIN_EMAILS` environment variable
 
 ### Upload fails with "Failed to upload file"
-- Verify the `blog-images` bucket exists
+- Verify the `mentalmotion` bucket exists
 - Check that the bucket is set to public
 - Verify storage policies allow authenticated uploads
 - Check the Supabase storage quota hasn't been exceeded

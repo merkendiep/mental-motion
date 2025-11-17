@@ -21,8 +21,9 @@ export class StorageService {
     try {
       // Generate a unique filename if path is not provided
       const timestamp = Date.now();
+      const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const fileName =
-        path || `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+        path || `blogs/${timestamp}-${sanitizedFileName}`;
 
       // Upload the file
       const { data, error } = await supabase.storage
