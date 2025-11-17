@@ -1,90 +1,9 @@
-"use client";
-
 import React from "react";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
+import { partnerService } from "@/src/services/partnerService";
 
-const partners = [
-  {
-    name: "Dock.nl",
-    logo: "/images/partners/dockNL.jpg",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Frisse Gedachtes",
-    logo: "/images/partners/Frisse-gedachtes.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Geluks BV",
-    logo: "/images/partners/geluks-bv.jpg",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Gemeente Utrecht",
-    logo: "/images/partners/GemeenteUtrecht.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Grafisch Lyceum Utrecht",
-    logo: "/images/partners/GLU.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "HKU",
-    logo: "/images/partners/HKU.jpg",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Hogeschool Utrecht",
-    logo: "/images/partners/HU.jpg",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "IDIUS",
-    logo: "/images/partners/IDIUS.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "JOU jongerenwerk Utrech",
-    logo: "/images/partners/JouJongerenWerk.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "MBO Utrecht",
-    logo: "/images/partners/MBO-Utrecht.jpg",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Nimento Utrecht",
-    logo: "/images/partners/NimentoUtrecht.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Power Peers",
-    logo: "/images/partners/PowerPeers.png",
-    description: "[Text over inzet van partner]",
-    website: "",
-  },
-  {
-    name: "Versatile",
-    logo: "/images/partners/Versatile.jpg",
-    description: "[Text over inzet van partner]",
-    website: "https://svversatile.nl/",
-  },
-];
-
-const PartnersPage = () => {
+const PartnersPage = async () => {
+  const partners = await partnerService.getAllPartners();
   return (
     <div className="flex flex-col bg-white pt-24 lg:pt-44">
       <div className={"max-w-7xl mb-16 mx-auto px-2 md:px-0"}>
@@ -110,15 +29,30 @@ const PartnersPage = () => {
         </div>
 
         <div className={"flex justify-center flex-row flex-wrap gap-8"}>
-          {partners.map((partner, index) => {
+          {partners.map((partner) => {
+            const content = (
+              <figure>
+                <img src={partner.logo} alt={partner.name + " logo"} />
+              </figure>
+            );
+
             return (
               <div
-                key={index}
+                key={partner.id}
                 className="rounded-lg flex justify-center items-center bg-white w-88 py-4 shadow-sm lg:w-96"
               >
-                <figure>
-                  <img src={partner.logo} alt={partner.name + " logo"} />
-                </figure>
+                {partner.url ? (
+                  <a
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-opacity"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
               </div>
             );
           })}
