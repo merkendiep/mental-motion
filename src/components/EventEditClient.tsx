@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { Event, EventSignup } from "@/src/lib/supabase";
 import RichTextEditor from "./RichTextEditor";
 import { useRouter } from "next/navigation";
+import Pagination from "./Pagination";
 
 interface EventEditClientProps {
   events: Event[];
@@ -18,7 +19,12 @@ export default function EventEditClient({
   const [selectedEventId, setSelectedEventId] = useState<string>("");
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [activeTab, setActiveTab] = useState<"upcoming" | "history">("upcoming");
+  const [activeTab, setActiveTab] = useState<"upcoming" | "history">(
+    "upcoming"
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -40,16 +46,51 @@ export default function EventEditClient({
     return signups.filter((signup) => signup.event_id === selectedEventId);
   }, [selectedEventId, signups]);
 
-  // Filter events based on active tab
+  // Filter events based on active tab and search query
   const filteredEvents = useMemo(() => {
     const today = new Date().toISOString().split("T")[0];
-    
-    if (activeTab === "upcoming") {
-      return events.filter((event) => event.date >= today);
-    } else {
-      return events.filter((event) => event.date < today);
+
+    let filtered =
+      activeTab === "upcoming"
+        ? events.filter((event) => event.date >= today)
+        : events.filter((event) => event.date < today);
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (event) =>
+          event.title.toLowerCase().includes(query) ||
+          event.location.toLowerCase().includes(query)
+      );
     }
-  }, [events, activeTab]);
+
+    return filtered;
+  }, [events, activeTab, searchQuery]);
+
+  // Paginated events (only for history tab)
+  const paginatedEvents = useMemo(() => {
+    if (activeTab === "upcoming") {
+      return filteredEvents;
+    }
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredEvents.slice(startIndex, endIndex);
+  }, [filteredEvents, currentPage, activeTab, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+
+  // Reset to page 1 when switching tabs or searching
+  const handleTabChange = (tab: "upcoming" | "history") => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  };
 
   const handleEventSelect = (eventId: string) => {
     setSelectedEventId(eventId);
@@ -231,66 +272,138 @@ export default function EventEditClient({
           </div>
 
           {/* Tabs for Upcoming vs History */}
-          <div className="tabs tabs-boxed bg-base-200 mb-4">
+          <div className="flex gap-1 p-1 bg-base-200/50 rounded-xl mb-4 backdrop-blur-sm">
             <button
-              className={`tab ${activeTab === "upcoming" ? "tab-active" : ""}`}
-              onClick={() => setActiveTab("upcoming")}
+              className={`flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                activeTab === "upcoming"
+                  ? "bg-white text-primary shadow-md ring-1 ring-primary/10"
+                  : "text-base-content/60 hover:text-base-content/80 hover:bg-white/50"
+              }`}
+              onClick={() => handleTabChange("upcoming")}
             >
               Upcoming
             </button>
             <button
-              className={`tab ${activeTab === "history" ? "tab-active" : ""}`}
-              onClick={() => setActiveTab("history")}
+              className={`flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                activeTab === "history"
+                  ? "bg-white text-primary shadow-md ring-1 ring-primary/10"
+                  : "text-base-content/60 hover:text-base-content/80 hover:bg-white/50"
+              }`}
+              onClick={() => handleTabChange("history")}
             >
               History
             </button>
           </div>
 
+          {/* Search Input */}
+          <div className="mb-4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search events by name or location..."
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="input input-bordered w-full pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+              <svg
+                className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              {searchQuery && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content"
+                  aria-label="Clear search"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
           {filteredEvents.length === 0 ? (
             <p className="text-base-content/60 text-center py-8 text-sm">
-              No {activeTab === "upcoming" ? "upcoming" : "past"} events found
+              {searchQuery
+                ? `No events found matching "${searchQuery}"`
+                : `No ${
+                    activeTab === "upcoming" ? "upcoming" : "past"
+                  } events found`}
             </p>
           ) : (
-            <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
-              {filteredEvents.map((event) => {
-                const eventSignupCount = signups.filter(
-                  (signup) => signup.event_id === event.id
-                ).length;
-                return (
-                  <button
-                    key={event.id}
-                    onClick={() => handleEventSelect(event.id)}
-                    className={`w-full text-left p-3 rounded-lg border transition-all ${
-                      selectedEventId === event.id
-                        ? "bg-primary text-primary-content border-primary shadow-md"
-                        : "bg-base-100 border-base-300 hover:border-primary hover:bg-primary/5"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <div className="font-semibold truncate text-sm lg:text-base">
-                          {event.title}
+            <>
+              <div className="space-y-2 max-h-[60vh] lg:max-h-none overflow-y-auto">
+                {paginatedEvents.map((event) => {
+                  const eventSignupCount = signups.filter(
+                    (signup) => signup.event_id === event.id
+                  ).length;
+                  return (
+                    <button
+                      key={event.id}
+                      onClick={() => handleEventSelect(event.id)}
+                      className={`w-full text-left p-3 rounded-lg border transition-all ${
+                        selectedEventId === event.id
+                          ? "bg-primary text-primary-content border-primary shadow-md"
+                          : "bg-base-100 border-base-300 hover:border-primary hover:bg-primary/5"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold truncate text-sm lg:text-base">
+                            {event.title}
+                          </div>
+                          <div className="text-xs lg:text-sm opacity-80 mt-1">
+                            {event.date} • {event.time}
+                          </div>
                         </div>
-                        <div className="text-xs lg:text-sm opacity-80 mt-1">
-                          {event.date} • {event.time}
-                        </div>
+                        {eventSignupCount > 0 && (
+                          <div
+                            className={`badge badge-sm ${
+                              selectedEventId === event.id
+                                ? "badge-secondary"
+                                : "badge-primary"
+                            }`}
+                          >
+                            {eventSignupCount}
+                          </div>
+                        )}
                       </div>
-                      {eventSignupCount > 0 && (
-                        <div
-                          className={`badge badge-sm ${
-                            selectedEventId === event.id
-                              ? "badge-secondary"
-                              : "badge-primary"
-                          }`}
-                        >
-                          {eventSignupCount}
-                        </div>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Pagination - only for history tab */}
+              {activeTab === "history" && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  itemsPerPage={itemsPerPage}
+                  totalItems={filteredEvents.length}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

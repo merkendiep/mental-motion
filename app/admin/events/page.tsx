@@ -31,7 +31,7 @@ export default async function AdminEventsPage() {
             Manage Events
           </h1>
           <p className="text-sm lg:text-base text-base-content/70">
-            Edit event details with WYSIWYG editor
+            Edit event details and view signups.
           </p>
         </div>
 
