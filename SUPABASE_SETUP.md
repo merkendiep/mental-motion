@@ -176,6 +176,46 @@ CREATE POLICY "Authenticated users can delete subscriptions"
   USING (auth.role() = 'authenticated');
 ```
 
+### 5. Partners Table
+
+This table stores partner organizations with their logos and website URLs.
+
+```sql
+CREATE TABLE partners (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  logo TEXT NOT NULL,
+  url TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Add indexes for better query performance
+CREATE INDEX idx_partners_name ON partners(name);
+CREATE INDEX idx_partners_created_at ON partners(created_at);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Anyone can read partners
+CREATE POLICY "Partners are viewable by everyone"
+  ON partners FOR SELECT
+  USING (true);
+
+-- Policy: Only authenticated users can insert/update/delete partners (adjust as needed)
+CREATE POLICY "Authenticated users can insert partners"
+  ON partners FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can update partners"
+  ON partners FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can delete partners"
+  ON partners FOR DELETE
+  USING (auth.role() = 'authenticated');
+```
+
 ## Migrating Existing Events
 
 If you have existing events in the `src/data/events.ts` file, you can migrate them to Supabase:
