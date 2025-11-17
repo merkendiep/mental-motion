@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import AdminLayout from "@/src/components/AdminLayout";
 import { EventSignup, Event } from "@/src/lib/supabase";
+import Pagination from "@/src/components/Pagination";
 
 interface EventSignupsClientProps {
   signups: EventSignup[];
@@ -17,6 +18,8 @@ export default function EventSignupsClient({
 }: EventSignupsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEventId, setSelectedEventId] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   // Filter and search signups
   const filteredSignups = useMemo(() => {
@@ -42,6 +45,26 @@ export default function EventSignupsClient({
 
     return filtered;
   }, [signups, searchQuery, selectedEventId]);
+
+  // Paginated signups
+  const paginatedSignups = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredSignups.slice(startIndex, endIndex);
+  }, [filteredSignups, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredSignups.length / itemsPerPage);
+
+  // Reset to page 1 when filters change
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  };
+
+  const handleEventFilterChange = (value: string) => {
+    setSelectedEventId(value);
+    setCurrentPage(1);
+  };
 
   // Calculate signups in the last 7 days
   const recentSignups = useMemo(() => {
@@ -170,7 +193,7 @@ export default function EventSignupsClient({
                   id="search"
                   placeholder="Search..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="input input-bordered w-full pl-10"
                 />
                 <svg
@@ -200,7 +223,7 @@ export default function EventSignupsClient({
               <select
                 id="event-filter"
                 value={selectedEventId}
-                onChange={(e) => setSelectedEventId(e.target.value)}
+                onChange={(e) => handleEventFilterChange(e.target.value)}
                 className="select select-bordered w-full"
               >
                 <option value="all">All Events</option>
@@ -220,6 +243,7 @@ export default function EventSignupsClient({
                 onClick={() => {
                   setSearchQuery("");
                   setSelectedEventId("all");
+                  setCurrentPage(1);
                 }}
                 className="btn btn-sm btn-ghost"
               >
@@ -260,8 +284,8 @@ export default function EventSignupsClient({
                 </tr>
               </thead>
               <tbody>
-                {filteredSignups.length > 0 ? (
-                  filteredSignups.map((signup) => (
+                {paginatedSignups.length > 0 ? (
+                  paginatedSignups.map((signup) => (
                     <tr key={signup.id} className="hover:bg-base-100">
                       <td className="font-medium p-2 sm:p-3 lg:p-4">
                         {signup.first_name} {signup.last_name}
@@ -306,6 +330,19 @@ export default function EventSignupsClient({
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {filteredSignups.length > 0 && (
+            <div className="px-4 pb-4">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={filteredSignups.length}
+              />
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>
