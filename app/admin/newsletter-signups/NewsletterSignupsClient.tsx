@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import AdminLayout from "@/src/components/AdminLayout";
 import { NewsletterSubscription } from "@/src/services/newsletterService";
+import Pagination from "@/src/components/Pagination";
 
 interface NewsletterSignupsClientProps {
   userEmail: string;
@@ -22,6 +23,8 @@ export default function NewsletterSignupsClient({
   const [dateRange, setDateRange] = useState<DateRangeType>("all-time");
   const [searchEmail, setSearchEmail] = useState("");
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   // Helper function to filter by date range
   const filterByDateRange = (subscription: NewsletterSubscription) => {
@@ -73,6 +76,38 @@ export default function NewsletterSignupsClient({
       return matchesNewsletterType && matchesDateRange && matchesEmail;
     });
   }, [subscriptions, filter, dateRange, searchEmail]);
+
+  // Paginated subscriptions
+  const paginatedSubscriptions = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredSubscriptions.slice(startIndex, endIndex);
+  }, [filteredSubscriptions, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredSubscriptions.length / itemsPerPage);
+
+  // Reset to page 1 when filters change
+  const handleSearchChange = (value: string) => {
+    setSearchEmail(value);
+    setCurrentPage(1);
+  };
+
+  const handleFilterChange = (value: FilterType) => {
+    setFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleDateRangeChange = (value: DateRangeType) => {
+    setDateRange(value);
+    setCurrentPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearchEmail("");
+    setFilter("all");
+    setDateRange("all-time");
+    setCurrentPage(1);
+  };
 
   // Handle subscription deletion
   const handleDelete = async (subscription: NewsletterSubscription) => {
@@ -131,57 +166,13 @@ export default function NewsletterSignupsClient({
   return (
     <AdminLayout userEmail={userEmail}>
       <div className="space-y-4 lg:space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
-              Newsletter Subscriptions
-            </h1>
-            <p className="text-sm lg:text-base text-base-content/70">
-              View all newsletter subscriptions from Supabase database
-            </p>
-          </div>
-
-          {/* Filters Container */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:min-w-[400px]">
-            {/* Email Search */}
-            <div className="relative flex-1">
-              <input
-                type="text"
-                placeholder="Search by email or organization..."
-                value={searchEmail}
-                onChange={(e) => setSearchEmail(e.target.value)}
-                className="input input-bordered input-sm w-full pl-10"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/40"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-
-            {/* Date Range Filter */}
-            <select
-              id="dateRange"
-              value={dateRange}
-              onChange={(e) => setDateRange(e.target.value as DateRangeType)}
-              className="select select-bordered select-sm w-full sm:w-auto"
-            >
-              {dateRangeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-2">
+            Newsletter Subscriptions
+          </h1>
+          <p className="text-sm lg:text-base text-base-content/70">
+            View all newsletter subscriptions from Supabase database
+          </p>
         </div>
 
         {/* Error Message */}
@@ -354,96 +345,117 @@ export default function NewsletterSignupsClient({
           </div> */}
         </div>
 
-        {/* Filter Info */}
-        {(filter !== "all" ||
-          dateRange !== "all-time" ||
-          searchEmail.trim() !== "") && (
-          <div className="alert alert-info shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-current shrink-0 w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            <div className="flex-1">
-              <span>
-                Showing {filteredSubscriptions.length} subscriber
-                {filteredSubscriptions.length !== 1 ? "s" : ""}
-                {filter !== "all" && (
-                  <>
-                    {" "}
-                    for <strong>{filter}</strong> newsletter
-                  </>
-                )}
-                {dateRange !== "all-time" && (
-                  <>
-                    {" "}
-                    from{" "}
-                    <strong>
-                      {dateRangeOptions
-                        .find((o) => o.value === dateRange)
-                        ?.label.toLowerCase()}
-                    </strong>
-                  </>
-                )}
-                {searchEmail.trim() !== "" && (
-                  <>
-                    {" "}
-                    matching <strong>"{searchEmail}"</strong>
-                  </>
-                )}
-                .
-              </span>
-              <div className="mt-1 flex flex-wrap gap-2">
-                {filter !== "all" && (
-                  <button
-                    onClick={() => setFilter("all")}
-                    className="text-sm underline font-semibold hover:text-info-content"
-                  >
-                    Clear newsletter filter
-                  </button>
-                )}
-                {dateRange !== "all-time" && (
-                  <button
-                    onClick={() => setDateRange("all-time")}
-                    className="text-sm underline font-semibold hover:text-info-content"
-                  >
-                    Clear date filter
-                  </button>
-                )}
-                {searchEmail.trim() !== "" && (
-                  <button
-                    onClick={() => setSearchEmail("")}
-                    className="text-sm underline font-semibold hover:text-info-content"
-                  >
-                    Clear search
-                  </button>
-                )}
-                {(filter !== "all" ||
-                  dateRange !== "all-time" ||
-                  searchEmail.trim() !== "") && (
-                  <button
-                    onClick={() => {
-                      setFilter("all");
-                      setDateRange("all-time");
-                      setSearchEmail("");
-                    }}
-                    className="text-sm underline font-semibold hover:text-info-content"
-                  >
-                    Clear all filters
-                  </button>
-                )}
+        {/* Search and Filter */}
+        <div className="card bg-white shadow-lg rounded-2xl border border-base-200 p-4 lg:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Email Search */}
+            <div>
+              <label
+                htmlFor="search"
+                className="block text-sm font-medium text-base-content mb-2"
+              >
+                Search by Email or Organization
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="search"
+                  placeholder="Search..."
+                  value={searchEmail}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="input input-bordered w-full pl-10"
+                />
+                <svg
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-base-content/50"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
               </div>
             </div>
+
+            {/* Newsletter Type Filter */}
+            <div>
+              <label
+                htmlFor="newsletter-filter"
+                className="block text-sm font-medium text-base-content mb-2"
+              >
+                Newsletter Type
+              </label>
+              <select
+                id="newsletter-filter"
+                value={filter}
+                onChange={(e) =>
+                  handleFilterChange(e.target.value as FilterType)
+                }
+                className="select select-bordered w-full"
+              >
+                <option value="all">All Types</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="tips">Tips</option>
+              </select>
+            </div>
+
+            {/* Date Range Filter */}
+            <div>
+              <label
+                htmlFor="dateRange"
+                className="block text-sm font-medium text-base-content mb-2"
+              >
+                Time Period
+              </label>
+              <select
+                id="dateRange"
+                value={dateRange}
+                onChange={(e) =>
+                  handleDateRangeChange(e.target.value as DateRangeType)
+                }
+                className="select select-bordered w-full"
+              >
+                {dateRangeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        )}
+
+          {/* Clear Filters Button */}
+          {(searchEmail.trim() !== "" ||
+            filter !== "all" ||
+            dateRange !== "all-time") && (
+            <div className="mt-4">
+              <button
+                onClick={handleClearFilters}
+                className="btn btn-sm btn-ghost"
+              >
+                <svg
+                  className="w-4 h-4 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                Clear Filters
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Subscriptions Table */}
         <div className="card bg-white shadow-lg rounded-2xl border border-base-200 overflow-hidden">
@@ -465,8 +477,8 @@ export default function NewsletterSignupsClient({
                 </tr>
               </thead>
               <tbody>
-                {filteredSubscriptions.length > 0 ? (
-                  filteredSubscriptions.map((subscription) => (
+                {paginatedSubscriptions.length > 0 ? (
+                  paginatedSubscriptions.map((subscription) => (
                     <tr key={subscription.id} className="hover:bg-base-100">
                       <td className="font-medium break-all p-2 sm:p-3 lg:p-4">
                         {subscription.email}
@@ -545,6 +557,19 @@ export default function NewsletterSignupsClient({
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {filteredSubscriptions.length > 0 && (
+            <div className="px-4 pb-4">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={filteredSubscriptions.length}
+              />
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>
