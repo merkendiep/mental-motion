@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser, isAdmin } from "@/src/lib/auth";
-import { blogStorageService } from "@/src/services/storageService";
+import { createServerSupabaseClient } from "@/src/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,8 +48,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Upload the file
-    const publicUrl = await blogStorageService.uploadFile(file);
+    // Create server-side Supabase client with user's session
+    const supabase = await createServerSupabaseClient();
+    
+    // Generate a unique filename
+    const timestamp = Date.now();
+    const fileName = `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+
+    // Upload the file to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("mentalmotion")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) {
+      console.error("Error uploading file:", error);
+      throw new Error(`Failed to upload file: ${error.message}`);
+    }
+
+    // Get the public URL
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("mentalmotion").getPublicUrl(data.path);
 
     return NextResponse.json({
       success: true,

@@ -7,7 +7,7 @@ import { supabase } from "@/src/lib/supabase";
 export class StorageService {
   private bucketName: string;
 
-  constructor(bucketName: string = "blog-images") {
+  constructor(bucketName: string = "mentalmotion") {
     this.bucketName = bucketName;
   }
 
@@ -21,7 +21,8 @@ export class StorageService {
     try {
       // Generate a unique filename if path is not provided
       const timestamp = Date.now();
-      const fileName = path || `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+      const fileName =
+        path || `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
 
       // Upload the file
       const { data, error } = await supabase.storage
@@ -109,4 +110,4 @@ export class StorageService {
 }
 
 // Export a singleton instance for blog images
-export const blogStorageService = new StorageService("blog-images");
+export const blogStorageService = new StorageService("mentalmotion");
