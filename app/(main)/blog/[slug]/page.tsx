@@ -37,13 +37,10 @@ export default async function BlogPostPage({ params }: { params: tParams }) {
               <time className="italic">{post.date}</time>
             </div>
           </header>
-          <section className="prose prose-lg max-w-none text-gray-700">
-            {post.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-4">
-                {paragraph.trim()}
-              </p>
-            ))}
-          </section>
+          <section 
+            className="prose prose-lg max-w-none text-gray-700"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </article>
       </div>
     </div>
