@@ -6,10 +6,10 @@ type tParams = Promise<{ slug: string }>;
 
 export default async function BlogPostPage({ params }: { params: tParams }) {
   const { slug } = await params;
-  
+
   // Fetch the blog post from Supabase
   const post = await blogService.getPostBySlug(slug);
-  
+
   // Show 404 if post not found
   if (!post) {
     notFound();
@@ -37,13 +37,10 @@ export default async function BlogPostPage({ params }: { params: tParams }) {
               <time className="italic">{post.date}</time>
             </div>
           </header>
-          <section className="prose prose-lg max-w-none text-gray-700">
-            {post.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-4">
-                {paragraph.trim()}
-              </p>
-            ))}
-          </section>
+          <section
+            className="prose prose-lg max-w-none text-gray-700 [&_p]:mb-[14px]"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </article>
       </div>
     </div>
