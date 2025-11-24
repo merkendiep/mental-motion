@@ -76,20 +76,6 @@ For production use, you should verify your domain to improve deliverability and 
 
 ### 5. Test the Email Service
 
-#### Test via API Route
-
-You can test the email service by making a POST request to the `/api/email/send` endpoint:
-
-```bash
-curl -X POST http://localhost:3000/api/email/send \
-  -H "Content-Type: application/json" \
-  -d '{
-    "to": "your-email@example.com",
-    "subject": "Test Email",
-    "html": "<h1>Hello from Mental Motion!</h1><p>This is a test email.</p>"
-  }'
-```
-
 #### Test Event Registration Email
 
 1. Start your development server:
@@ -106,6 +92,8 @@ curl -X POST http://localhost:3000/api/email/send \
 1. Navigate to the newsletter subscription page
 2. Fill out the form
 3. Check your email for the confirmation
+
+**Note:** Email sending is integrated directly into the event registration and newsletter subscription flows. There is no public API endpoint for sending arbitrary emails for security reasons.
 
 ## Email Templates
 

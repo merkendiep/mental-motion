@@ -11,6 +11,20 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Default sender email (can be overridden)
 const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
+/**
+ * Escape HTML special characters to prevent XSS
+ */
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return text.replace(/[&<>"']/g, (char) => map[char]);
+}
+
 export interface EmailOptions {
   to: string | string[];
   subject: string;
@@ -127,6 +141,13 @@ export class EmailService {
     eventTime: string,
     eventLocation: string
   ): string {
+    // Escape all user inputs to prevent XSS
+    const safeFirstName = escapeHtml(firstName);
+    const safeEventTitle = escapeHtml(eventTitle);
+    const safeEventDate = escapeHtml(eventDate);
+    const safeEventTime = escapeHtml(eventTime);
+    const safeEventLocation = escapeHtml(eventLocation);
+
     return `
 <!DOCTYPE html>
 <html lang="nl">
@@ -138,17 +159,17 @@ export class EmailService {
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background-color: #f8f9fa; border-radius: 10px; padding: 30px; margin-bottom: 20px;">
     <h1 style="color: #2c3e50; margin-top: 0;">Bedankt voor je aanmelding! 🎉</h1>
-    <p style="font-size: 16px;">Hoi ${firstName},</p>
+    <p style="font-size: 16px;">Hoi ${safeFirstName},</p>
     <p style="font-size: 16px;">
       Je bent succesvol aangemeld voor het volgende evenement:
     </p>
   </div>
   
   <div style="background-color: #ffffff; border-left: 4px solid #3498db; padding: 20px; margin-bottom: 20px;">
-    <h2 style="color: #3498db; margin-top: 0;">${eventTitle}</h2>
-    <p style="margin: 10px 0;"><strong>📅 Datum:</strong> ${eventDate}</p>
-    <p style="margin: 10px 0;"><strong>🕐 Tijd:</strong> ${eventTime}</p>
-    <p style="margin: 10px 0;"><strong>📍 Locatie:</strong> ${eventLocation}</p>
+    <h2 style="color: #3498db; margin-top: 0;">${safeEventTitle}</h2>
+    <p style="margin: 10px 0;"><strong>📅 Datum:</strong> ${safeEventDate}</p>
+    <p style="margin: 10px 0;"><strong>🕐 Tijd:</strong> ${safeEventTime}</p>
+    <p style="margin: 10px 0;"><strong>📍 Locatie:</strong> ${safeEventLocation}</p>
   </div>
   
   <div style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
@@ -206,8 +227,9 @@ Dit is een automatisch gegenereerde e-mail. Reageer niet op dit bericht.
   private generateNewsletterSubscriptionEmailHtml(
     newsletters: string[]
   ): string {
+    // Escape newsletter names to prevent XSS
     const newslettersList = newsletters
-      .map((n) => `<li style="margin: 5px 0;">${n}</li>`)
+      .map((n) => `<li style="margin: 5px 0;">${escapeHtml(n)}</li>`)
       .join("");
 
     return `
