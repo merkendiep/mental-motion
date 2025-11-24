@@ -25,6 +25,15 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => map[char]);
 }
 
+/**
+ * Sanitize text for plain text emails
+ * Removes or replaces potentially problematic characters
+ */
+function sanitizeText(text: string): string {
+  // Remove control characters except newlines and tabs
+  return text.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, "");
+}
+
 export interface EmailOptions {
   to: string | string[];
   subject: string;
@@ -199,18 +208,25 @@ export class EmailService {
     eventTime: string,
     eventLocation: string
   ): string {
+    // Sanitize all inputs for plain text
+    const safeFirstName = sanitizeText(firstName);
+    const safeEventTitle = sanitizeText(eventTitle);
+    const safeEventDate = sanitizeText(eventDate);
+    const safeEventTime = sanitizeText(eventTime);
+    const safeEventLocation = sanitizeText(eventLocation);
+
     return `
 Bedankt voor je aanmelding!
 
-Hoi ${firstName},
+Hoi ${safeFirstName},
 
 Je bent succesvol aangemeld voor het volgende evenement:
 
-${eventTitle}
+${safeEventTitle}
 
-Datum: ${eventDate}
-Tijd: ${eventTime}
-Locatie: ${eventLocation}
+Datum: ${safeEventDate}
+Tijd: ${safeEventTime}
+Locatie: ${safeEventLocation}
 
 We kijken ernaar uit je te zien! Als je vragen hebt, neem dan gerust contact met ons op.
 
@@ -278,7 +294,10 @@ Dit is een automatisch gegenereerde e-mail. Reageer niet op dit bericht.
   private generateNewsletterSubscriptionEmailText(
     newsletters: string[]
   ): string {
-    const newslettersList = newsletters.map((n) => `- ${n}`).join("\n");
+    // Sanitize newsletter names for plain text
+    const newslettersList = newsletters
+      .map((n) => `- ${sanitizeText(n)}`)
+      .join("\n");
 
     return `
 Welkom bij Mental Motion!
