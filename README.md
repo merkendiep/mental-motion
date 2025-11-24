@@ -9,6 +9,8 @@ This application provides a platform for managing events and facilitating peer s
 - **Event Management**: Events are stored and retrieved from Supabase database
 - **Event Calendar**: Visual calendar showing all upcoming events
 - **Event Registration**: Users can register for events directly through the platform
+- **Email Notifications**: Automatic confirmation emails for event registrations and newsletter subscriptions
+- **Newsletter Management**: Users can subscribe to various newsletters
 - **Clean Architecture**: Separation of concerns with dedicated services and components
 
 ## Environment Setup
@@ -19,8 +21,15 @@ This application provides a platform for managing events and facilitating peer s
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
+3. Add your Resend API key (for email notifications):
+   ```bash
+   RESEND_API_KEY=your_resend_api_key
+   RESEND_FROM_EMAIL=noreply@yourdomain.com
+   ```
 
 For detailed Supabase setup instructions, see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md).
+
+For detailed email service setup instructions, see [RESEND_SETUP.md](./RESEND_SETUP.md).
 
 ## Getting Started
 
