@@ -5,12 +5,6 @@ import { Resend } from "resend";
  * Service for sending emails using Resend
  */
 
-// Initialize Resend with API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Default sender email (can be overridden)
-const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-
 /**
  * Escape HTML special characters to prevent XSS
  */
@@ -26,13 +20,28 @@ function escapeHtml(text: string): string {
 }
 
 /**
- * Sanitize text for plain text emails
+ * Sanitize text for plain text emails and email subjects
  * Removes or replaces potentially problematic characters
  */
 function sanitizeText(text: string): string {
   // Remove control characters except newlines and tabs
   return text.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, "");
 }
+
+/**
+ * Get or create Resend instance
+ * Lazy initialization to handle cases where API key is not set
+ */
+function getResendInstance(): Resend {
+  if (!process.env.RESEND_API_KEY) {
+    // Return a mock instance that will be caught by validation in sendEmail
+    return new Resend("");
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
+// Default sender email (can be overridden)
+const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
 export interface EmailOptions {
   to: string | string[];
@@ -66,6 +75,7 @@ export class EmailService {
         throw new Error("Email service is not configured");
       }
 
+      const resend = getResendInstance();
       const { data, error } = await resend.emails.send({
         from: options.from || DEFAULT_FROM,
         to: options.to,
@@ -116,7 +126,7 @@ export class EmailService {
 
     await this.sendEmail({
       to: email,
-      subject: `Bevestiging aanmelding: ${eventTitle}`,
+      subject: `Bevestiging aanmelding: ${sanitizeText(eventTitle)}`,
       html,
       text,
     });
