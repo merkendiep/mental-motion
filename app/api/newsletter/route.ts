@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { newsletterService } from "@/src/services/newsletterService";
+import { emailService } from "@/src/services/emailService";
 import { isValidEmail } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
@@ -36,11 +37,37 @@ export async function POST(request: NextRequest) {
     }
 
     // Subscribe using newsletter service
+    const normalizedEmail = data.email.trim().toLowerCase();
     await newsletterService.subscribe({
-      email: data.email.trim().toLowerCase(),
+      email: normalizedEmail,
       organization: data.organization?.trim() || undefined,
       newsletters: data.newsletters,
     });
+
+    // Send confirmation email
+    try {
+      // Map newsletter IDs to readable names
+      const newsletterNames = data.newsletters.map((n: string) => {
+        switch (n) {
+          case "monthly":
+            return "Maandelijkse nieuwsbrief";
+          case "quarterly":
+            return "Kwartaalnieuwsbrief";
+          case "tips":
+            return "Tips & Tricks";
+          default:
+            return n;
+        }
+      });
+
+      await emailService.sendNewsletterSubscriptionEmail(
+        normalizedEmail,
+        newsletterNames
+      );
+    } catch (emailError) {
+      // Log error but don't fail the subscription if email fails
+      console.error("Failed to send confirmation email:", emailError);
+    }
 
     return NextResponse.json({
       success: true,

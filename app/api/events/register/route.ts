@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eventService } from "@/src/services/eventService";
+import { emailService } from "@/src/services/emailService";
 import { isValidEmail, isValidName, isValidMobile, normalizeEmail } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
@@ -48,14 +49,30 @@ export async function POST(request: NextRequest) {
     }
 
     // Register the event signup using the event service
+    const normalizedEmail = normalizeEmail(data.email);
     await eventService.registerForEvent({
       first_name: data.first_name.trim(),
       last_name: data.last_name.trim(),
-      email: normalizeEmail(data.email),
+      email: normalizedEmail,
       mobile: data.mobile?.trim() || "",
       event_id: data.event_id.trim(),
       event_title: data.event_title.trim(),
     });
+
+    // Send confirmation email
+    try {
+      await emailService.sendEventRegistrationEmail(
+        normalizedEmail,
+        data.first_name.trim(),
+        data.event_title.trim(),
+        data.event_date || "Datum wordt binnenkort bekend gemaakt",
+        data.event_time || "Tijd wordt binnenkort bekend gemaakt",
+        data.event_location || "Locatie wordt binnenkort bekend gemaakt"
+      );
+    } catch (emailError) {
+      // Log error but don't fail the registration if email fails
+      console.error("Failed to send confirmation email:", emailError);
+    }
 
     return NextResponse.json({
       success: true,
