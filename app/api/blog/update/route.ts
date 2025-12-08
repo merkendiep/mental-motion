@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/src/lib/supabase";
 import { getCurrentUser, isAdmin } from "@/src/lib/auth";
+import { sanitizeString } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,16 +33,18 @@ export async function POST(request: NextRequest) {
     // Create authenticated Supabase client
     const supabase = await createServerSupabaseClient();
 
-    // Create the blog post
+    // Create the blog post with sanitized inputs
     const { data: newPost, error } = await supabase
       .from("blog_posts")
       .insert({
-        title: data.title,
-        slug: data.slug,
-        banner: data.banner || "",
-        authors: data.authors || [],
-        description: data.description || "",
-        content: data.content,
+        title: sanitizeString(data.title),
+        slug: sanitizeString(data.slug),
+        banner: data.banner ? sanitizeString(data.banner) : "",
+        authors: Array.isArray(data.authors)
+          ? data.authors.map((a: string) => sanitizeString(a))
+          : [],
+        description: data.description ? sanitizeString(data.description) : "",
+        content: data.content, // Content should not be trimmed as it may contain intentional whitespace
         date: data.date || new Date().toISOString().split("T")[0],
         published: data.published !== undefined ? data.published : false,
         created_at: new Date().toISOString(),
@@ -102,16 +105,18 @@ export async function PUT(request: NextRequest) {
     // Create authenticated Supabase client
     const supabase = await createServerSupabaseClient();
 
-    // Update the blog post
+    // Update the blog post with sanitized inputs
     const { data: updatedPost, error } = await supabase
       .from("blog_posts")
       .update({
-        title: data.title,
-        slug: data.slug,
-        banner: data.banner,
-        authors: data.authors,
-        description: data.description,
-        content: data.content,
+        title: sanitizeString(data.title),
+        slug: sanitizeString(data.slug),
+        banner: sanitizeString(data.banner),
+        authors: Array.isArray(data.authors)
+          ? data.authors.map((a: string) => sanitizeString(a))
+          : [],
+        description: sanitizeString(data.description),
+        content: data.content, // Content should not be trimmed as it may contain intentional whitespace
         date: data.date,
         published: data.published,
         updated_at: new Date().toISOString(),

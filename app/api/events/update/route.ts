@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser, isAdmin } from "@/src/lib/auth";
 import { createServerSupabaseClient } from "@/src/lib/supabase";
+import { sanitizeString } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,16 +42,16 @@ export async function POST(request: NextRequest) {
     // Generate a unique ID for the event (UUID format)
     const eventId = crypto.randomUUID();
 
-    // Create new event using authenticated client
+    // Create new event using authenticated client with sanitized inputs
     const { data, error } = await supabase
       .from("events")
       .insert({
         id: eventId,
-        title,
-        date,
-        time,
-        location,
-        description: description || "",
+        title: sanitizeString(title),
+        date: sanitizeString(date),
+        time: sanitizeString(time),
+        location: sanitizeString(location),
+        description: description ? sanitizeString(description) : "",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -113,13 +114,14 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Prepare updates
+    // Prepare updates with sanitized inputs
     const updates: any = {};
-    if (title !== undefined) updates.title = title;
-    if (date !== undefined) updates.date = date;
-    if (time !== undefined) updates.time = time;
-    if (location !== undefined) updates.location = location;
-    if (description !== undefined) updates.description = description;
+    if (title !== undefined) updates.title = sanitizeString(title);
+    if (date !== undefined) updates.date = sanitizeString(date);
+    if (time !== undefined) updates.time = sanitizeString(time);
+    if (location !== undefined) updates.location = sanitizeString(location);
+    if (description !== undefined)
+      updates.description = sanitizeString(description);
 
     // Create authenticated Supabase client
     const supabase = await createServerSupabaseClient();

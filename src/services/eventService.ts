@@ -4,6 +4,7 @@ import {
   Event,
   EventSignup,
 } from "@/src/lib/supabase";
+import { sanitizeString } from "@/src/lib/validation";
 
 /**
  * Event Service
@@ -128,7 +129,11 @@ export class EventService {
         .from("events")
         .insert({
           id: eventId,
-          ...eventData,
+          title: sanitizeString(eventData.title),
+          date: sanitizeString(eventData.date),
+          time: sanitizeString(eventData.time),
+          location: sanitizeString(eventData.location),
+          description: sanitizeString(eventData.description || ""),
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         })
@@ -152,10 +157,23 @@ export class EventService {
    */
   async updateEvent(id: string, updates: Partial<Event>): Promise<Event> {
     try {
+      // Sanitize string fields in updates
+      const sanitizedUpdates: Partial<Event> = {};
+      if (updates.title !== undefined)
+        sanitizedUpdates.title = sanitizeString(updates.title);
+      if (updates.date !== undefined)
+        sanitizedUpdates.date = sanitizeString(updates.date);
+      if (updates.time !== undefined)
+        sanitizedUpdates.time = sanitizeString(updates.time);
+      if (updates.location !== undefined)
+        sanitizedUpdates.location = sanitizeString(updates.location);
+      if (updates.description !== undefined)
+        sanitizedUpdates.description = sanitizeString(updates.description);
+
       const { data, error } = await supabase
         .from("events")
         .update({
-          ...updates,
+          ...sanitizedUpdates,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id)

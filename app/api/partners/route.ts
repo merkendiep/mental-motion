@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/src/lib/supabase";
 import { getCurrentUser, isAdmin } from "@/src/lib/auth";
+import { sanitizeString } from "@/src/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,13 +33,13 @@ export async function POST(request: NextRequest) {
     // Create authenticated Supabase client
     const supabase = await createServerSupabaseClient();
 
-    // Create the partner
+    // Create the partner with sanitized inputs
     const { data: newPartner, error } = await supabase
       .from("partners")
       .insert({
-        name: data.name,
-        logo: data.logo,
-        url: data.url,
+        name: sanitizeString(data.name),
+        logo: sanitizeString(data.logo),
+        url: sanitizeString(data.url),
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -97,13 +98,13 @@ export async function PUT(request: NextRequest) {
     // Create authenticated Supabase client
     const supabase = await createServerSupabaseClient();
 
-    // Update the partner
+    // Update the partner with sanitized inputs
     const { data: updatedPartner, error } = await supabase
       .from("partners")
       .update({
-        name: data.name,
-        logo: data.logo,
-        url: data.url,
+        name: sanitizeString(data.name),
+        logo: sanitizeString(data.logo),
+        url: sanitizeString(data.url),
         updated_at: new Date().toISOString(),
       })
       .eq("id", data.id)

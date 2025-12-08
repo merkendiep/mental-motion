@@ -1,4 +1,5 @@
 import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
+import { sanitizeString } from "@/src/lib/validation";
 
 /**
  * Blog Post Interface
@@ -59,16 +60,17 @@ export class BlogService {
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
     try {
       const supabaseServer = await createServerSupabaseClient();
+      const trimmedSlug = sanitizeString(slug);
+
       const { data, error } = await supabaseServer
         .from("blog_posts")
         .select("*")
-        .eq("slug", slug)
+        .eq("slug", trimmedSlug)
         .eq("published", true)
         .single();
 
       if (error) {
         if (error.code === "PGRST116") {
-          // Not found
           return null;
         }
         console.error("Error fetching blog post:", error);
@@ -106,7 +108,16 @@ export class BlogService {
       const { data, error } = await supabase
         .from("blog_posts")
         .insert({
-          ...postData,
+          slug: sanitizeString(postData.slug),
+          title: sanitizeString(postData.title),
+          banner: sanitizeString(postData.banner),
+          authors: Array.isArray(postData.authors)
+            ? postData.authors.map((a) => sanitizeString(a))
+            : [],
+          description: sanitizeString(postData.description),
+          content: postData.content, // Content should not be trimmed
+          date: sanitizeString(postData.date),
+          published: postData.published,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         })
@@ -130,10 +141,32 @@ export class BlogService {
    */
   async updatePost(id: number, updates: Partial<BlogPost>): Promise<BlogPost> {
     try {
+      // Sanitize string fields in updates
+      const sanitizedUpdates: Partial<BlogPost> = {};
+      if (updates.slug !== undefined)
+        sanitizedUpdates.slug = sanitizeString(updates.slug);
+      if (updates.title !== undefined)
+        sanitizedUpdates.title = sanitizeString(updates.title);
+      if (updates.banner !== undefined)
+        sanitizedUpdates.banner = sanitizeString(updates.banner);
+      if (updates.authors !== undefined) {
+        sanitizedUpdates.authors = Array.isArray(updates.authors)
+          ? updates.authors.map((a) => sanitizeString(a))
+          : updates.authors;
+      }
+      if (updates.description !== undefined)
+        sanitizedUpdates.description = sanitizeString(updates.description);
+      if (updates.content !== undefined)
+        sanitizedUpdates.content = updates.content; // Don't trim content
+      if (updates.date !== undefined)
+        sanitizedUpdates.date = sanitizeString(updates.date);
+      if (updates.published !== undefined)
+        sanitizedUpdates.published = updates.published;
+
       const { data, error } = await supabase
         .from("blog_posts")
         .update({
-          ...updates,
+          ...sanitizedUpdates,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id)
