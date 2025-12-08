@@ -1,4 +1,5 @@
 import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
+import { sanitizeString } from "@/src/lib/validation";
 
 /**
  * Partner Interface
@@ -78,7 +79,9 @@ export class PartnerService {
       const { data, error } = await supabase
         .from("partners")
         .insert({
-          ...partnerData,
+          name: sanitizeString(partnerData.name),
+          logo: sanitizeString(partnerData.logo),
+          url: sanitizeString(partnerData.url),
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         })
@@ -102,10 +105,19 @@ export class PartnerService {
    */
   async updatePartner(id: number, updates: Partial<Partner>): Promise<Partner> {
     try {
+      // Sanitize string fields in updates
+      const sanitizedUpdates: Partial<Partner> = {};
+      if (updates.name !== undefined)
+        sanitizedUpdates.name = sanitizeString(updates.name);
+      if (updates.logo !== undefined)
+        sanitizedUpdates.logo = sanitizeString(updates.logo);
+      if (updates.url !== undefined)
+        sanitizedUpdates.url = sanitizeString(updates.url);
+
       const { data, error } = await supabase
         .from("partners")
         .update({
-          ...updates,
+          ...sanitizedUpdates,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id)
