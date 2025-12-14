@@ -1,6 +1,7 @@
 /**
  * Utility functions for validation and data normalization
  */
+import DOMPurify from "isomorphic-dompurify";
 
 /**
  * Sanitize string input by trimming whitespace
@@ -9,6 +10,32 @@
  */
 export function sanitizeString(input: string): string {
   return input.trim();
+}
+
+/**
+ * Sanitize HTML content to prevent XSS attacks
+ * @param html - Raw HTML content
+ * @param allowedTags - Optional array of allowed HTML tags
+ * @returns Sanitized HTML string safe for rendering
+ */
+export function sanitizeHtml(html: string, allowedTags?: string[]): string {
+  if (!html) return "";
+  
+  const config = allowedTags
+    ? {
+        ALLOWED_TAGS: allowedTags,
+        ALLOWED_ATTR: ["href", "target", "rel", "class", "id"],
+      }
+    : {
+        // Default configuration allows common formatting tags
+        ALLOWED_TAGS: [
+          "p", "br", "strong", "em", "u", "s", "a", "h1", "h2", "h3", "h4", "h5", "h6",
+          "ul", "ol", "li", "blockquote", "code", "pre", "hr", "span", "div",
+        ],
+        ALLOWED_ATTR: ["href", "target", "rel", "class", "id"],
+      };
+  
+  return DOMPurify.sanitize(html, config);
 }
 
 /**

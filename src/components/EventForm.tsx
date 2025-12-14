@@ -71,6 +71,10 @@ export default function EventForm({ event }: EventFormProps) {
     setSubmitStatus("idle");
     setErrorMessage("");
 
+    // Create AbortController for request timeout
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), 30000); // 30 second timeout
+
     try {
       const response = await fetch("/api/events/register", {
         method: "POST",
@@ -85,8 +89,10 @@ export default function EventForm({ event }: EventFormProps) {
           event_id: event.id,
           event_title: event.title,
         }),
+        signal: abortController.signal,
       });
 
+      clearTimeout(timeoutId);
       const result = await response.json();
 
       if (response.ok) {
@@ -101,10 +107,15 @@ export default function EventForm({ event }: EventFormProps) {
         throw new Error(result.error || "Failed to submit event signup");
       }
     } catch (error: any) {
+      clearTimeout(timeoutId);
       setSubmitStatus("error");
-      setErrorMessage(
-        error.message || "Er ging iets mis. Probeer het opnieuw."
-      );
+      if (error.name === 'AbortError') {
+        setErrorMessage("Het verzoek duurde te lang. Controleer je internetverbinding en probeer het opnieuw.");
+      } else {
+        setErrorMessage(
+          error.message || "Er ging iets mis. Probeer het opnieuw."
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }

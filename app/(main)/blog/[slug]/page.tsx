@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogService } from "@/src/services/blogService";
+import { sanitizeHtml } from "@/src/lib/validation";
 
 type tParams = Promise<{ slug: string }>;
 
@@ -39,7 +40,7 @@ export default async function BlogPostPage({ params }: { params: tParams }) {
           </header>
           <section
             className="prose prose-lg max-w-none text-gray-700 [&_p]:mb-[14px]"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           />
         </article>
       </div>

@@ -42,6 +42,13 @@ export default function RichTextEditor({
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content);
     }
+    
+    // Cleanup function to destroy editor on unmount
+    return () => {
+      if (editor) {
+        editor.destroy();
+      }
+    };
   }, [content, editor]);
 
   if (!editor) {

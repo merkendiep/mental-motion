@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { eventService } from "@/src/services/eventService";
+import { sanitizeHtml } from "@/src/lib/validation";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 import EventForm from "@/src/components/EventForm";
 import BackButton from "@/src/components/BackButton";
@@ -60,7 +61,7 @@ export default async function EventPage({ params }: { params: tParams }) {
             </div>
             <div
               className="text-base-content/90 text-lg mb-2 prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: event.description }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.description) }}
             />
           </div>
         </div>
