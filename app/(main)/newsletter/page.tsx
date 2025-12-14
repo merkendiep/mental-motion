@@ -67,6 +67,10 @@ const NewsletterPage = () => {
     setStatus("loading");
     setErrorMessage("");
 
+    // Create AbortController for request timeout
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), 30000); // 30 second timeout
+
     try {
       const response = await fetch("/api/newsletter", {
         method: "POST",
@@ -78,8 +82,10 @@ const NewsletterPage = () => {
           organization,
           newsletters: selectedNewsletters,
         }),
+        signal: abortController.signal,
       });
 
+      clearTimeout(timeoutId);
       const result = await response.json();
 
       if (response.ok) {
@@ -94,10 +100,15 @@ const NewsletterPage = () => {
         );
       }
     } catch (error: any) {
+      clearTimeout(timeoutId);
       setStatus("error");
-      setErrorMessage(
-        error.message || "Er ging iets mis. Probeer het opnieuw."
-      );
+      if (error.name === 'AbortError') {
+        setErrorMessage("Het verzoek duurde te lang. Controleer je internetverbinding en probeer het opnieuw.");
+      } else {
+        setErrorMessage(
+          error.message || "Er ging iets mis. Probeer het opnieuw."
+        );
+      }
     }
   };
   return (
