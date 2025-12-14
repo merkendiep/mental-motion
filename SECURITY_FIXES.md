@@ -91,7 +91,7 @@ useEffect(() => {
 
 **Fix:** 
 1. Added AbortController with 30-second timeout to all fetch requests
-2. Added realtime connection timeout to Supabase clients
+2. Enhanced Supabase client configuration with proper headers and session management
 3. Created utility function `fetchWithTimeout()` for consistent timeout handling
 
 ```typescript
@@ -120,9 +120,9 @@ try {
 **Issue:** Supabase clients lacked timeout and connection management configuration.
 
 **Fix:** Added comprehensive configuration including:
-- Realtime connection timeout (30 seconds)
-- Client identification headers
+- Client identification headers for better tracking
 - Proper session persistence settings for client/server contexts
+- Schema configuration for database queries
 
 ## Recommendations for Monitoring
 
@@ -143,7 +143,7 @@ To prevent future server hanging issues, consider implementing:
 
 ## Dependencies Added
 
-- `isomorphic-dompurify@2.18.0` - For HTML sanitization (no known vulnerabilities)
+- `isomorphic-dompurify@2.34.0` - For HTML sanitization (no known vulnerabilities)
 
 ## Files Modified
 

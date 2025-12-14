@@ -15,7 +15,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Create a single supabase client for interacting with your database (client-side only)
-// Configure with timeout to prevent hanging connections
+// Configure with connection management to prevent hanging connections
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   global: {
     headers: {
@@ -28,9 +28,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-  },
-  realtime: {
-    timeout: 30000, // 30 second timeout for realtime connections
   },
 });
 
@@ -66,9 +63,6 @@ export async function createServerSupabaseClient() {
     auth: {
       persistSession: false, // Server-side doesn't need to persist sessions
       autoRefreshToken: false,
-    },
-    realtime: {
-      timeout: 30000, // 30 second timeout for realtime connections
     },
   });
 }

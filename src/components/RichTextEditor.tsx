@@ -42,14 +42,16 @@ export default function RichTextEditor({
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content);
     }
-    
-    // Cleanup function to destroy editor on unmount
+  }, [content, editor]);
+
+  // Cleanup editor on unmount only
+  useEffect(() => {
     return () => {
       if (editor) {
         editor.destroy();
       }
     };
-  }, [content, editor]);
+  }, [editor]);
 
   if (!editor) {
     return null;
