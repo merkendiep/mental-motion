@@ -4,6 +4,7 @@ import {
   ClockIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { fetchWithTimeout } from "@/src/lib/fetchWithTimeout";
 
 const Contact = () => {
   const [result, setResult] = useState("");
@@ -21,18 +22,12 @@ const Contact = () => {
     formData.append("email", email);
     formData.append("message", message);
 
-    // Create AbortController for request timeout
-    const abortController = new AbortController();
-    const timeoutId = setTimeout(() => abortController.abort(), 30000); // 30 second timeout
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetchWithTimeout("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
-        signal: abortController.signal,
       });
 
-      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (data.success) {
@@ -46,13 +41,8 @@ const Contact = () => {
         setResult(data.message);
       }
     } catch (error) {
-      clearTimeout(timeoutId);
       console.error("Error submitting form:", error);
-      if (error.name === 'AbortError') {
-        setResult("Het verzoek duurde te lang. Probeer het opnieuw.");
-      } else {
-        setResult("Er ging iets mis. Probeer het opnieuw.");
-      }
+      setResult(error.message || "Er ging iets mis. Probeer het opnieuw.");
     }
   };
 

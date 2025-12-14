@@ -7,6 +7,7 @@ import {
   HiExclamationCircle,
 } from "react-icons/hi";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
+import { fetchWithTimeout } from "@/src/lib/fetchWithTimeout";
 
 type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
@@ -67,12 +68,8 @@ const NewsletterPage = () => {
     setStatus("loading");
     setErrorMessage("");
 
-    // Create AbortController for request timeout
-    const abortController = new AbortController();
-    const timeoutId = setTimeout(() => abortController.abort(), 30000); // 30 second timeout
-
     try {
-      const response = await fetch("/api/newsletter", {
+      const response = await fetchWithTimeout("/api/newsletter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,10 +79,8 @@ const NewsletterPage = () => {
           organization,
           newsletters: selectedNewsletters,
         }),
-        signal: abortController.signal,
       });
 
-      clearTimeout(timeoutId);
       const result = await response.json();
 
       if (response.ok) {
@@ -100,15 +95,10 @@ const NewsletterPage = () => {
         );
       }
     } catch (error: any) {
-      clearTimeout(timeoutId);
       setStatus("error");
-      if (error.name === 'AbortError') {
-        setErrorMessage("Het verzoek duurde te lang. Controleer je internetverbinding en probeer het opnieuw.");
-      } else {
-        setErrorMessage(
-          error.message || "Er ging iets mis. Probeer het opnieuw."
-        );
-      }
+      setErrorMessage(
+        error.message || "Er ging iets mis. Probeer het opnieuw."
+      );
     }
   };
   return (
