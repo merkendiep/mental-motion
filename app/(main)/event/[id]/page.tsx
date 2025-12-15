@@ -1,7 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { eventService } from "@/src/services/eventService";
-import { sanitizeHtml } from "@/src/lib/validation";
+import { sanitizeHtml } from "@/src/lib/sanitize.server";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 import EventForm from "@/src/components/EventForm";
 import BackButton from "@/src/components/BackButton";
@@ -19,6 +19,9 @@ export default async function EventPage({ params }: { params: tParams }) {
     notFound();
   }
 
+  // TypeScript doesn't recognize notFound() throws, so assert event is not null
+  const confirmedEvent = event!;
+
   return (
     <div>
       <div className="max-w-2xl pt-24 mx-auto p-4 flex flex-col gap-10">
@@ -31,11 +34,11 @@ export default async function EventPage({ params }: { params: tParams }) {
         <div className="card bg-white shadow-xl rounded-3xl border border-base-200 pb-8 px-8 relative">
           <div className="card-body items-center text-center">
             <h1 className="text-4xl font-extrabold text-primary mb-2 tracking-tight">
-              {event.title}
+              {confirmedEvent.title}
             </h1>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
               <span className="inline-block bg-primary text-white font-bold px-5 py-2 rounded-full text-lg shadow">
-                {event.date} &bull; {event.time}
+                {confirmedEvent.date} &bull; {confirmedEvent.time}
               </span>
               <span className="inline-block bg-white border border-primary text-primary font-semibold px-4 py-2 rounded-full text-base shadow-sm">
                 <svg
@@ -56,18 +59,20 @@ export default async function EventPage({ params }: { params: tParams }) {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                {event.location}
+                {confirmedEvent.location}
               </span>
             </div>
             <div
               className="text-base-content/90 text-lg mb-2 prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.description) }}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(confirmedEvent.description),
+              }}
             />
           </div>
         </div>
 
         {/* Application Form Card */}
-        <EventForm event={event} />
+        <EventForm event={confirmedEvent} />
       </div>
 
       <TransitionWithBorder colorFrom={"bg-white"} colorTo={"bg-gray-900"} />
