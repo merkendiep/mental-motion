@@ -1,7 +1,12 @@
 /**
  * Utility functions for validation and data normalization
  */
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
+
+// Create a DOMPurify instance for server-side use
+const window = new JSDOM("").window;
+const purify = DOMPurify(window as unknown as Window);
 
 /**
  * Sanitize string input by trimming whitespace
@@ -20,7 +25,7 @@ export function sanitizeString(input: string): string {
  */
 export function sanitizeHtml(html: string, allowedTags?: string[]): string {
   if (!html) return "";
-  
+
   const config = allowedTags
     ? {
         ALLOWED_TAGS: allowedTags,
@@ -30,16 +35,35 @@ export function sanitizeHtml(html: string, allowedTags?: string[]): string {
         // Default configuration allows common formatting tags
         // Note: div and span only allowed with class attribute for styling
         ALLOWED_TAGS: [
-          "p", "br", "strong", "em", "u", "s", "a", "h1", "h2", "h3", "h4", "h5", "h6",
-          "ul", "ol", "li", "blockquote", "code", "pre", "hr",
+          "p",
+          "br",
+          "strong",
+          "em",
+          "u",
+          "s",
+          "a",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "ul",
+          "ol",
+          "li",
+          "blockquote",
+          "code",
+          "pre",
+          "hr",
         ],
         // Restrict attributes - no id to prevent DOM manipulation
         ALLOWED_ATTR: ["href", "target", "rel", "class"],
         // Ensure links are safe
-        ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+        ALLOWED_URI_REGEXP:
+          /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
       };
-  
-  return DOMPurify.sanitize(html, config);
+
+  return purify.sanitize(html, config);
 }
 
 /**
