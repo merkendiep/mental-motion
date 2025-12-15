@@ -7,6 +7,7 @@ import {
   HiExclamationCircle,
 } from "react-icons/hi";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
+import { fetchWithTimeout } from "@/src/lib/fetchWithTimeout";
 
 type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
@@ -68,7 +69,7 @@ const NewsletterPage = () => {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/newsletter", {
+      const response = await fetchWithTimeout("/api/newsletter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

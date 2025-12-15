@@ -15,7 +15,21 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Create a single supabase client for interacting with your database (client-side only)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Configure with connection management to prevent hanging connections
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  global: {
+    headers: {
+      'X-Client-Info': 'mental-motion-app',
+    },
+  },
+  db: {
+    schema: 'public',
+  },
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});
 
 // Create a server-side Supabase client that handles cookies properly
 export async function createServerSupabaseClient() {
@@ -37,6 +51,18 @@ export async function createServerSupabaseClient() {
           // user sessions.
         }
       },
+    },
+    global: {
+      headers: {
+        'X-Client-Info': 'mental-motion-app',
+      },
+    },
+    db: {
+      schema: 'public',
+    },
+    auth: {
+      persistSession: false, // Server-side doesn't need to persist sessions
+      autoRefreshToken: false,
     },
   });
 }

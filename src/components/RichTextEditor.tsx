@@ -44,6 +44,16 @@ export default function RichTextEditor({
     }
   }, [content, editor]);
 
+  // Cleanup editor on unmount only - empty dependency array ensures it only runs on unmount
+  useEffect(() => {
+    return () => {
+      if (editor) {
+        editor.destroy();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty array - cleanup only on unmount, not when editor changes
+
   if (!editor) {
     return null;
   }

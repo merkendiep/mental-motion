@@ -50,6 +50,11 @@ const parseTextWithLinks = (
         word: match[0],
         url: url,
       });
+      
+      // Prevent infinite loop: if match is empty, advance manually
+      if (match.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
     }
   });
 

@@ -4,6 +4,7 @@ import {
   ClockIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { fetchWithTimeout } from "@/src/lib/fetchWithTimeout";
 
 const Contact = () => {
   const [result, setResult] = useState("");
@@ -21,22 +22,27 @@ const Contact = () => {
     formData.append("email", email);
     formData.append("message", message);
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetchWithTimeout("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.success) {
-      setResult("Email verstuurd");
-      event.target.reset();
-      setName("");
-      setEmail("");
-      setMessage("");
-    } else {
-      console.log("Error", data);
-      setResult(data.message);
+      if (data.success) {
+        setResult("Email verstuurd");
+        event.target.reset();
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        console.log("Error", data);
+        setResult(data.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setResult(error.message || "Er ging iets mis. Probeer het opnieuw.");
     }
   };
 

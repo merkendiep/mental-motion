@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Event } from "@/src/lib/supabase";
 import { isValidEmail, isValidMobile } from "@/src/lib/validation";
+import { fetchWithTimeout } from "@/src/lib/fetchWithTimeout";
 
 interface EventFormProps {
   event: Event;
@@ -72,7 +73,7 @@ export default function EventForm({ event }: EventFormProps) {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/events/register", {
+      const response = await fetchWithTimeout("/api/events/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
