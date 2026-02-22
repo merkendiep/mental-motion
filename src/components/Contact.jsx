@@ -23,10 +23,13 @@ const Contact = () => {
     formData.append("message", message);
 
     try {
-      const response = await fetchWithTimeout("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetchWithTimeout(
+        "https://api.web3forms.com/submit",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       const data = await response.json();
 
@@ -159,7 +162,7 @@ const Contact = () => {
                     Stuur ons een bericht
                   </h2>
                   <p className="text-base-content/70">
-                    We reageren binnen 24 uur op je bericht
+                    We reageren zo snel mogelijk
                   </p>
                 </div>
 

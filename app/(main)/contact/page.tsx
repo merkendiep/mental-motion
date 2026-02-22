@@ -34,7 +34,7 @@ const ContactPage = () => {
       icon: <EnvelopeIcon className="h-6 w-6" />,
       title: "Email ons",
       description: "info@mentalmotion.nl",
-      detail: "We reageren binnen 24 uur",
+      detail: "We reageren zo snel mogelijk",
       color: "text-accent",
     },
   ];
@@ -53,12 +53,12 @@ const ContactPage = () => {
     {
       question: "Moet ik student zijn om gebruik te maken van jullie diensten?",
       answer:
-        "Ja, onze diensten zijn specifiek gericht op studenten. We begrijpen de unieke uitdagingen waar studenten mee te maken hebben.",
+        "Nee, iedereen die zich als jongvolwassen ziet is meer dan welkom! Student, werkend of beide niet, is welkom! Iedereen mag hier landen en een luisterend oor vinden.",
     },
     {
       question: "Is er een wachtlijst?",
       answer:
-        "We doen ons best om iedereen zo snel mogelijk te helpen. Voor dringende gevallen maken we altijd tijd vrij.",
+        "Bij MentalMotion werken we zonder wachtlijst. Je hoeft je dus ook niet aan te melden om langs te komen. Tijdens onze openingstijden kun je gewoon binnenlopen. We doen ons best om iedereen zo snel mogelijk te helpen. Soms is het mogelijk dat onze peer supporters al in gesprek zijn en er op dat moment niet direct iemand beschikbaar is. Maar er is altijd iemand van het team die je ontvangt, even met je afstemt en met je meekijkt naar een passend moment.’",
     },
   ];
 

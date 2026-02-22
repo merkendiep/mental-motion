@@ -26,14 +26,14 @@ const Hero = () => {
           </h1>
 
           <p className="py-6 text-white lg:max-w-lg">
-            Samen zorgen wij via Peer Support voor een Mental Mindshift in
-            Utrecht
+            MentalMotion is de plek in Utrecht waar jongvolwassenen elkaar
+            versterken: vrij binnenlopen, écht contact, directe peer support.
           </p>
 
           <div className="space-y-2 text-white">
             <div className="flex items-center">
               <UserGroupIcon className={"size-8 mr-2"} />
-              <span>1-op-1 support</span>
+              <span>1 op 1 én groep support</span>
             </div>
             <div className="flex items-center">
               <AcademicCapIcon className={"size-8 mr-2"} />
@@ -41,11 +41,11 @@ const Hero = () => {
             </div>
             <div className="flex items-center">
               <HeartIcon className={"size-8 mr-2"} />
-              <span>Mental health events</span>
+              <span>Activiteiten en evenementen</span>
             </div>
             <div className="flex items-center">
               <HomeIcon className={"size-8 mr-2"} />
-              <span>Ruimte huren</span>
+              <span>Ruimte te huur</span>
             </div>
           </div>
 
