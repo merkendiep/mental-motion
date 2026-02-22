@@ -50,7 +50,7 @@ const RentLocationPage = () => {
         {/* Image */}
         <div className="flex-1 flex justify-center">
           <img
-            src="/images/girl-entering-door-2.jpeg"
+            src="/images/de peer.JPG"
             alt=""
             className="max-w-xs rounded-b-box rounded-t-[14rem] shadow-2xl outline outline-base-content/5 md:max-w-md"
           />

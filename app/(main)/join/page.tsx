@@ -9,7 +9,7 @@ const JoinUs = () => {
       <div className="hero-content flex-col mx-auto gap-8 lg:flex-row">
         <img
           className="mask mask-square rounded-xl max-w-xs md:max-w-2xl"
-          src="/images/training-presentation.jpeg"
+          src="/images/Sluit je bij ons aan.JPG"
         />
 
         <div className="text-center lg:text-start">
@@ -35,10 +35,9 @@ const JoinUs = () => {
       <div className={" max-w-full w-full bg-[#58B095]"}>
         <div className="hero-content flex-col mx-auto text-white mt-16 lg:gap-16 lg:flex-row-reverse">
           <div
-            className="hidden lg:block mask mask-heart w-[110rem] h-[30rem] bg-cover bg-center"
+            className="hidden lg:block w-[110rem] h-[30rem] bg-cover bg-center mask mask-square rounded-xl"
             style={{
-              backgroundImage:
-                "url('/images/peer-support-example-conversation.jpeg')",
+              backgroundImage: "url('/images/Wordt peer supporter.JPG')",
               backgroundPosition: "50% 20%",
             }}
           />

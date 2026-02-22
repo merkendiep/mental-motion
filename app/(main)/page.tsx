@@ -30,28 +30,25 @@ export default function Home() {
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:gap-16 lg:flex-row items-center">
           <div className="flex-1 max-w-md">
             <img
-              src="/images/prestatiedruk.jpeg"
+              src="/images/peer support.JPG"
               className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
               alt="Student peer support"
             />
           </div>
           <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
             <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
-              <span role="img" aria-label="support">
-                🤝
-              </span>
               Peer Support
             </h1>
             <p className="text-lg leading-relaxed">
               Heb je behoefte aan een luisterend oor of wil je gewoon even je
               verhaal kwijt? Bij ons kun je gratis terecht voor vertrouwelijke
-              gesprekken met opgeleide peer guides – studenten die weten wat jij
-              doormaakt. Samen kijken we naar wat jij nodig hebt om verder te
-              komen, of het nu gaat om studie, stress of persoonlijke groei. Je
-              kunt een afspraak maken maar mag ook binnen komen lopen, er staat
-              altijd iemand voor je klaar! Samen kijken we naar wat jij nodig
-              hebt om verder te komen, of het nu gaat om studie, stress of
-              persoonlijke groei.
+              gesprekken met opgeleide peer supporters en studenten die door
+              eigen ervaring weten wat jij doormaakt. Samen kijken we naar wat
+              jij nodig hebt om verder te komen, of het nu gaat om studie,
+              stress of persoonlijke groei. Je kunt een afspraak maken maar mag
+              ook binnen komen lopen, er staat altijd iemand voor je klaar! Wil
+              je zelf anderen ondersteunen? Sluit je aan bij ons team van peers
+              en maak het verschil voor medestudenten!
             </p>
 
             <br />
@@ -74,26 +71,27 @@ export default function Home() {
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16 items-center">
           <div className="flex-1 max-w-md">
             <img
-              src="/images/2-students-studying.jpeg"
+              src="/images/studieruimtes.JPG"
               className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
               alt="Studenten aan het studeren"
             />
           </div>
           <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
             <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
-              <span role="img" aria-label="study">
-                📚
-              </span>
               Studieruimtes
             </h1>
             <p className="text-lg leading-relaxed">
-              Zoek je een fijne plek om te studeren, samen te werken of gewoon
-              even te ontspannen? Onze studieruimtes zijn speciaal ingericht
-              voor studenten: rustig, gezellig en altijd voorzien van gratis
-              thee, koffie en koekjes. Kom langs, ontmoet andere studenten en
-              laat je inspireren door een omgeving waar welzijn en
-              productiviteit centraal staan. Iedereen is welkom, of je nu alleen
-              wilt werken of samen wilt brainstormen!
+              Geen zin meer in de bieb of in een vol, rommelig café — maar ook
+              niet de hele dag alleen op je kamer zitten? Onze studieruimtes
+              bieden een fijne, rustige plek om te studeren, samen te werken of
+              gewoon even te ontspannen. De ruimtes zijn speciaal ingericht voor
+              studenten: gezellig, prikkelarm en altijd voorzien van gratis
+              thee, koffie en koekjes. Je kunt hier zelfstandig werken, samen
+              brainstormen of gebruikmaken van de energie van anderen om
+              makkelijker te starten en je focus vast te houden. Door samen te
+              werken en elkaar op een laagdrempelige manier te “spiegelen”,
+              helpt het ook tegen uitstelgedrag. Iedereen is welkom — of je nu
+              stilte zoekt of juist verbinding.
             </p>
           </div>
         </div>
@@ -108,16 +106,13 @@ export default function Home() {
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row lg:gap-16 items-center">
           <div className="flex-1 max-w-md">
             <img
-              src="/images/business-seminar-group.jpeg"
+              src="/images/Brainstormen.JPG"
               className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
               alt="Brainstorm sessie"
             />
           </div>
           <div className="flex-1 p-6 sm:p-12 lg:p-16 rounded-3xl text-white max-w-2xl">
             <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
-              <span role="img" aria-label="brainstorm">
-                💡
-              </span>
               Brainstormen
             </h1>
             <p className="text-lg leading-relaxed">
@@ -126,7 +121,7 @@ export default function Home() {
               te brainstormen over lokale en landelijke zaken. Werk mee aan
               projecten rondom preventiezorg, eigenaarschap, participatie en
               zingeving. Jouw stem telt – samen maken we het verschil voor de
-              studentengemeenschap!
+              mentale gezondheid voor studenten en jongvolwassenen!
             </p>
           </div>
         </div>
@@ -136,16 +131,13 @@ export default function Home() {
         <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:flex-row-reverse lg:gap-16 items-center">
           <div className="flex-1 max-w-md">
             <img
-              src="/images/Hard-laugh-group.jpeg"
+              src="/images/Nieuwe initiatieven.JPG"
               className="w-full h-auto rounded-lg shadow-2xl animate-fade-in object-cover"
               alt="Groep studenten samen"
             />
           </div>
           <div className="flex-1 bg-[#F2FBF8] p-6 sm:p-12 lg:p-16 rounded-3xl max-w-2xl">
             <h1 className="text-4xl lg:text-5xl font-bold flex items-center gap-2 mb-6">
-              <span role="img" aria-label="initiative">
-                🚀
-              </span>
               Nieuwe Initiatieven
             </h1>
             <p className="text-lg leading-relaxed">
