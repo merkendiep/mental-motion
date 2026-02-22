@@ -16,16 +16,16 @@ const RentLocationPage = () => {
             <span className="text-primary">De Peer</span>
             <p className="text-2xl">De ideale plek voor studenten</p>
           </h1>
-          <p className="text-lg md:text-2xl text-gray-600 mb-6">
+          <p className="text-base md:text-lg text-gray-600 mb-6">
             <span className="font-semibold text-primary">De Peer</span> is onze
-            'huiskamer weg van huis', een fijne plek waar je gewoon mag zijn,
-            waar je even kunt lunchen in de tuin, rustig kunt werken als het
-            thuis chaos is, op de bank hangen met een kop thee en een boek, of
-            een inspirerende workshop kunt volgen. Er zijn verschillende
-            ruimtes, dus er is altijd wel een plek te vinden om even 1-op-1 te
-            kletsen.
+            'huiskamer weg van huis', Het is een fijne plek waar je gewoon mag
+            zijn, even kunt lunchen in de tuin, rustig kunt werken als het thuis
+            chaos is, of op de bank kunt hangen met een kop thee en een boek.
+            Daarnaast is het de plek waar jij interessante evenementen en
+            workshops kunt volgen. Er zijn verschillende ruimtes, dus er is ook
+            altijd wel een plek te vinden om even 1-op-1 te kletsen.
           </p>
-          <p className="text-lg md:text-xl text-gray-600 mb-6">
+          <p className="text-base md:text-lg text-gray-600 mb-6">
             Zoek je een inspirerende locatie om te vergaderen, studeren of een
             evenement te organiseren met je werkgroep, commissie of vereniging?{" "}
             <span className="font-semibold text-primary">De Peer</span> biedt
@@ -35,8 +35,7 @@ const RentLocationPage = () => {
             <li>
               Gratis werk- en vergaderruimtes voor studenten en commissies
             </li>
-            <li>Perfect voor studeren, brainstormen of samenkomen</li>
-            <li>Evenementen organiseren voor je vereniging mogelijk</li>
+            <li>Plek om evenementen voor je vereniging te organiseren</li>
             <li>Betaalbare tarieven voor verenigingen</li>
             <li>Centraal gelegen en goed bereikbaar</li>
           </ul>
