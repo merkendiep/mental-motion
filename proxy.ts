@@ -1,11 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-export async function middleware(request: NextRequest) {
-  // Note: This middleware runs on every request that matches the config below
+export async function proxy(request: NextRequest) {
+  // Note: This proxy runs on every request that matches the config below
   // For high-traffic sites, consider caching auth state or using edge config
   // to reduce the number of Supabase auth checks
-  
+
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -20,17 +20,17 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
+            request.cookies.set(name, value),
           );
           supabaseResponse = NextResponse.next({
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 
   // Refreshing the auth token
@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
     await supabase.auth.getUser();
   } catch (error) {
     // Log error but don't block the request
-    console.error("Middleware auth check failed:", error);
+    console.error("Proxy auth check failed:", error);
   }
 
   return supabaseResponse;

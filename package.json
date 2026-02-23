@@ -33,6 +33,7 @@
     "@types/react": "^19",
     "@types/react-big-calendar": "^1.16.2",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.10.0",
     "concurrently": "^9.2.0",
     "daisyui": "^5.0.12",
     "eslint": "^9.39.1",
