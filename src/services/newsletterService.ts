@@ -1,4 +1,4 @@
-import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
+import { supabase } from "@/src/lib/supabase";
 
 /**
  * Newsletter Subscription Interface
@@ -40,7 +40,7 @@ export class NewsletterService {
       if (existing) {
         // Update existing subscription - merge newsletters
         const mergedNewsletters = Array.from(
-          new Set([...existing.newsletters, ...subscription.newsletters])
+          new Set([...existing.newsletters, ...subscription.newsletters]),
         );
 
         const { error: updateError } = await supabase
@@ -81,7 +81,7 @@ export class NewsletterService {
    * Get a subscription by email
    */
   async getSubscriptionByEmail(
-    email: string
+    email: string,
   ): Promise<NewsletterSubscription | null> {
     try {
       const { data, error } = await supabase
@@ -111,7 +111,7 @@ export class NewsletterService {
    */
   async unsubscribe(
     email: string,
-    newslettersToRemove: string[]
+    newslettersToRemove: string[],
   ): Promise<void> {
     try {
       const normalizedEmail = email.toLowerCase().trim();
@@ -132,7 +132,7 @@ export class NewsletterService {
 
       // Remove specified newsletters
       const updatedNewsletters = existing.newsletters.filter(
-        (n: string) => !newslettersToRemove.includes(n)
+        (n: string) => !newslettersToRemove.includes(n),
       );
 
       if (updatedNewsletters.length === 0) {
@@ -159,30 +159,6 @@ export class NewsletterService {
           throw new Error("Failed to update subscription");
         }
       }
-    } catch (error) {
-      console.error("Newsletter service error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get all subscriptions (for admin use)
-   * Uses server-side client for proper authentication in server components
-   */
-  async getAllSubscriptions(): Promise<NewsletterSubscription[]> {
-    try {
-      const supabaseServer = await createServerSupabaseClient();
-      const { data, error } = await supabaseServer
-        .from("newsletter_subscriptions")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.error("Error fetching subscriptions:", error);
-        throw new Error("Failed to fetch subscriptions");
-      }
-
-      return data || [];
     } catch (error) {
       console.error("Newsletter service error:", error);
       throw error;

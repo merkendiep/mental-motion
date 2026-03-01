@@ -4,7 +4,6 @@ import {
   Event,
   EventSignup,
 } from "@/src/lib/supabase";
-import { sanitizeString } from "@/src/lib/validation";
 
 /**
  * Event Service
@@ -113,110 +112,6 @@ export class EventService {
    */
   async getAllEventsIncludingPast(): Promise<Event[]> {
     return this.getAllEvents(true);
-  }
-
-  /**
-   * Create a new event
-   */
-  async createEvent(
-    eventData: Omit<Event, "id" | "created_at" | "updated_at">
-  ): Promise<Event> {
-    try {
-      // Generate a unique ID for the event
-      const eventId = crypto.randomUUID();
-
-      const { data, error } = await supabase
-        .from("events")
-        .insert({
-          id: eventId,
-          title: sanitizeString(eventData.title),
-          date: sanitizeString(eventData.date),
-          time: sanitizeString(eventData.time),
-          location: sanitizeString(eventData.location),
-          description: sanitizeString(eventData.description || ""),
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error creating event:", error);
-        throw new Error("Failed to create event");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Event creation error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Update an event by ID
-   */
-  async updateEvent(id: string, updates: Partial<Event>): Promise<Event> {
-    try {
-      // Sanitize string fields in updates
-      const sanitizedUpdates: Partial<Event> = {};
-      if (updates.title !== undefined)
-        sanitizedUpdates.title = sanitizeString(updates.title);
-      if (updates.date !== undefined)
-        sanitizedUpdates.date = sanitizeString(updates.date);
-      if (updates.time !== undefined)
-        sanitizedUpdates.time = sanitizeString(updates.time);
-      if (updates.location !== undefined)
-        sanitizedUpdates.location = sanitizeString(updates.location);
-      if (updates.description !== undefined)
-        sanitizedUpdates.description = sanitizeString(updates.description);
-
-      const { data, error } = await supabase
-        .from("events")
-        .update({
-          ...sanitizedUpdates,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error updating event:", error);
-
-        if (error.code === "PGRST116") {
-          throw new Error(`Event with ID "${id}" not found in database`);
-        }
-
-        throw new Error("Failed to update event");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Event update error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Delete an event by ID
-   */
-  async deleteEvent(id: string): Promise<void> {
-    try {
-      const { error } = await supabase.from("events").delete().eq("id", id);
-
-      if (error) {
-        console.error("Error deleting event:", error);
-
-        if (error.code === "PGRST116") {
-          throw new Error(`Event with ID "${id}" not found in database`);
-        }
-
-        throw new Error("Failed to delete event");
-      }
-    } catch (error) {
-      console.error("Event deletion error:", error);
-      throw error;
-    }
   }
 }
 

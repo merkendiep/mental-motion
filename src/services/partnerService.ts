@@ -1,5 +1,4 @@
-import { supabase, createServerSupabaseClient } from "@/src/lib/supabase";
-import { sanitizeString } from "@/src/lib/validation";
+import { createServerSupabaseClient } from "@/src/lib/supabase";
 
 /**
  * Partner Interface
@@ -65,100 +64,6 @@ export class PartnerService {
       return data;
     } catch (error) {
       console.error("Partner service error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Create a new partner
-   */
-  async createPartner(
-    partnerData: Omit<Partner, "id" | "created_at" | "updated_at">
-  ): Promise<Partner> {
-    try {
-      const { data, error } = await supabase
-        .from("partners")
-        .insert({
-          name: sanitizeString(partnerData.name),
-          logo: sanitizeString(partnerData.logo),
-          url: sanitizeString(partnerData.url),
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error creating partner:", error);
-        throw new Error("Failed to create partner");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Partner creation error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Update a partner by ID
-   */
-  async updatePartner(id: number, updates: Partial<Partner>): Promise<Partner> {
-    try {
-      // Sanitize string fields in updates
-      const sanitizedUpdates: Partial<Partner> = {};
-      if (updates.name !== undefined)
-        sanitizedUpdates.name = sanitizeString(updates.name);
-      if (updates.logo !== undefined)
-        sanitizedUpdates.logo = sanitizeString(updates.logo);
-      if (updates.url !== undefined)
-        sanitizedUpdates.url = sanitizeString(updates.url);
-
-      const { data, error } = await supabase
-        .from("partners")
-        .update({
-          ...sanitizedUpdates,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error updating partner:", error);
-
-        if (error.code === "PGRST116") {
-          throw new Error(`Partner with ID "${id}" not found in database`);
-        }
-
-        throw new Error("Failed to update partner");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Partner update error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Delete a partner by ID
-   */
-  async deletePartner(id: number): Promise<void> {
-    try {
-      const { error } = await supabase.from("partners").delete().eq("id", id);
-
-      if (error) {
-        console.error("Error deleting partner:", error);
-
-        if (error.code === "PGRST116") {
-          throw new Error(`Partner with ID "${id}" not found in database`);
-        }
-
-        throw new Error("Failed to delete partner");
-      }
-    } catch (error) {
-      console.error("Partner deletion error:", error);
       throw error;
     }
   }

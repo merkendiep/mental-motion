@@ -7,7 +7,7 @@ import { JSDOM } from "jsdom";
 
 // Create a DOMPurify instance for server-side use
 const window = new JSDOM("").window;
-const purify = DOMPurify(window);
+const purify = DOMPurify(window as unknown as Parameters<typeof DOMPurify>[0]);
 
 /**
  * Sanitize HTML content to prevent XSS attacks
