@@ -16,6 +16,7 @@ import {
   CalendarIcon,
   ClockIcon,
   MapPinIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -25,12 +26,25 @@ interface CalendarProps {
   events?: Event[];
 }
 
+interface CalendarEvent {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
+  resource: {
+    location?: string;
+    description?: string;
+  };
+}
+
 const Calendar = ({ events = [] }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<View>("month");
+  const [showMoreDate, setShowMoreDate] = useState<Date | null>(null);
+  const [showMoreEvents, setShowMoreEvents] = useState<CalendarEvent[]>([]);
 
   // Transform events from the page format to react-big-calendar format
-  const calendarEvents = events.map((event) => {
+  const calendarEvents: CalendarEvent[] = events.map((event) => {
     const eventDate = moment(event.date);
     const [hours, minutes] = event.time.split(":");
     eventDate.set({ hour: parseInt(hours), minute: parseInt(minutes) });
@@ -51,7 +65,7 @@ const Calendar = ({ events = [] }: CalendarProps) => {
     (date: Date, view: View, action: NavigateAction) => {
       setCurrentDate(date);
     },
-    []
+    [],
   );
 
   const handleViewChange = useCallback((view: View) => {
@@ -76,12 +90,25 @@ const Calendar = ({ events = [] }: CalendarProps) => {
     setCurrentDate(new Date());
   };
 
+  const handleShowMore = useCallback((events: object[], date: Date) => {
+    setShowMoreEvents(events as CalendarEvent[]);
+    setShowMoreDate(date);
+  }, []);
+
+  const closeShowMoreModal = useCallback(() => {
+    setShowMoreDate(null);
+    setShowMoreEvents([]);
+  }, []);
+
   const formatDateLabel = () => {
     if (view === "month") {
       return moment(currentDate).format("MMMM YYYY");
     }
     return moment(currentDate).format("MMM DD, YYYY");
   };
+
+  const formatTimeRange = (start: Date, end: Date) =>
+    `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`;
 
   // Custom event component for better styling
   const EventComponent = ({ event }: { event: any }) => (
@@ -99,7 +126,7 @@ const Calendar = ({ events = [] }: CalendarProps) => {
 
   // Custom toolbar
   const CustomToolbar = () => (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl border border-primary/20">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 bg-linear-to-r from-primary/5 to-primary/10 rounded-xl border border-primary/20">
       {/* Navigation Controls */}
       <div className="flex items-center gap-2">
         <button
@@ -209,7 +236,10 @@ const Calendar = ({ events = [] }: CalendarProps) => {
             events={calendarEvents}
             onNavigate={handleNavigate}
             onView={handleViewChange}
+            onShowMore={handleShowMore}
             toolbar={false} // We use custom toolbar
+            popup={false}
+            doShowMoreDrillDown={false}
             style={{ height: view === "agenda" ? 400 : 840 }}
             components={{
               event: EventComponent,
@@ -226,6 +256,81 @@ const Calendar = ({ events = [] }: CalendarProps) => {
               className: moment(date).isSame(moment(), "day") ? "today" : "",
             })}
           />
+        </div>
+      )}
+
+      {showMoreDate && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="day-events-modal-title"
+        >
+          <button
+            type="button"
+            aria-label="Sluit popup"
+            className="absolute inset-0 bg-black/45 backdrop-blur-[1px]"
+            onClick={closeShowMoreModal}
+          />
+
+          <div className="relative z-10 w-full max-w-xl rounded-2xl border border-primary/20 bg-white shadow-2xl">
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 p-5">
+              <div>
+                <p className="text-sm font-medium text-primary">Events op</p>
+                <h3
+                  id="day-events-modal-title"
+                  className="text-xl font-bold text-gray-900"
+                >
+                  {moment(showMoreDate).format("dddd D MMMM YYYY")}
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  {showMoreEvents.length} geplande
+                  {showMoreEvents.length === 1
+                    ? " activiteit"
+                    : " activiteiten"}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeShowMoreModal}
+                className="rounded-lg border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-700"
+                aria-label="Sluit popup"
+              >
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="max-h-[70vh] space-y-3 overflow-y-auto p-5">
+              {showMoreEvents
+                .slice()
+                .sort((a, b) => a.start.getTime() - b.start.getTime())
+                .map((event) => (
+                  <Link
+                    key={event.id}
+                    href={`/event/${event.id}`}
+                    onClick={closeShowMoreModal}
+                    className="group block rounded-xl border border-primary/15 bg-linear-to-r from-primary/5 to-transparent p-4 transition-all hover:border-primary/35 hover:shadow-md"
+                  >
+                    <h4 className="font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                      {event.title}
+                    </h4>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-600">
+                      <span className="inline-flex items-center gap-1.5">
+                        <ClockIcon className="h-4 w-4 text-primary" />
+                        {formatTimeRange(event.start, event.end)}
+                      </span>
+                      {event.resource?.location && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPinIcon className="h-4 w-4 text-primary" />
+                          {event.resource.location}
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -285,6 +390,16 @@ const Calendar = ({ events = [] }: CalendarProps) => {
           color: oklch(0.69 0.0948 171.09);
           font-weight: 500;
           font-size: 12px;
+          display: inline-block;
+          padding: 2px 8px;
+          border-radius: 999px;
+          margin-top: 2px;
+          transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .calendar-container .rbc-show-more:hover {
+          color: oklch(0.69 0.0948 171.09);
+          background: oklch(0.69 0.0948 171.09 / 0.12);
         }
 
         .calendar-container .rbc-month-row {
