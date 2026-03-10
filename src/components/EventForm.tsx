@@ -10,6 +10,7 @@ interface EventFormProps {
 }
 
 export default function EventForm({ event }: EventFormProps) {
+  const isSignupEnabled = event.signup_enabled !== false;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ export default function EventForm({ event }: EventFormProps) {
     // Only validate if there's a value and it's not empty
     if (value.trim() && !isValidEmail(value.trim())) {
       setEmailError(
-        "Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl)"
+        "Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl)",
       );
     }
   };
@@ -56,7 +57,7 @@ export default function EventForm({ event }: EventFormProps) {
     if (!isValidEmail(email.trim())) {
       setSubmitStatus("error");
       setErrorMessage(
-        "Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl)."
+        "Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl).",
       );
       return;
     }
@@ -104,7 +105,7 @@ export default function EventForm({ event }: EventFormProps) {
     } catch (error: any) {
       setSubmitStatus("error");
       setErrorMessage(
-        error.message || "Er ging iets mis. Probeer het opnieuw."
+        error.message || "Er ging iets mis. Probeer het opnieuw.",
       );
     } finally {
       setIsSubmitting(false);
@@ -115,10 +116,34 @@ export default function EventForm({ event }: EventFormProps) {
     <div className="card bg-white shadow-lg rounded-3xl border border-base-200 px-8 py-8">
       <div className="card-body">
         <h2 className="text-2xl font-bold text-primary mb-6 text-center">
-          Aanmelden voor dit event
+          {isSignupEnabled
+            ? "Aanmelden voor dit event"
+            : "Informatie over dit event"}
         </h2>
 
-        {submitStatus === "success" ? (
+        {!isSignupEnabled ? (
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <svg
+                className="w-16 h-16 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-primary">Openbaar event</h3>
+            <p className="text-base-content">
+              Voor dit event hoef je je niet aan te melden. Kom gezellig langs!
+            </p>
+          </div>
+        ) : submitStatus === "success" ? (
           // Success Message
           <div className="text-center space-y-4">
             <div className="flex justify-center">
@@ -182,9 +207,7 @@ export default function EventForm({ event }: EventFormProps) {
             </div>
 
             <label className="form-control w-full">
-              <span className="label-text font-semibold mb-1">
-                E-mailadres
-              </span>
+              <span className="label-text font-semibold mb-1">E-mailadres</span>
               <input
                 type="email"
                 value={email}

@@ -10,7 +10,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error(
     "CRITICAL: Supabase URL or Anon Key is missing. " +
       "The application will not be able to fetch events or save registrations. " +
-      "Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your environment variables."
+      "Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your environment variables.",
   );
 }
 
@@ -19,11 +19,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   global: {
     headers: {
-      'X-Client-Info': 'mental-motion-app',
+      "X-Client-Info": "mental-motion-app",
     },
   },
   db: {
-    schema: 'public',
+    schema: "public",
   },
   auth: {
     persistSession: true,
@@ -43,7 +43,7 @@ export async function createServerSupabaseClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
+            cookieStore.set(name, value, options),
           );
         } catch {
           // The `setAll` method was called from a Server Component.
@@ -54,11 +54,11 @@ export async function createServerSupabaseClient() {
     },
     global: {
       headers: {
-        'X-Client-Info': 'mental-motion-app',
+        "X-Client-Info": "mental-motion-app",
       },
     },
     db: {
-      schema: 'public',
+      schema: "public",
     },
     auth: {
       persistSession: false, // Server-side doesn't need to persist sessions
@@ -75,6 +75,7 @@ export interface Event {
   time: string;
   location: string;
   description: string;
+  signup_enabled?: boolean;
   created_at: string;
   updated_at: string;
 }
