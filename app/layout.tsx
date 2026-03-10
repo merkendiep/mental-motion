@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anton, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/src/components/NavBar";
 import Footer from "@/src/components/Footer";
 import React from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light-custom" style={{ colorScheme: "light" }}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[100vw]`}
+        className={`${nunito.className} ${anton.variable} ${nunito.variable} ${geistMono.variable} antialiased max-w-[100vw]`}
       >
         {children}
       </body>
