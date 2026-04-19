@@ -63,7 +63,7 @@ export default async function EventPage({ params }: { params: tParams }) {
               </span>
             </div>
             <div
-              className="text-base-content/90 text-lg mb-2 prose prose-lg max-w-none"
+              className="text-base-content/90 text-lg mb-2 prose prose-lg max-w-none text-left [&>p]:mb-4"
               dangerouslySetInnerHTML={{
                 __html: sanitizeHtml(confirmedEvent.description),
               }}
