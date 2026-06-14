@@ -46,9 +46,7 @@ export default function Home() {
               eigen ervaring weten wat jij doormaakt. Samen kijken we naar wat
               jij nodig hebt om verder te komen, of het nu gaat om studie,
               stress of persoonlijke groei. Je kunt een afspraak maken maar mag
-              ook binnen komen lopen, er staat altijd iemand voor je klaar! Wil
-              je zelf anderen ondersteunen? Sluit je aan bij ons team van peers
-              en maak het verschil voor medestudenten!
+              ook binnen komen lopen, er staat altijd iemand voor je klaar!
             </p>
 
             <br />
