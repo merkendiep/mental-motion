@@ -1,22 +1,38 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Hero from "@/src/components/Hero";
 import TransitionWithBorder from "@/src/components/TransitionWithBorder";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 export default function Home() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [showCTA, setShowCTA] = useState(false);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowCTA(!entry.isIntersecting),
+      { rootMargin: "0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="flex flex-col bg-white">
       <a
         href={"/contact"}
-        className={
-          "fixed btn btn-accent rounded-sm btn-xl right-28 bottom-16 z-50"
-        }
+        className={`fixed btn btn-accent rounded-sm z-50 transition-opacity duration-200 btn-md lg:btn-xl right-4 bottom-4 lg:right-28 lg:bottom-16 ${
+          showCTA ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
         Plan een afspraak
       </a>
 
       <div
+        ref={heroRef}
         className={
           "bg-[url(/images/hero-home.png)] bg-no-repeat bg-cover pt-24 pb-12 rounded-bl-[5rem]"
         }
@@ -24,10 +40,8 @@ export default function Home() {
         <Hero />
       </div>
 
-      <br />
-
-      <div id="peer-support-section" className="hero lg:mt-32">
-        <div className="hero-content min-w-[unset] mt-8 lg:px-16 flex-col lg:gap-16 lg:flex-row items-center">
+      <div id="peer-support-section" className="hero mt-8 lg:mt-32">
+        <div className="hero-content min-w-[unset] lg:px-16 flex-col lg:gap-16 lg:flex-row items-center">
           <div className="flex-1 max-w-md">
             <img
               src="/images/peer support.JPG"
@@ -49,9 +63,7 @@ export default function Home() {
               ook binnen komen lopen, er staat altijd iemand voor je klaar!
             </p>
 
-            <br />
-
-            <p className={"text-lg leading-relaxed"}>
+            <p className={"text-lg leading-relaxed mt-4"}>
               Wil je zelf anderen ondersteunen?{" "}
               <a
                 href="/join"
