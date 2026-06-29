@@ -6,8 +6,10 @@ import {
   View,
   NavigateAction,
 } from "react-big-calendar";
-import moment from "moment";
+import moment from "moment-timezone";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
+moment.tz.setDefault("Europe/Amsterdam");
 import { Event } from "@/src/lib/supabase";
 import { useState, useCallback } from "react";
 import {
@@ -45,9 +47,11 @@ const Calendar = ({ events = [] }: CalendarProps) => {
 
   // Transform events from the page format to react-big-calendar format
   const calendarEvents: CalendarEvent[] = events.map((event) => {
-    const eventDate = moment(event.date);
-    const [hours, minutes] = event.time.split(":");
-    eventDate.set({ hour: parseInt(hours), minute: parseInt(minutes) });
+    const eventDate = moment.tz(
+      `${event.date} ${event.time}`,
+      "YYYY-MM-DD HH:mm",
+      "Europe/Amsterdam",
+    );
 
     return {
       id: event.id,

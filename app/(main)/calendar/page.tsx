@@ -20,6 +20,7 @@ const NextEvents = ({ events }: { events: Event[] }) => (
                   {new Date(event.date).toLocaleDateString("nl-NL", {
                     day: "numeric",
                     month: "short",
+                    timeZone: "Europe/Amsterdam",
                   })}
                 </span>
                 <span>•</span>
