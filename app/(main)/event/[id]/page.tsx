@@ -8,6 +8,29 @@ import BackButton from "@/src/components/BackButton";
 
 type tParams = Promise<{ id: string }>;
 
+function formatDutchDate(
+  dateStr: string | null | undefined,
+  timeStr: string | null | undefined,
+): string {
+  if (!dateStr) return [dateStr, timeStr].filter(Boolean).join(" · ") || "–";
+
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  if (isNaN(date.getTime()))
+    return [dateStr, timeStr].filter(Boolean).join(" · ");
+
+  const datePart = new Intl.DateTimeFormat("nl-NL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Amsterdam",
+  }).format(date);
+  // Capitalise first letter ("maandag" → "Maandag")
+  const capitalised = datePart.charAt(0).toUpperCase() + datePart.slice(1);
+  return timeStr ? `${capitalised} · ${timeStr}` : capitalised;
+}
+
 export default async function EventPage({ params }: { params: tParams }) {
   const { id } = await params;
 
@@ -31,14 +54,14 @@ export default async function EventPage({ params }: { params: tParams }) {
         </div>
 
         {/* Event Card */}
-        <div className="card bg-white shadow-xl rounded-3xl border border-base-200 pb-8 px-8 relative">
+        <div className="card bg-white shadow-xl rounded-3xl border border-base-200 pb-8 px-4 sm:px-8 relative">
           <div className="card-body items-center text-center">
-            <h1 className="text-4xl font-extrabold text-primary mb-2 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-2 tracking-tight leading-tight">
               {confirmedEvent.title}
             </h1>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
               <span className="inline-block bg-primary text-white font-bold px-5 py-2 rounded-full text-lg shadow">
-                {confirmedEvent.date} &bull; {confirmedEvent.time}
+                {formatDutchDate(confirmedEvent.date, confirmedEvent.time)}
               </span>
               <span className="inline-block bg-white border border-primary text-primary font-semibold px-4 py-2 rounded-full text-base shadow-sm">
                 <svg
