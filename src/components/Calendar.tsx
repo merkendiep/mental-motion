@@ -11,7 +11,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 moment.tz.setDefault("Europe/Amsterdam");
 import { Event } from "@/src/lib/supabase";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -42,8 +42,21 @@ interface CalendarEvent {
 const Calendar = ({ events = [] }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<View>("month");
+  const [isMobile, setIsMobile] = useState(false);
   const [showMoreDate, setShowMoreDate] = useState<Date | null>(null);
   const [showMoreEvents, setShowMoreEvents] = useState<CalendarEvent[]>([]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const applyBreakpoint = (matches: boolean) => {
+      setIsMobile(matches);
+      setView(matches ? "agenda" : "month");
+    };
+    applyBreakpoint(mq.matches);
+    const handler = (e: MediaQueryListEvent) => applyBreakpoint(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // Transform events from the page format to react-big-calendar format
   const calendarEvents: CalendarEvent[] = events.map((event) => {
@@ -77,16 +90,14 @@ const Calendar = ({ events = [] }: CalendarProps) => {
   }, []);
 
   const navigatePrev = () => {
-    const newDate = moment(currentDate)
-      .subtract(1, view === "month" ? "month" : "week")
-      .toDate();
+    const unit = view === "week" ? "week" : "month";
+    const newDate = moment(currentDate).subtract(1, unit).toDate();
     setCurrentDate(newDate);
   };
 
   const navigateNext = () => {
-    const newDate = moment(currentDate)
-      .add(1, view === "month" ? "month" : "week")
-      .toDate();
+    const unit = view === "week" ? "week" : "month";
+    const newDate = moment(currentDate).add(1, unit).toDate();
     setCurrentDate(newDate);
   };
 
@@ -105,7 +116,7 @@ const Calendar = ({ events = [] }: CalendarProps) => {
   }, []);
 
   const formatDateLabel = () => {
-    if (view === "month") {
+    if (view === "month" || view === "agenda") {
       return moment(currentDate).format("MMMM YYYY");
     }
     return moment(currentDate).format("MMM DD, YYYY");
@@ -163,39 +174,41 @@ const Calendar = ({ events = [] }: CalendarProps) => {
         <h2 className="text-xl font-bold text-gray-900">{formatDateLabel()}</h2>
       </div>
 
-      {/* View Controls */}
-      <div className="flex items-center gap-1 bg-white rounded-lg border border-primary/20 p-1">
-        <button
-          onClick={() => setView("month")}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            view === "month"
-              ? "bg-primary text-primary-content"
-              : "text-gray-600 hover:bg-primary/5"
-          }`}
-        >
-          Maand
-        </button>
-        <button
-          onClick={() => setView("week")}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            view === "week"
-              ? "bg-primary text-primary-content"
-              : "text-gray-600 hover:bg-primary/5"
-          }`}
-        >
-          Week
-        </button>
-        <button
-          onClick={() => setView("agenda")}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            view === "agenda"
-              ? "bg-primary text-primary-content"
-              : "text-gray-600 hover:bg-primary/5"
-          }`}
-        >
-          Agenda
-        </button>
-      </div>
+      {/* View Controls — hidden on mobile */}
+      {!isMobile && (
+        <div className="flex items-center gap-1 bg-white rounded-lg border border-primary/20 p-1">
+          <button
+            onClick={() => setView("month")}
+            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+              view === "month"
+                ? "bg-primary text-primary-content"
+                : "text-gray-600 hover:bg-primary/5"
+            }`}
+          >
+            Maand
+          </button>
+          <button
+            onClick={() => setView("week")}
+            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+              view === "week"
+                ? "bg-primary text-primary-content"
+                : "text-gray-600 hover:bg-primary/5"
+            }`}
+          >
+            Week
+          </button>
+          <button
+            onClick={() => setView("agenda")}
+            className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+              view === "agenda"
+                ? "bg-primary text-primary-content"
+                : "text-gray-600 hover:bg-primary/5"
+            }`}
+          >
+            Agenda
+          </button>
+        </div>
+      )}
     </div>
   );
 
