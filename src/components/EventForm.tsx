@@ -10,6 +10,10 @@ interface EventFormProps {
 }
 
 export default function EventForm({ event }: EventFormProps) {
+  const amsterdamToday = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Amsterdam",
+  }).format(new Date());
+  const isEventPast = event.date < amsterdamToday;
   const isSignupEnabled = event.signup_enabled !== false;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -116,12 +120,36 @@ export default function EventForm({ event }: EventFormProps) {
     <div className="card bg-white shadow-lg rounded-3xl border border-base-200 px-8 py-8">
       <div className="card-body">
         <h2 className="text-2xl font-bold text-primary mb-6 text-center">
-          {isSignupEnabled
+          {isEventPast
+            ? "Informatie over dit event"
+            : isSignupEnabled
             ? "Aanmelden voor dit event"
             : "Informatie over dit event"}
         </h2>
 
-        {!isSignupEnabled ? (
+        {isEventPast ? (
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <svg
+                className="w-16 h-16 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-primary">Event afgelopen</h3>
+            <p className="text-base-content">
+              Inschrijven voor dit event is niet meer mogelijk.
+            </p>
+          </div>
+        ) : !isSignupEnabled ? (
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <svg

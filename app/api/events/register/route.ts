@@ -30,6 +30,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const amsterdamToday = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Amsterdam",
+    }).format(new Date());
+
+    if (event.date < amsterdamToday) {
+      return NextResponse.json(
+        { error: "Inschrijven voor dit event is niet meer mogelijk." },
+        { status: 403 },
+      );
+    }
+
     if (event.signup_enabled === false) {
       return NextResponse.json(
         {
